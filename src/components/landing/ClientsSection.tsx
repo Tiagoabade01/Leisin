@@ -19,10 +19,10 @@ export const ClientsSection = () => {
           </h2>
           <p className="text-muted-foreground mt-2">Mais de 1.600 empresas, incluindo líderes em seus setores, já usam T3 Diligence.</p>
           <div className="relative mt-8 overflow-hidden">
-            <div className="flex animate-marquee whitespace-nowrap">
+            <div className="flex animate-marquee whitespace-nowrap items-center">
               {clients.concat(clients).map((client, index) => (
                 <div key={index} className="flex-shrink-0 w-48 h-16 mx-8 flex items-center justify-center">
-                  <img src={client.logo} alt={client.name} className="max-h-12 max-w-full grayscale invert opacity-75" />
+                  <span className="text-lg font-semibold text-muted-foreground">{client.name}</span>
                 </div>
               ))}
             </div>
