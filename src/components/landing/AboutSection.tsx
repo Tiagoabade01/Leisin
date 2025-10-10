@@ -1,1 +1,0 @@
-export const AboutSection = () => <div id="about" className="py-20 container mx-auto text-center text-muted-foreground">Sobre a Plataforma - Em breve</div>;

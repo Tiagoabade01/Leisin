@@ -1,15 +1,71 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Check } from 'lucide-react';
+import { Check, Users, Bot, HardDrive, LifeBuoy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from '@/lib/utils';
 
 const plans = [
-  { id: 'starter', name: 'Starter', description: 'Para profissionais e pequenos escritórios.', monthlyPrice: 149, yearlyPrice: 1490, features: ['Jurídico Operacional', 'Gestão de Documentos', 'IA Básica', 'Suporte via Help Center'], popular: false },
-  { id: 'pro', name: 'Pro', description: 'Para times que precisam de mais colaboração.', monthlyPrice: 690, yearlyPrice: 6900, features: ['Tudo do Starter', 'Due Diligence', 'Gestão de Contratos', 'CRM Jurídico', 'Suporte via E-mail'], popular: true },
-  { id: 'business', name: 'Business', description: 'Para escritórios com automações e risco avançado.', monthlyPrice: 2490, yearlyPrice: 24900, features: ['Tudo do Pro', 'Risk Mapper', 'Automação Avançada', 'Módulo Imobiliário', 'Suporte E-mail+Chat'], popular: false },
-  { id: 'enterprise', name: 'Enterprise', description: 'Para grandes grupos com necessidades complexas.', monthlyPrice: null, yearlyPrice: null, features: ['Tudo do Business', 'Integrações API', 'SSO', 'Gerente de Conta Dedicado', 'SLA Customizado'], popular: false },
+  { 
+    id: 'trial', 
+    name: 'Trial Gratuito', 
+    description: 'Explore os recursos essenciais por 30 dias.', 
+    monthlyPrice: 0, 
+    yearlyPrice: 0, 
+    features: [
+      { icon: Users, text: 'Até 3 usuários' },
+      { icon: HardDrive, text: '10 GB de armazenamento' },
+      { icon: Bot, text: 'IA Nível Básico' },
+      { icon: LifeBuoy, text: 'Suporte via Help Center' },
+    ], 
+    popular: false,
+    cta: 'Iniciar Teste Gratuito'
+  },
+  { 
+    id: 'pro', 
+    name: 'Pro', 
+    description: 'Para times que precisam de mais colaboração.', 
+    monthlyPrice: 690, 
+    yearlyPrice: 6900, 
+    features: [
+      { icon: Users, text: 'Até 5 usuários' },
+      { icon: HardDrive, text: '50 GB de armazenamento' },
+      { icon: Bot, text: 'IA Nível Padrão' },
+      { icon: LifeBuoy, text: 'Suporte via E-mail' },
+    ], 
+    popular: true,
+    cta: 'Contratar Plano Pro'
+  },
+  { 
+    id: 'business', 
+    name: 'Business', 
+    description: 'Para escritórios com automações e risco avançado.', 
+    monthlyPrice: 2490, 
+    yearlyPrice: 24900, 
+    features: [
+      { icon: Users, text: 'Até 20 usuários' },
+      { icon: HardDrive, text: '200 GB de armazenamento' },
+      { icon: Bot, text: 'IA Nível Avançado' },
+      { icon: LifeBuoy, text: 'Suporte E-mail + Chat' },
+    ], 
+    popular: false,
+    cta: 'Contratar Business'
+  },
+  { 
+    id: 'enterprise', 
+    name: 'Enterprise', 
+    description: 'Para grandes grupos com necessidades complexas.', 
+    monthlyPrice: null, 
+    yearlyPrice: null, 
+    features: [
+      { icon: Users, text: 'Usuários Ilimitados' },
+      { icon: HardDrive, text: 'Armazenamento customizado' },
+      { icon: Bot, text: 'IA Privada / Custom' },
+      { icon: LifeBuoy, text: 'Gerente de Conta Dedicado' },
+    ], 
+    popular: false,
+    cta: 'Falar com Consultor'
+  },
 ];
 
 export const PricingSection = () => {
@@ -46,7 +102,7 @@ export const PricingSection = () => {
                 {plan.monthlyPrice !== null ? (
                   <>
                     <span className="text-4xl font-bold">
-                      R$ {billingCycle === 'monthly' ? plan.monthlyPrice : Math.floor(plan.yearlyPrice / 12)}
+                      R$ {plan.id === 'trial' ? '0' : (billingCycle === 'monthly' ? plan.monthlyPrice : Math.floor(plan.yearlyPrice / 12))}
                     </span>
                     <span className="text-muted-foreground">/mês</span>
                   </>
@@ -57,16 +113,16 @@ export const PricingSection = () => {
 
               <ul className="space-y-3 mb-8 flex-grow text-sm">
                 {plan.features.map(feature => (
-                  <li key={feature} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                    <span className="text-muted-foreground">{feature}</span>
+                  <li key={feature.text} className="flex items-center gap-3">
+                    <feature.icon className="w-4 h-4 text-primary flex-shrink-0" />
+                    <span className="text-muted-foreground">{feature.text}</span>
                   </li>
                 ))}
               </ul>
 
               <Link to="/app" className="w-full mt-auto">
                 <Button className="w-full" variant={plan.popular ? 'default' : 'outline'}>
-                  {plan.monthlyPrice === null ? 'Falar com consultor' : 'Contratar'}
+                  {plan.cta}
                 </Button>
               </Link>
             </div>

@@ -4,8 +4,12 @@ import { Link } from 'react-router-dom';
 export const HeroSection = () => {
   return (
     <section className="relative py-20 md:py-32 bg-background text-white overflow-hidden">
-      {/* Placeholder for video/3D background */}
-      <div className="absolute inset-0 bg-secondary opacity-20"></div>
+      <div 
+        className="absolute inset-0 bg-cover bg-center opacity-10" 
+        style={{ backgroundImage: "url('/img/hero-background.jpg')" }}
+      ></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background"></div>
+      
       <div className="container mx-auto px-6 text-center relative z-10">
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-muted-foreground">
           A nova inteligência jurídica da era digital.
