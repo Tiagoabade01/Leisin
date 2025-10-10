@@ -1,5 +1,6 @@
 import { Shield, MapPin, Phone, Mail, Facebook, Instagram, Linkedin, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export const Footer = () => {
   return (
@@ -42,12 +43,6 @@ export const Footer = () => {
               <li><a href="#" className="hover:text-white">Blog</a></li>
               <li><a href="#contact" className="hover:text-white">Contato</a></li>
               <li><a href="#" className="hover:text-white">Trabalhe Conosco</a></li>
-              <li>
-                <Link to="/master/visao-geral" className="flex items-center hover:text-white">
-                  <Settings className="w-4 h-4 mr-2" />
-                  <span>Painel Master</span>
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -73,9 +68,19 @@ export const Footer = () => {
 
         <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-sm">
           <p className="mb-4 md:mb-0">&copy; {new Date().getFullYear()} T3 Diligence. Todos os direitos reservados.</p>
-          <div className="flex space-x-6">
+          <div className="flex space-x-6 items-center">
             <a href="#" className="hover:text-white">Política de Privacidade</a>
             <a href="#" className="hover:text-white">Termos de Uso</a>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link to="/master/visao-geral" className="hover:text-white">
+                  <Settings className="w-5 h-5" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent className="bg-gray-800 text-white border-gray-700">
+                <p>Painel Master</p>
+              </TooltipContent>
+            </Tooltip>
           </div>
         </div>
       </div>
