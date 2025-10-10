@@ -1,34 +1,27 @@
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { HeroImage } from './HeroImage';
 
 export const HeroSection = () => {
   return (
-    <section className="relative py-20 md:py-32 bg-background text-white overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background z-10"></div>
-      
-      <div className="container mx-auto px-6 relative z-20">
-        <div className="grid md:grid-cols-2 gap-16 items-center">
-          <div className="text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
-              A nova inteligência jurídica da era digital.
+    <section className="relative bg-white">
+      <div className="container mx-auto px-6 py-20 lg:py-32">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="text-center lg:text-left">
+            <p className="text-sm font-semibold text-primary tracking-wider uppercase">Software Jurídico para Advogados | Plataforma Jurídica</p>
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight my-4">
+              Software de Gestão Jurídica <span className="text-primary">Completo</span> para Escritórios e Departamentos Jurídicos
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto md:mx-0 mb-8 font-sans">
-              Automatize contratos, due diligences, análises de risco e gestão de escritórios em uma única plataforma.
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8">
+              Automatize rotinas, acompanhe grandes volumes de processos, aumente a produtividade e ganhe mais inteligência estratégica com um software de gestão jurídica completo.
             </p>
-            <div className="flex justify-center md:justify-start gap-4">
+            <div className="flex justify-center lg:justify-start">
               <Link to="/app">
-                <Button size="lg">Ver Demonstração</Button>
-              </Link>
-              <Link to="/app">
-                <Button size="lg" variant="outline" className="text-white border-secondary hover:bg-secondary hover:text-white">
-                  Solicitar Acesso
-                </Button>
+                <Button size="lg">Solicite uma demonstração</Button>
               </Link>
             </div>
           </div>
-          <div className="relative hidden md:block">
-            <HeroImage />
+          <div className="relative hidden lg:block">
+            <img src="/placeholder.svg" alt="Advogado utilizando a plataforma T3 Diligence" className="rounded-lg shadow-2xl w-full h-auto" />
           </div>
         </div>
       </div>

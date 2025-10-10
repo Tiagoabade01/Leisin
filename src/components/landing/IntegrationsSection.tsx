@@ -1,1 +1,0 @@
-export const IntegrationsSection = () => <div id="integrations" className="py-20 container mx-auto text-center text-muted-foreground">Integrações e APIs - Em breve</div>;

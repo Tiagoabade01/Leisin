@@ -4,39 +4,39 @@
 
 @layer base {
   :root {
-    --background: 210 22% 7%; /* #0A0F14 */
-    --foreground: 210 10% 96%; /* #F3F5F7 */
+    --background: 210 40% 98%; /* #F8F9FA - Quase branco */
+    --foreground: 210 10% 23%; /* #2F363D - Cinza escuro para texto */
 
-    --card: 213 27% 12%; /* #131A21 - Um pouco mais claro que o fundo */
-    --card-foreground: 210 10% 96%; /* #F3F5F7 */
+    --card: 210 40% 100%; /* #FFFFFF - Branco puro para cards */
+    --card-foreground: 210 10% 23%;
 
-    --popover: 210 22% 7%;
-    --popover-foreground: 210 10% 96%;
+    --popover: 210 40% 100%;
+    --popover-foreground: 210 10% 23%;
 
-    --primary: 165 89% 56%; /* #2EF3C1 */
-    --primary-foreground: 210 22% 7%;
+    --primary: 217 91% 60%; /* #2563EB - Azul vibrante */
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 211 39% 23%; /* #1C2A3A */
-    --secondary-foreground: 210 10% 96%;
+    --secondary: 210 40% 96.1%; /* #F0F2F5 - Cinza muito claro */
+    --secondary-foreground: 215.4 16.3% 46.9%;
 
-    --muted: 211 39% 23%;
-    --muted-foreground: 213 10% 75%; /* #B4BCC5 */
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 211 39% 23%;
-    --accent-foreground: 210 10% 96%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 215.4 16.3% 46.9%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 211 39% 23%;
-    --input: 211 39% 23%;
-    --ring: 165 89% 56%;
+    --border: 214.3 31.8% 91.4%; /* #E1E5EA */
+    --input: 214.3 31.8% 91.4%;
+    --ring: 217 91% 60%;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    /* Mantendo o mesmo para consistência com o tema escuro padrão */
+    /* Manter um tema escuro opcional, mas o padrão agora é claro */
     --background: 210 22% 7%;
     --foreground: 210 10% 96%;
     --card: 213 27% 12%;
@@ -68,8 +68,8 @@
     @apply bg-background text-foreground font-sans;
   }
 
-  h1, h2, h3 {
-    @apply font-serif;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-foreground;
   }
 }
 

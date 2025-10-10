@@ -1,42 +1,27 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
 
 export const PlatformPreviewSection = () => {
   return (
-    <section className="py-20 bg-secondary/30">
+    <section className="py-20 bg-white">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">A Plataforma em Ação</h2>
-          <p className="text-lg text-muted-foreground mt-2 font-sans">Visualize o poder e a simplicidade da nossa interface.</p>
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="order-2 md:order-1">
+            <h2 className="text-3xl font-bold mb-4">IA Jurídica: Assistente com IA da T3 Diligence</h2>
+            <p className="text-muted-foreground mb-6">
+              Acelere a leitura de publicações e melhore a tomada de decisão das análises processuais com insights gerados pela nossa IA.
+            </p>
+            <ul className="space-y-3 mb-8">
+              <li className="flex items-start"><Check className="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0" /><span>Resumos automáticos para elaboração de estratégias.</span></li>
+              <li className="flex items-start"><Check className="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0" /><span>Interpretação processual com teses de defesa e jurisprudência.</span></li>
+              <li className="flex items-start"><Check className="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0" /><span>Agendamento automático de audiências.</span></li>
+            </ul>
+            <Button>Solicite uma demonstração</Button>
+          </div>
+          <div className="order-1 md:order-2">
+            <img src="/placeholder.svg" alt="Demonstração da Inteligência Artificial da plataforma" className="rounded-lg shadow-xl w-full h-auto" />
+          </div>
         </div>
-        <Tabs defaultValue="dashboard" className="w-full max-w-5xl mx-auto">
-          <TabsList className="grid w-full grid-cols-3 bg-secondary/50">
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-            <TabsTrigger value="contracts">Gestão de Contratos</TabsTrigger>
-            <TabsTrigger value="diligence">Due Diligence IA</TabsTrigger>
-          </TabsList>
-          <TabsContent value="dashboard" className="mt-6">
-            <Card className="bg-background border-secondary overflow-hidden shadow-2xl shadow-primary/10">
-              <CardContent className="p-0">
-                <img src="/placeholder.svg" alt="Dashboard do T3 Diligence" className="w-full h-auto" />
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="contracts" className="mt-6">
-            <Card className="bg-background border-secondary overflow-hidden shadow-2xl shadow-primary/10">
-              <CardContent className="p-0">
-                <img src="/placeholder.svg" alt="Tela de Gestão de Contratos" className="w-full h-auto" />
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="diligence" className="mt-6">
-            <Card className="bg-background border-secondary overflow-hidden shadow-2xl shadow-primary/10">
-              <CardContent className="p-0">
-                <img src="/placeholder.svg" alt="Tela de Due Diligence com IA" className="w-full h-auto" />
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
       </div>
     </section>
   );
