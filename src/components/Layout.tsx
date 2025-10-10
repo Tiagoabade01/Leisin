@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -12,9 +12,12 @@ import {
   MessageSquare,
   Sparkles,
   Globe,
+  PanelLeft,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 
 const navSections = [
   {
@@ -66,59 +69,86 @@ const navSections = [
     items: [
         { to: "/saas-admin", icon: Globe, label: "Painel SaaS" },
     ]
+  },
+  {
+    title: "Configurações",
+    items: [
+        { to: "/administration", icon: Settings, label: "Administração" },
+    ]
   }
 ];
 
-const Sidebar = () => (
-  <aside className="hidden md:flex flex-col w-64 bg-gray-50 dark:bg-gray-900 border-r">
-    <div className="p-4 border-b">
-      <h1 className="text-2xl font-bold text-primary">T3 Diligence</h1>
-    </div>
-    <nav className="flex-1 p-4 space-y-4">
-      {navSections.map((section) => (
-        <div key={section.title}>
-          <h2 className="px-3 mb-2 text-xs font-semibold tracking-wider text-gray-500 uppercase">{section.title}</h2>
-          <div className="space-y-1">
-            {section.items.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.to === "/"}
-                className={({ isActive }) =>
-                  `flex items-center px-3 py-2 text-sm font-medium rounded-md ${
-                    isActive
-                      ? "bg-gray-200 dark:bg-gray-800 text-primary"
-                      : "hover:bg-gray-200 dark:hover:bg-gray-800"
-                  }`
-                }
-              >
-                <item.icon className="w-5 h-5 mr-3" />
-                {item.label}
-              </NavLink>
-            ))}
+const Sidebar = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  return (
+    <aside
+      className={cn(
+        "hidden md:flex flex-col bg-gray-900 text-gray-200 border-r border-gray-700 transition-all duration-300 ease-in-out",
+        isCollapsed ? "w-20" : "w-64"
+      )}
+    >
+      <div className="p-4 border-b border-gray-700 flex items-center h-20 justify-center">
+        <h1 className={cn("text-xl font-bold text-white whitespace-nowrap", isCollapsed && "sr-only")}>T3 Diligence</h1>
+        {isCollapsed && <ShieldCheck className="w-8 h-8 text-white" />}
+      </div>
+      <nav className="flex-1 p-2 space-y-2 overflow-y-auto">
+        {navSections.map((section) => (
+          <div key={section.title}>
+            {!isCollapsed && (
+              <h2 className="px-3 mb-2 text-xs font-semibold tracking-wider text-gray-400 uppercase">{section.title}</h2>
+            )}
+            <div className="space-y-1">
+              {section.items.map((item) => (
+                <Tooltip key={item.to} delayDuration={0}>
+                  <TooltipTrigger asChild>
+                    <NavLink
+                      to={item.to}
+                      end={item.to === "/"}
+                      className={({ isActive }) =>
+                        cn(
+                          "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                          isActive
+                            ? "bg-gray-800 text-white"
+                            : "text-gray-400 hover:bg-gray-800 hover:text-white",
+                          isCollapsed && "justify-center"
+                        )
+                      }
+                    >
+                      <item.icon className={cn("w-5 h-5", !isCollapsed && "mr-3")} />
+                      <span className={cn(isCollapsed && "sr-only")}>{item.label}</span>
+                    </NavLink>
+                  </TooltipTrigger>
+                  {isCollapsed && (
+                    <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">
+                      {item.label}
+                    </TooltipContent>
+                  )}
+                </Tooltip>
+              ))}
+            </div>
+          </div>
+        ))}
+      </nav>
+      <div className="p-4 border-t border-gray-700">
+        <div className="flex items-center mb-4">
+          <Avatar className="h-9 w-9">
+            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarFallback>AD</AvatarFallback>
+          </Avatar>
+          <div className={cn("ml-3", isCollapsed && "sr-only")}>
+            <p className="text-sm font-medium text-white">Advogado(a)</p>
+            <p className="text-xs text-gray-400">Incorporadora T3</p>
           </div>
         </div>
-      ))}
-    </nav>
-    <div className="p-4 border-t">
-      <div className="flex items-center">
-        <Avatar className="h-9 w-9">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-          <AvatarFallback>AD</AvatarFallback>
-        </Avatar>
-        <div className="ml-3">
-          <p className="text-sm font-medium">Advogado(a)</p>
-          <p className="text-xs text-gray-500">Incorporadora T3</p>
-        </div>
-        <NavLink to="/administration" className="ml-auto">
-          <Button variant="ghost" size="icon">
-            <Settings className="w-4 h-4" />
-          </Button>
-        </NavLink>
+        <Button variant="outline" className="w-full bg-transparent border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white" onClick={() => setIsCollapsed(!isCollapsed)}>
+          <PanelLeft className={cn("w-4 h-4 transition-transform", !isCollapsed && "mr-2", isCollapsed && "rotate-180")} />
+          <span className={cn(isCollapsed && "sr-only")}>Ocultar</span>
+        </Button>
       </div>
-    </div>
-  </aside>
-);
+    </aside>
+  );
+};
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
