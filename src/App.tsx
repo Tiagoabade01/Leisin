@@ -104,6 +104,7 @@ import RelatoriosMetricas from "./pages/master/RelatoriosMetricas";
 import CrmInterno from "./pages/master/CrmInterno";
 import EquipesUsuarios from "./pages/master/EquipesUsuarios";
 import IntegracoesApi from "./pages/master/IntegracoesApi";
+import GestaoSite from "./pages/master/GestaoSite";
 
 const queryClient = new QueryClient();
 
@@ -145,6 +146,7 @@ const App = () => (
             <Route path="financeiro-cobrancas" element={<FinanceiroCobrancas />} />
             <Route path="planos-precificacao" element={<PlanosPrecificacao />} />
             <Route path="relatorios-metricas" element={<RelatoriosMetricas />} />
+            <Route path="gestao-site" element={<GestaoSite />} />
             <Route path="crm-interno" element={<CrmInterno />} />
             <Route path="equipes-usuarios" element={<EquipesUsuarios />} />
             <Route path="integracoes-api" element={<IntegracoesApi />} />
