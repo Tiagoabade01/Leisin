@@ -65,14 +65,11 @@
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    @apply bg-background text-foreground font-sans;
   }
 
-  @supports (font-variation-settings: normal) {
-    body {
-      font-family: 'Inter var', sans-serif;
-    }
+  h1, h2, h3 {
+    @apply font-serif;
   }
 }
 
