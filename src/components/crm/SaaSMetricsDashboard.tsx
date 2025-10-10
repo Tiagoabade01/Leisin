@@ -19,25 +19,25 @@ const SaaSMetricsDashboard = () => {
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <Card className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">LTV (Lifetime Value)</CardTitle><Repeat className="h-4 w-4 text-gray-300" /></CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium text-gray-300">LTV (Lifetime Value)</CardTitle><Repeat className="h-4 w-4 text-gray-300" /></CardHeader>
           <CardContent><div className="text-2xl font-bold">{formatCurrency(4350.75)}</div><p className="text-xs text-gray-300">+5% vs. último mês</p></CardContent>
         </Card>
         <Card className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">CAC (Custo de Aquisição)</CardTitle><Target className="h-4 w-4 text-gray-300" /></CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium text-gray-300">CAC (Custo de Aquisição)</CardTitle><Target className="h-4 w-4 text-gray-300" /></CardHeader>
           <CardContent><div className="text-2xl font-bold">{formatCurrency(850.20)}</div><p className="text-xs text-gray-300">-10% vs. último mês</p></CardContent>
         </Card>
         <Card className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">ARPA</CardTitle><DollarSign className="h-4 w-4 text-gray-300" /></CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium text-gray-300">ARPA</CardTitle><DollarSign className="h-4 w-4 text-gray-300" /></CardHeader>
           <CardContent><div className="text-2xl font-bold">{formatCurrency(1850.50)}</div><p className="text-xs text-gray-300">+2% vs. último mês</p></CardContent>
         </Card>
         <Card className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">Usuários Ativos</CardTitle><Users className="h-4 w-4 text-gray-300" /></CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium text-gray-300">Usuários Ativos</CardTitle><Users className="h-4 w-4 text-gray-300" /></CardHeader>
           <CardContent><div className="text-2xl font-bold">480</div><p className="text-xs text-gray-300">+12 desde ontem</p></CardContent>
         </Card>
       </div>
       <div className="grid gap-6 md:grid-cols-2">
         <Card className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader><CardTitle>Crescimento de MRR</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-white">Crescimento de MRR</CardTitle></CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={mrrData}>
@@ -51,7 +51,7 @@ const SaaSMetricsDashboard = () => {
           </CardContent>
         </Card>
         <Card className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader><CardTitle>Taxa de Churn (%)</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-white">Taxa de Churn (%)</CardTitle></CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={churnData}>

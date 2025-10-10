@@ -155,7 +155,7 @@ const VendasAssinaturas = () => {
           <Card className="bg-gray-800 border-gray-700 text-white">
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
-                <CardTitle>Pipeline de Vendas</CardTitle>
+                <CardTitle className="text-white">Pipeline de Vendas</CardTitle>
                 <CardDescription className="text-gray-300">Gerencie suas oportunidades de negócio.</CardDescription>
               </div>
               <div className="flex items-center gap-2">
