@@ -1,80 +1,49 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import React, { useState, useMemo } from 'react';
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar as MiniCalendar } from "@/components/ui/calendar";
-import { ChevronLeft, ChevronRight, Search, Settings, Plus, Sun, Moon } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, Settings, Sun, Moon } from "lucide-react";
 import { cn } from '@/lib/utils';
+import { format, addDays, subDays, startOfWeek, endOfWeek, eachDayOfInterval, getDay, isEqual, isSameMonth } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
-// --- Mock Data ---
+// --- Mock Data com Datas Reais ---
 const events = [
-  { id: 1, title: 'Monday Wake-Up Hour', day: 'MON', startTime: '8:00 AM', endTime: '9:00 AM', color: 'blue' },
-  { id: 2, title: 'All-Team Kickoff', day: 'MON', startTime: '9:00 AM', endTime: '10:00 AM', color: 'blue' },
-  { id: 3, title: 'Financial Update', day: 'MON', startTime: '10:00 AM', endTime: '11:00 AM', color: 'blue' },
-  { id: 4, title: 'New Employee Welcome Lunch', day: 'MON', startTime: '11:00 AM', endTime: '12:00 PM', color: 'green' },
-  { id:5, title: 'Product Review', day: 'MON', startTime: '1:00 PM', endTime: '2:00 PM', color: 'blue' },
-  { id: 6, title: '1:1 with Jon', day: 'MON', startTime: '2:00 PM', endTime: '3:00 PM', color: 'yellow' },
-  { id: 7, title: 'Product Review: Acme Marketi...', day: 'TUE', startTime: '9:00 AM', endTime: '10:00 AM', color: 'blue' },
-  { id: 8, title: 'Product System Kickoff Lunch', day: 'TUE', startTime: '12:00 PM', endTime: '1:00 PM', color: 'blue' },
-  { id: 9, title: 'Concept Product Review II', day: 'TUE', startTime: '2:00 PM', endTime: '4:00 PM', color: 'blue' },
-  { id: 10, title: 'Webinar: Customer...', day: 'WED', startTime: '9:00 AM', endTime: '10:00 AM', color: 'blue' },
-  { id: 11, title: 'Onboarding Presentation', day: 'WED', startTime: '11:00 AM', endTime: '12:00 PM', color: 'green' },
-  { id: 12, title: 'MVP Prioritization Workshop', day: 'WED', startTime: '1:00 PM', endTime: '3:00 PM', color: 'blue' },
-  { id: 13, title: 'Sales Team Happy Hour', day: 'WED', startTime: '4:00 PM', endTime: '5:00 PM', color: 'yellow' },
-  { id: 14, title: 'Coffee Chat', day: 'THU', startTime: '9:00 AM', endTime: '10:00 AM', color: 'green' },
-  { id: 15, title: 'Health Benefits Walkthrough', day: 'THU', startTime: '10:00 AM', endTime: '11:00 AM', color: 'green' },
-  { id: 16, title: 'Product Review', day: 'THU', startTime: '1:00 PM', endTime: '2:00 PM', color: 'blue' },
-  { id: 17, title: 'Coffee Chat', day: 'FRI', startTime: '9:00 AM', endTime: '10:00 AM', color: 'green' },
-  { id: 18, title: 'Marketing Meet-and-Greet', day: 'FRI', startTime: '12:00 PM', endTime: '1:00 PM', color: 'blue' },
-  { id: 19, title: '1:1 with Heather', day: 'FRI', startTime: '2:00 PM', endTime: '3:00 PM', color: 'yellow' },
-  { id: 20, title: 'Happy Hour', day: 'FRI', startTime: '4:00 PM', endTime: '5:00 PM', color: 'yellow' },
+  { id: 1, title: 'Reunião de Alinhamento Semanal', date: new Date(2024, 4, 27, 9), durationHours: 1, color: 'blue' },
+  { id: 2, title: 'Almoço de Boas-Vindas', date: new Date(2024, 4, 27, 12), durationHours: 1, color: 'green' },
+  { id: 3, title: '1:1 com Jonatas', date: new Date(2024, 4, 27, 14), durationHours: 1, color: 'yellow' },
+  { id: 4, title: 'Revisão de Produto: Acme', date: new Date(2024, 4, 28, 9), durationHours: 1, color: 'blue' },
+  { id: 5, title: 'Workshop de Priorização MVP', date: new Date(2024, 4, 29, 13), durationHours: 2, color: 'blue' },
+  { id: 6, title: 'Happy Hour da Equipe de Vendas', date: new Date(2024, 4, 29, 16), durationHours: 1, color: 'yellow' },
 ];
 
 const sidebarEvents = [
-    { date: 'TODAY 5/27/2024', weather: '55°/40°', icon: Sun, color: 'blue', events: [
-        { time: '8:30 - 9:00 AM', title: 'Monthly catch-up' },
-        { time: '8:30 - 9:00 AM', title: 'Quarterly review', link: 'https://zoom.us/...' }
+    { date: 'HOJE 27/05/2024', weather: '24°/18°', icon: Sun, color: 'blue', events: [
+        { time: '09:00 - 10:00', title: 'Reunião de Alinhamento' },
+        { time: '12:00 - 13:00', title: 'Almoço de Boas-Vindas', link: 'https://zoom.us/...' }
     ]},
-    { date: 'TOMORROW 2/28/2021', weather: '55°/40°', icon: Sun, color: 'yellow', events: [
-        { time: '8:30 - 9:00 AM', title: 'Visit to discuss improvements' },
-        { time: '8:30 - 9:00 AM', title: 'Presentation of new products and cost structure' }
-    ]},
-    { date: 'MONDAY 3/1/2021', weather: '55°/40°', icon: Moon, color: 'green', events: [
-        { time: '8:30 - 9:00 AM', title: 'City Sales Pitch' },
+    { date: 'AMANHÃ 28/05/2024', weather: '25°/19°', icon: Sun, color: 'yellow', events: [
+        { time: '09:00 - 10:00', title: 'Revisão de Produto: Acme' },
     ]},
 ];
 
-const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-const hours = Array.from({ length: 12 }, (_, i) => {
-    const hour = i + 7;
-    if (hour === 12) return '12 PM';
-    if (hour > 12) return `${hour - 12} PM`;
-    return `${hour} AM`;
-});
+const hours = Array.from({ length: 12 }, (_, i) => i + 7); // 7 AM to 6 PM
 
 // --- Helper Functions ---
-const timeToRow = (timeStr) => {
-  const [time, period] = timeStr.split(' ');
-  const [hourStr, minuteStr] = time.split(':');
-  let hour = parseInt(hourStr);
-  const minute = minuteStr ? parseInt(minuteStr) : 0;
-  if (period === 'PM' && hour !== 12) hour += 12;
-  if (period === 'AM' && hour === 12) hour = 0;
+const timeToRow = (date: Date) => {
+  const hour = date.getHours();
+  const minute = date.getMinutes();
   const totalMinutes = (hour - 7) * 60 + minute;
   return (totalMinutes / 30) + 2;
 };
 
-const timeToRowSpan = (startTime, endTime) => {
-  const startRow = timeToRow(startTime) - 2;
-  const endRow = timeToRow(endTime) - 2;
-  return endRow - startRow;
-};
-
 // --- Components ---
-const EventCard = ({ event }) => {
-  const colIndex = daysOfWeek.indexOf(event.day) + 2;
-  const rowStart = timeToRow(event.startTime);
-  const rowSpan = timeToRowSpan(event.startTime, event.endTime);
+const EventCard = ({ event, weekStart }) => {
+  const dayIndex = getDay(event.date);
+  const colIndex = dayIndex + 2;
+  const rowStart = timeToRow(event.date);
+  const rowSpan = (event.durationHours * 60) / 30;
 
   const colorClasses = {
     blue: 'bg-blue-500/20 border-l-4 border-blue-400 text-blue-100',
@@ -91,12 +60,12 @@ const EventCard = ({ event }) => {
       }}
     >
       <p className="font-semibold">{event.title}</p>
+      <p className="opacity-80">{format(event.date, 'HH:mm')}</p>
     </div>
   );
 };
 
-const Sidebar = () => {
-    const [date, setDate] = React.useState<Date | undefined>(new Date(2024, 4, 25));
+const Sidebar = ({ currentDate, setCurrentDate }) => {
     const colorClasses = {
         blue: 'border-blue-400',
         green: 'border-green-400',
@@ -106,13 +75,14 @@ const Sidebar = () => {
         <aside className="w-80 flex-shrink-0 bg-gray-800/50 border-r border-gray-700 p-4 flex flex-col gap-6">
             <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-bold">S</div>
-                <h1 className="text-xl font-bold text-white">Calendar</h1>
+                <h1 className="text-xl font-bold text-white">Calendário</h1>
             </div>
             <div>
                 <MiniCalendar
                     mode="single"
-                    selected={date}
-                    onSelect={setDate}
+                    selected={currentDate}
+                    onSelect={setCurrentDate}
+                    locale={ptBR}
                     className="p-0"
                     classNames={{
                         root: "bg-transparent",
@@ -151,33 +121,51 @@ const Sidebar = () => {
     );
 };
 
-const MainCalendar = () => {
-    const [view, setView] = useState('Week');
+const MainCalendar = ({ currentDate, setCurrentDate }) => {
+    const [view, setView] = useState('Semana');
+
+    const weekStart = startOfWeek(currentDate, { weekStartsOn: 0 });
+    const weekEnd = endOfWeek(currentDate, { weekStartsOn: 0 });
+    const daysInWeek = eachDayOfInterval({ start: weekStart, end: weekEnd });
+
+    const handlePrevWeek = () => setCurrentDate(subDays(currentDate, 7));
+    const handleNextWeek = () => setCurrentDate(addDays(currentDate, 7));
+    const handleToday = () => setCurrentDate(new Date());
+
+    const formatHeaderDate = () => {
+        const startMonth = format(weekStart, 'MMMM', { locale: ptBR });
+        const endMonth = format(weekEnd, 'MMMM', { locale: ptBR });
+        if (startMonth === endMonth) {
+            return `${format(weekStart, 'd')} - ${format(weekEnd, 'd ' de MMMM ' de ' yyyy, { locale: ptBR })}`;
+        }
+        return `${format(weekStart, 'd ' de MMMM, { locale: ptBR })} - ${format(weekEnd, 'd ' de MMMM ' de ' yyyy, { locale: ptBR })}`;
+    };
+
     return (
         <main className="flex-1 flex flex-col">
             <header className="p-4 border-b border-gray-700">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h2 className="text-2xl font-bold text-white">Calendar</h2>
-                        <p className="text-gray-400">Schedule a meeting for today!</p>
+                        <h2 className="text-2xl font-bold text-white">Calendário</h2>
+                        <p className="text-gray-400">Agende uma reunião para hoje!</p>
                     </div>
                     <div className="flex items-center gap-4">
                         <div className="relative w-64">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                            <Input placeholder="Search" className="bg-gray-800 border-gray-700 pl-9" />
+                            <Input placeholder="Buscar" className="bg-gray-800 border-gray-700 pl-9" />
                         </div>
-                        <Button variant="outline" className="bg-gray-800 border-gray-700"><Settings className="h-4 w-4 mr-2" /> Customise</Button>
+                        <Button variant="outline" className="bg-gray-800 border-gray-700"><Settings className="h-4 w-4 mr-2" /> Personalizar</Button>
                     </div>
                 </div>
                 <div className="flex justify-between items-center mt-4">
                     <div className="flex items-center gap-2">
-                        <Button variant="outline" size="icon" className="bg-gray-800 border-gray-700"><ChevronLeft className="h-4 w-4" /></Button>
-                        <Button variant="outline" className="bg-gray-800 border-gray-700">Today</Button>
-                        <Button variant="outline" size="icon" className="bg-gray-800 border-gray-700"><ChevronRight className="h-4 w-4" /></Button>
-                        <h3 className="text-xl font-semibold ml-4">May 21 - 27, 2024</h3>
+                        <Button onClick={handlePrevWeek} variant="outline" size="icon" className="bg-gray-800 border-gray-700"><ChevronLeft className="h-4 w-4" /></Button>
+                        <Button onClick={handleToday} variant="outline" className="bg-gray-800 border-gray-700">Hoje</Button>
+                        <Button onClick={handleNextWeek} variant="outline" size="icon" className="bg-gray-800 border-gray-700"><ChevronRight className="h-4 w-4" /></Button>
+                        <h3 className="text-xl font-semibold ml-4 capitalize">{formatHeaderDate()}</h3>
                     </div>
                     <div className="flex items-center gap-1 p-1 bg-gray-800 rounded-lg">
-                        {['Day', 'Week', 'Month', 'Year'].map(v => (
+                        {['Dia', 'Semana', 'Mês', 'Ano'].map(v => (
                             <Button key={v} variant={view === v ? 'secondary' : 'ghost'} size="sm" onClick={() => setView(v)}>{v}</Button>
                         ))}
                     </div>
@@ -186,21 +174,23 @@ const MainCalendar = () => {
             <div className="flex-grow overflow-auto no-scrollbar">
                 <div className="grid gap-px bg-gray-700" style={{ gridTemplateColumns: '60px repeat(7, 1fr)', gridTemplateRows: 'auto repeat(24, 30px)' }}>
                     <div className="sticky top-0 z-20 bg-gray-800"></div>
-                    {daysOfWeek.map((day, i) => (
-                        <div key={day} className="sticky top-0 z-20 p-2 text-center bg-gray-800 text-sm font-medium">
-                            {day} <span className="text-gray-400">{21 + i}</span>
+                    {daysInWeek.map((day) => (
+                        <div key={day.toString()} className="sticky top-0 z-20 p-2 text-center bg-gray-800 text-sm font-medium capitalize">
+                            {format(day, 'EEE', { locale: ptBR })} <span className="text-gray-400">{format(day, 'd')}</span>
                         </div>
                     ))}
-                    {hours.flatMap((hour, i) => [
-                        <div key={`time-${hour}`} className="row-start-[${i * 2 + 2}] row-span-2 text-right pr-2 text-xs text-gray-400 bg-gray-800 -mt-px pt-px sticky left-0 z-10">{hour}</div>,
-                        ...daysOfWeek.map((_, j) => (
-                            <React.Fragment key={`cell-${i}-${j}`}>
-                                <div className="bg-gray-800 border-t border-gray-700" style={{ gridColumn: j + 2, gridRow: i * 2 + 2 }}></div>
-                                <div className="bg-gray-800 border-t border-dashed border-gray-700" style={{ gridColumn: j + 2, gridRow: i * 2 + 3 }}></div>
-                            </React.Fragment>
-                        ))
-                    ])}
-                    {events.map(event => <EventCard key={event.id} event={event} />)}
+                    {hours.map((hour, i) => (
+                        <React.Fragment key={`row-${hour}`}>
+                            <div className="row-start-[${i * 2 + 2}] row-span-2 text-right pr-2 text-xs text-gray-400 bg-gray-800 -mt-px pt-px sticky left-0 z-10">{hour}:00</div>
+                            {daysInWeek.map((day, j) => (
+                                <React.Fragment key={`cell-${i}-${j}`}>
+                                    <div className="bg-gray-800 border-t border-gray-700" style={{ gridColumn: j + 2, gridRow: i * 2 + 2 }}></div>
+                                    <div className="bg-gray-800 border-t border-dashed border-gray-700" style={{ gridColumn: j + 2, gridRow: i * 2 + 3 }}></div>
+                                </React.Fragment>
+                            ))}
+                        </React.Fragment>
+                    ))}
+                    {events.map(event => <EventCard key={event.id} event={event} weekStart={weekStart} />)}
                 </div>
             </div>
         </main>
@@ -208,12 +198,13 @@ const MainCalendar = () => {
 };
 
 const CalendarioCronogramas = () => {
+  const [currentDate, setCurrentDate] = useState(new Date(2024, 4, 27));
   return (
     <Card className="bg-gray-900/50 border-gray-700 text-white h-full flex flex-col">
       <CardContent className="p-0 flex flex-1">
         <div className="flex h-full w-full">
-            <Sidebar />
-            <MainCalendar />
+            <Sidebar currentDate={currentDate} setCurrentDate={setCurrentDate} />
+            <MainCalendar currentDate={currentDate} setCurrentDate={setCurrentDate} />
         </div>
       </CardContent>
     </Card>
