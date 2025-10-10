@@ -1,8 +1,9 @@
-import React, { useState, FormEvent, useEffect } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -42,6 +43,8 @@ const VendasAssinaturas = () => {
   
   const [isStageModalOpen, setIsStageModalOpen] = useState(false);
   const [editingStage, setEditingStage] = useState<Stage | null>(null);
+
+  const [opportunityToDelete, setOpportunityToDelete] = useState<string | null>(null);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -123,6 +126,13 @@ const VendasAssinaturas = () => {
     setStages(prev => [...prev, { id: `stage-${Date.now()}`, title }]);
   };
 
+  const confirmDelete = () => {
+    if (opportunityToDelete) {
+      setOpportunities(prev => prev.filter(op => op.id !== opportunityToDelete));
+      setOpportunityToDelete(null);
+    }
+  };
+
   return (
     <div>
       <h1 className="text-3xl font-bold text-white mb-2">Vendas & Assinaturas</h1>
@@ -160,7 +170,11 @@ const VendasAssinaturas = () => {
                   onAddOpportunity={handleOpenNewOppModal}
                 />
               ) : (
-                <SalesPipelineList stages={stages.map(s => ({...s, opportunities: opportunities.filter(o => o.stageId === s.id)}))} />
+                <SalesPipelineList 
+                  stages={stages.map(s => ({...s, opportunities: opportunities.filter(o => o.stageId === s.id)}))}
+                  onEdit={handleEditOpportunityClick}
+                  onDelete={setOpportunityToDelete}
+                />
               )}
             </CardContent>
           </Card>
@@ -234,6 +248,22 @@ const VendasAssinaturas = () => {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Diálogo de Confirmação de Exclusão */}
+      <AlertDialog open={!!opportunityToDelete} onOpenChange={() => setOpportunityToDelete(null)}>
+        <AlertDialogContent className="bg-gray-900 text-white border-gray-700">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-400">
+              Esta ação não pode ser desfeita. Isso excluirá permanentemente a oportunidade do pipeline.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel asChild><Button variant="ghost">Cancelar</Button></AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} asChild><Button variant="destructive">Excluir</Button></AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
