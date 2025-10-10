@@ -1,11 +1,46 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import VisaoGeralModulos from "@/components/master/modulos/VisaoGeralModulos";
+import ListaModulos from "@/components/master/modulos/ListaModulos";
+import PermissoesPapeis from "@/components/master/modulos/PermissoesPapeis";
+import LicencasPlanos from "@/components/master/modulos/LicencasPlanos";
+import IntegracoesApis from "@/components/master/modulos/IntegracoesApis";
+import LogsAuditoria from "@/components/master/modulos/LogsAuditoria";
+
 const GestaoModulos = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold text-white mb-2">Gestão de Módulos & Acessos</h1>
-      <p className="text-gray-300">Controle dos módulos habilitados, permissões e consumo.</p>
-      <div className="mt-8 p-16 bg-gray-800/50 rounded-lg text-center text-gray-400">
-        Conteúdo de Gestão de Módulos & Acessos em construção.
-      </div>
+      <p className="text-gray-300 mb-8">Controle total sobre módulos ativos, permissões, integrações e acessos do sistema.</p>
+      
+      <Tabs defaultValue="visao_geral" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 bg-gray-800">
+          <TabsTrigger value="visao_geral">Visão Geral</TabsTrigger>
+          <TabsTrigger value="modulos">Módulos</TabsTrigger>
+          <TabsTrigger value="permissoes">Permissões</TabsTrigger>
+          <TabsTrigger value="licencas">Licenças</TabsTrigger>
+          <TabsTrigger value="integracoes">Integrações</TabsTrigger>
+          <TabsTrigger value="logs">Logs</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="visao_geral" className="mt-6">
+          <VisaoGeralModulos />
+        </TabsContent>
+        <TabsContent value="modulos" className="mt-6">
+          <ListaModulos />
+        </TabsContent>
+        <TabsContent value="permissoes" className="mt-6">
+          <PermissoesPapeis />
+        </TabsContent>
+        <TabsContent value="licencas" className="mt-6">
+          <LicencasPlanos />
+        </TabsContent>
+        <TabsContent value="integracoes" className="mt-6">
+          <IntegracoesApis />
+        </TabsContent>
+        <TabsContent value="logs" className="mt-6">
+          <LogsAuditoria />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
