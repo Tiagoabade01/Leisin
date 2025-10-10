@@ -10,7 +10,8 @@ import { Save, Eye, Mail, PlusCircle, Trash2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from '@/components/ui/switch';
 
-// Mock data mirroring the landing page components
+// --- DADOS SINCRONIZADOS COM A LANDING PAGE ---
+
 const initialHeroContent = {
   preHeadline: "Plataforma de Inteligência Jurídica",
   headline: "A Plataforma Definitiva para Diligência Jurídica e Imobiliária",
@@ -24,12 +25,27 @@ const initialClients = [
   { id: 2, name: 'Mascarenhas Barbosa', logo: '/placeholder.svg' },
   { id: 3, name: 'QCA', logo: '/placeholder.svg' },
   { id: 4, name: 'Client 4', logo: '/placeholder.svg' },
+  { id: 5, name: 'Client 5', logo: '/placeholder.svg' },
+  { id: 6, name: 'Client 6', logo: '/placeholder.svg' },
+  { id: 7, name: 'Client 7', logo: '/placeholder.svg' },
+  { id: 8, name: 'Client 8', logo: '/placeholder.svg' },
 ];
 
 const initialFeatures = [
   { id: 1, title: "Dashboard Executivo", description: "Visão 360º da sua operação com KPIs em tempo real para decisões estratégicas." },
   { id: 2, title: "Jurídico Operacional", description: "Gerencie casos, contratos, tarefas e documentos em um local centralizado e seguro." },
   { id: 3, title: "Gestão de Tarefas e Prazos", description: "Nunca mais perca um prazo com quadros Kanban, alertas e automação de SLAs." },
+  { id: 4, title: "Compliance e Análise de Risco", description: "Mitigue riscos com Due Diligence, Risk Mapper e auditorias de conformidade." },
+  { id: 5, title: "Imobiliário Integrado", description: "Solução completa para o setor, com dossiês de propriedade e integrações cartoriais." },
+  { id: 6, title: "Financeiro", description: "Controle contas a pagar/receber, fluxo de caixa e orçamentos por projeto." },
+  { id: 7, title: "Contábil", description: "Simplifique sua contabilidade com centros de custo, DREs e integrações." },
+  { id: 8, title: "Comunicação Unificada", description: "Centralize E-mail e WhatsApp, com históricos e Chat Copilot com IA." },
+  { id: 9, title: "CRM Jurídico", description: "Gerencie o pipeline de oportunidades, clientes e propostas de forma integrada." },
+  { id: 10, title: "IA e Automação", description: "Use IA para analisar matrículas, redigir cláusulas e automatizar dossiês." },
+  { id: 11, title: "Gestão de Filiais", description: "Controle equipes, faturamento e relatórios consolidados de múltiplas unidades." },
+  { id: 12, title: "Gestão / Core", description: "Personalize a plataforma, gerencie usuários, permissões e faturamento." },
+  { id: 13, title: "Biblioteca Jurídica", description: "Centralize seu conhecimento com pesquisa por IA em leis, modelos e jurisprudência." },
+  { id: 14, title: "Governança & LGPD", description: "Garanta a conformidade com controle de dados sensíveis e auditoria de acessos." },
 ];
 
 const initialPlatformPreview = {
@@ -45,8 +61,11 @@ const initialPlatformPreview = {
 };
 
 const initialPlans = [
-  { id: 'free', name: 'Free', price: '0', description: 'Para testar funcionalidades essenciais...', features: ['1 Usuário', 'Até 3 Casos Ativos'], cta: 'Comece de Graça', popular: false },
-  { id: 'pro', name: 'Pro', price: '690', description: 'Para times que precisam de mais colaboração...', features: ['Tudo do Starter', 'CRM Jurídico'], cta: 'Iniciar teste', popular: true },
+  { id: 'free', name: 'Free', price: '0', description: 'Para testar funcionalidades essenciais e organizar seus primeiros casos.', features: ['1 Usuário', 'Até 3 Casos Ativos', 'Gestão de Documentos Básica', 'Tarefas Simples'], cta: 'Comece de Graça', popular: false },
+  { id: 'starter', name: 'Starter', price: '149', description: 'Para profissionais solo e escritórios pequenos.', features: ['Tudo do Free, e mais:', 'Gestão de Casos e Processos', 'Controle de Documentos', 'Tarefas e Prazos Básicos', 'Biblioteca Jurídica'], cta: 'Iniciar teste de 14 dias', popular: false },
+  { id: 'pro', name: 'Pro', price: '690', description: 'Para times que precisam de mais colaboração e IA.', features: ['Tudo do Starter, e mais:', 'Contratos e Assinaturas', 'Due Diligence & Certidões', 'CRM Jurídico', 'Comunicação Unificada', 'Nível de IA Padrão'], cta: 'Iniciar teste de 14 dias', popular: true },
+  { id: 'business', name: 'Business', price: '2.490', description: 'Para escritórios com automações e risco avançado.', features: ['Tudo do Pro, e mais:', 'Risk Mapper Avançado', 'Módulo Imobiliário Integrado', 'Módulo Financeiro Completo', 'Governança & LGPD', 'Nível de IA Avançada'], cta: 'Iniciar teste de 14 dias', popular: false },
+  { id: 'enterprise', name: 'Enterprise', price: 'Sob Consulta', description: 'Para grandes grupos com necessidades complexas.', features: ['Tudo do Business, e mais:', 'Gestão de Filiais', 'Integrações & SSO', 'Módulo Contábil', 'Suporte com Gerente Dedicado'], cta: 'Fale Conosco', popular: false },
 ];
 
 const initialContact = {
