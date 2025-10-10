@@ -49,7 +49,7 @@ const MasterLayout = () => {
           ))}
         </nav>
         <div className="p-4 border-t border-gray-800">
-          <Link to="/" className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-md text-gray-400 hover:bg-gray-800/50 hover:text-white">
+          <Link to="/app" className="flex items-center justify-center w-full px-3 py-2 text-sm font-medium rounded-md text-gray-400 hover:bg-gray-800/50 hover:text-white">
             <ArrowLeft className="w-5 h-5 mr-3" />
             <span>Voltar para o App</span>
           </Link>

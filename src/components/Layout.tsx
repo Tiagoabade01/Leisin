@@ -29,7 +29,7 @@ const navItems = [
     title: "Dashboard",
     icon: Home,
     subItems: [
-      { to: "/", label: "Visão Executiva", icon: BarChart2 },
+      { to: "/app", label: "Visão Executiva", icon: BarChart2 },
       { to: "/dashboard/performance-juridica", label: "Performance Jurídica", icon: Activity },
       { to: "/dashboard/riscos-compliance", label: "Riscos e Compliance", icon: AlertTriangle },
       { to: "/dashboard/atividades-recentes", label: "Atividades Recentes", icon: FileText },
@@ -197,11 +197,11 @@ const Sidebar = () => {
   const location = useLocation();
 
   const findOpenSection = () => {
-    if (location.pathname === "/") {
+    if (location.pathname === "/app") {
       return "Dashboard";
     }
     return navItems.find(section => 
-      section.subItems.some(item => location.pathname.startsWith(item.to) && item.to !== "/")
+      section.subItems.some(item => location.pathname.startsWith(item.to) && item.to !== "/app")
     )?.title || null;
   };
 
@@ -287,7 +287,7 @@ const Sidebar = () => {
                     <NavLink
                       key={item.to}
                       to={item.to}
-                      end={item.to === "/"}
+                      end={item.to === "/app"}
                       className={({ isActive }) =>
                         cn(
                           "flex items-center px-3 py-2 text-sm font-medium rounded-md",

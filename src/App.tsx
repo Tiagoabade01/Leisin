@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import CaseDetail from "./pages/CaseDetail";
+import LandingPage from "./pages/LandingPage"; // Importando a nova página
 
 // Layouts
 import MasterLayout from "./components/master/MasterLayout";
@@ -115,8 +116,11 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          {/* Rotas da Aplicação Principal */}
-          <Route path="/" element={<Index />} />
+          {/* Rota do Site Público */}
+          <Route path="/" element={<LandingPage />} />
+
+          {/* Rotas da Aplicação Principal (agora em /app) */}
+          <Route path="/app" element={<Index />} />
           <Route path="/case/:caseId" element={<CaseDetail />} />
           
           {/* ... (outras rotas principais) ... */}
