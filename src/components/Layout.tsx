@@ -199,23 +199,24 @@ const Sidebar = () => {
   return (
     <aside
       className={cn(
-        "hidden md:flex flex-col bg-gray-900 text-gray-200 border-r border-gray-700 transition-all duration-300 ease-in-out relative",
+        "hidden md:flex flex-col bg-gray-900 text-gray-200 border-r border-gray-700 transition-all duration-300 ease-in-out",
         isCollapsed ? "w-20" : "w-64"
       )}
     >
       <div className={cn(
-        "p-4 border-b border-gray-700 flex items-center h-20 justify-between"
+        "border-b border-gray-700 flex items-center h-20 justify-between",
+        isCollapsed ? "px-3" : "p-4"
       )}>
-        <div className={cn("flex items-center", isCollapsed && "w-full justify-center")}>
+        <div className="flex items-center">
             <h1 className={cn("text-xl font-bold text-white whitespace-nowrap", isCollapsed && "hidden")}>T3 Diligence</h1>
-            <Shield className={cn("w-8 h-8 text-white", !isCollapsed && "hidden")} />
+            <Shield className={cn("text-white", !isCollapsed && "hidden", isCollapsed ? "w-6 h-6" : "w-8 h-8")} />
         </div>
         <Button 
             variant="ghost" 
             size="icon" 
             className={cn(
                 "text-gray-400 hover:bg-gray-800 hover:text-white",
-                isCollapsed && "absolute top-4 right-2" 
+                isCollapsed && "w-8 h-8"
             )}
             onClick={() => setIsCollapsed(!isCollapsed)}
         >
