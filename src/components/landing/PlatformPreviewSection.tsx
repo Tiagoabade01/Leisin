@@ -18,21 +18,21 @@ export const PlatformPreviewSection = () => {
           <TabsContent value="dashboard" className="mt-6">
             <Card className="bg-background border-secondary overflow-hidden">
               <CardContent className="p-0">
-                <img src="/img/dashboard-preview.png" alt="Dashboard do T3 Diligence" className="w-full h-auto" />
+                <img src="/placeholder.svg" alt="Dashboard do T3 Diligence" className="w-full h-auto" />
               </CardContent>
             </Card>
           </TabsContent>
           <TabsContent value="contracts" className="mt-6">
             <Card className="bg-background border-secondary overflow-hidden">
               <CardContent className="p-0">
-                <img src="/img/contracts-preview.png" alt="Tela de Gestão de Contratos" className="w-full h-auto" />
+                <img src="/placeholder.svg" alt="Tela de Gestão de Contratos" className="w-full h-auto" />
               </CardContent>
             </Card>
           </TabsContent>
           <TabsContent value="diligence" className="mt-6">
             <Card className="bg-background border-secondary overflow-hidden">
               <CardContent className="p-0">
-                <img src="/img/diligence-preview.png" alt="Tela de Due Diligence com IA" className="w-full h-auto" />
+                <img src="/placeholder.svg" alt="Tela de Due Diligence com IA" className="w-full h-auto" />
               </CardContent>
             </Card>
           </TabsContent>
