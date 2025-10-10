@@ -27,20 +27,20 @@ const SubscriptionManagement = () => {
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
-          <Card className="bg-gray-700/50 border-gray-600">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">MRR Total</CardTitle><DollarSign className="h-4 w-4 text-gray-400" /></CardHeader>
+          <Card className="bg-gray-900/50 border-gray-700">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium text-gray-400">MRR Total</CardTitle><DollarSign className="h-4 w-4 text-gray-400" /></CardHeader>
             <CardContent><div className="text-2xl font-bold">{formatCurrency(totalMRR)}</div></CardContent>
           </Card>
-          <Card className="bg-gray-700/50 border-gray-600">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">Assinaturas Ativas</CardTitle><Users className="h-4 w-4 text-gray-400" /></CardHeader>
+          <Card className="bg-gray-900/50 border-gray-700">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium text-gray-400">Assinaturas Ativas</CardTitle><Users className="h-4 w-4 text-gray-400" /></CardHeader>
             <CardContent><div className="text-2xl font-bold">{activeSubs}</div></CardContent>
           </Card>
-          <Card className="bg-gray-700/50 border-gray-600">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">Novas (Mês)</CardTitle><TrendingUp className="h-4 w-4 text-gray-400" /></CardHeader>
+          <Card className="bg-gray-900/50 border-gray-700">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium text-gray-400">Novas (Mês)</CardTitle><TrendingUp className="h-4 w-4 text-gray-400" /></CardHeader>
             <CardContent><div className="text-2xl font-bold">+2</div></CardContent>
           </Card>
-          <Card className="bg-gray-700/50 border-gray-600">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium">Churn (Mês)</CardTitle><TrendingDown className="h-4 w-4 text-gray-400" /></CardHeader>
+          <Card className="bg-gray-900/50 border-gray-700">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2"><CardTitle className="text-sm font-medium text-gray-400">Churn (Mês)</CardTitle><TrendingDown className="h-4 w-4 text-gray-400" /></CardHeader>
             <CardContent><div className="text-2xl font-bold">1</div></CardContent>
           </Card>
         </div>
@@ -49,7 +49,7 @@ const SubscriptionManagement = () => {
           <Button>Exportar CSV</Button>
         </div>
         <Table>
-          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Cliente</TableHead><TableHead>Plano</TableHead><TableHead>Status</TableHead><TableHead>MRR</TableHead><TableHead>Data de Início</TableHead><TableHead>Próx. Renovação</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
+          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead className="text-gray-300 font-medium">Cliente</TableHead><TableHead className="text-gray-300 font-medium">Plano</TableHead><TableHead className="text-gray-300 font-medium">Status</TableHead><TableHead className="text-gray-300 font-medium">MRR</TableHead><TableHead className="text-gray-300 font-medium">Data de Início</TableHead><TableHead className="text-gray-300 font-medium">Próx. Renovação</TableHead><TableHead className="text-right text-gray-300 font-medium">Ações</TableHead></TableRow></TableHeader>
           <TableBody>
             {subscriptions.map(sub => (
               <TableRow key={sub.id} className="border-gray-700">
