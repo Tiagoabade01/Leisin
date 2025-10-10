@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, List, LayoutGrid } from "lucide-react";
+import { TarefasKanban } from './TarefasKanban';
 
 const tasksData = [
   { id: 1, task: 'Emitir NFe do cliente X', area: 'Financeiro', responsible: 'Maria Lima', deadline: '11/10/25', status: 'Em andamento', type: 'Manual' },
@@ -63,9 +64,7 @@ const TarefasAtivas = () => {
             </TableBody>
           </Table>
         ) : (
-          <div className="text-center py-16 text-gray-400">
-            <p>Visualização Kanban em construção.</p>
-          </div>
+          <TarefasKanban />
         )}
       </CardContent>
     </Card>
