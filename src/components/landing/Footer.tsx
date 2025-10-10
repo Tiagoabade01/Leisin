@@ -1,4 +1,4 @@
-import { Shield, MapPin, Phone, Mail, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Shield, MapPin, Phone, Mail, Facebook, Instagram, Linkedin, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Footer = () => {
@@ -42,6 +42,12 @@ export const Footer = () => {
               <li><a href="#" className="hover:text-white">Blog</a></li>
               <li><a href="#contact" className="hover:text-white">Contato</a></li>
               <li><a href="#" className="hover:text-white">Trabalhe Conosco</a></li>
+              <li>
+                <Link to="/master/visao-geral" className="flex items-center hover:text-white">
+                  <Settings className="w-4 h-4 mr-2" />
+                  <span>Painel Master</span>
+                </Link>
+              </li>
             </ul>
           </div>
 
