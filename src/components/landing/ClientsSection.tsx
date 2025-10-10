@@ -1,0 +1,1 @@
+export const ClientsSection = () => <div id="clients" className="py-20 container mx-auto text-center text-muted-foreground">Clientes e Cases - Em breve</div>;

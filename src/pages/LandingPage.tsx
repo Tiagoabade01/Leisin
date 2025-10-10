@@ -1,21 +1,25 @@
 import { Header } from '@/components/landing/Header';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { FeaturesSection } from '@/components/landing/FeaturesSection';
-import { TestimonialSection } from '@/components/landing/TestimonialSection';
+import { AboutSection } from '@/components/landing/AboutSection';
 import { PricingSection } from '@/components/landing/PricingSection';
-import { CtaSection } from '@/components/landing/CtaSection';
+import { IntegrationsSection } from '@/components/landing/IntegrationsSection';
+import { ClientsSection } from '@/components/landing/ClientsSection';
+import { ContactSection } from '@/components/landing/ContactSection';
 import { Footer } from '@/components/landing/Footer';
 
 const LandingPage = () => {
   return (
-    <div className="bg-gray-900">
+    <div className="bg-background">
       <Header />
       <main>
         <HeroSection />
         <FeaturesSection />
-        <TestimonialSection />
+        <AboutSection />
         <PricingSection />
-        <CtaSection />
+        <IntegrationsSection />
+        <ClientsSection />
+        <ContactSection />
       </main>
       <Footer />
     </div>

@@ -1,0 +1,1 @@
+export const ContactSection = () => <div id="contact" className="py-20 container mx-auto text-center text-muted-foreground">Contato / Demonstração - Em breve</div>;
