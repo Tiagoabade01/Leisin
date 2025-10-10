@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Check, Minus } from "lucide-react";
 
 const plans = [
+  { name: 'Free', price: '0', description: 'Para testar funcionalidades essenciais e organizar seus primeiros casos.', features: ['1 Usuário', 'Até 3 Casos', 'Gestão de Documentos Básica'], cta: 'Comece de Graça' },
   { name: 'Starter', price: '149', description: 'Para profissionais solo e escritórios pequenos.', features: ['Jurídico Operacional', 'Gestão de Documentos'], cta: 'Começar Agora' },
   { name: 'Pro', price: '690', description: 'Para times que precisam de mais colaboração e IA.', features: ['Tudo do Starter', 'Due Diligence / Certidões', 'Contratos & Assinaturas', 'CRM Jurídico', 'Nível de IA Padrão'], cta: 'Escolher Pro' },
   { name: 'Business', price: '2.490', description: 'Para escritórios com automações e risco avançado.', features: ['Tudo do Pro', 'Risk Mapper', 'Terrenos / Dossiês', 'Financeiro Interno', 'Nível de IA Avançada'], cta: 'Escolher Business' },
@@ -10,7 +11,7 @@ const plans = [
 ];
 
 const comparisonFeatures = [
-  { name: 'Jurídico Operacional', plans: ['Starter', 'Pro', 'Business', 'Enterprise'] },
+  { name: 'Jurídico Operacional', plans: ['Free', 'Starter', 'Pro', 'Business', 'Enterprise'] },
   { name: 'Contratos & Assinaturas', plans: ['Pro', 'Business', 'Enterprise'] },
   { name: 'Due Diligence / Certidões', plans: ['Pro', 'Business', 'Enterprise'] },
   { name: 'Risk Mapper', plans: ['Business', 'Enterprise'] },
@@ -18,7 +19,7 @@ const comparisonFeatures = [
   { name: 'CRM Jurídico', plans: ['Pro', 'Business', 'Enterprise'] },
   { name: 'Financeiro/Contábil interno', plans: ['Business', 'Enterprise'] },
   { name: 'Filiais / RBAC avançado / SSO', plans: ['Enterprise'] },
-  { name: 'Nível de IA', plans: { Starter: 'Básica', Pro: 'Padrão', Business: 'Avançada', Enterprise: 'Avançada+Custom' } },
+  { name: 'Nível de IA', plans: { Free: 'N/A', Starter: 'Básica', Pro: 'Padrão', Business: 'Avançada', Enterprise: 'Avançada+Custom' } },
 ];
 
 export const PricingSection = () => {
@@ -31,7 +32,7 @@ export const PricingSection = () => {
         </div>
         
         {/* Cards de Planos */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-16">
           {plans.map(plan => (
             <Card key={plan.name} className="flex flex-col shadow-lg border-2 border-transparent hover:border-primary transition-all">
               <CardHeader>
@@ -41,7 +42,7 @@ export const PricingSection = () => {
               <CardContent className="flex-grow">
                 <div className="mb-4">
                   <span className="text-4xl font-bold">R$ {plan.price}</span>
-                  {plan.price !== 'Sob Consulta' && <span className="text-muted-foreground">/mês</span>}
+                  {plan.price !== 'Sob Consulta' && plan.price !== '0' && <span className="text-muted-foreground">/mês</span>}
                 </div>
                 <ul className="space-y-2 text-sm">
                   {plan.features.map(feature => (
