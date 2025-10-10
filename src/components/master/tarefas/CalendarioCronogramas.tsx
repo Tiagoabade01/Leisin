@@ -136,9 +136,9 @@ const MainCalendar = ({ currentDate, setCurrentDate }) => {
         const startMonth = format(weekStart, 'MMMM', { locale: ptBR });
         const endMonth = format(weekEnd, 'MMMM', { locale: ptBR });
         if (startMonth === endMonth) {
-            return `${format(weekStart, 'd')} - ${format(weekEnd, 'd ' de MMMM ' de ' yyyy, { locale: ptBR })}`;
+            return `${format(weekStart, 'd')} - ${format(weekEnd, "d 'de' MMMM 'de' yyyy", { locale: ptBR })}`;
         }
-        return `${format(weekStart, 'd ' de MMMM, { locale: ptBR })} - ${format(weekEnd, 'd ' de MMMM ' de ' yyyy, { locale: ptBR })}`;
+        return `${format(weekStart, "d 'de' MMMM", { locale: ptBR })} - ${format(weekEnd, "d 'de' MMMM 'de' yyyy", { locale: ptBR })}`;
     };
 
     return (
