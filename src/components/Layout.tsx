@@ -9,64 +9,22 @@ import {
   Landmark,
   Users,
   Settings,
-  MessageSquare,
   Sparkles,
   Globe,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-const navSections = [
-  {
-    title: "Gestão / Core",
-    items: [
-      { to: "/", icon: LayoutDashboard, label: "Dashboard" },
-    ]
-  },
-  {
-    title: "Jurídico Operacional",
-    items: [
-      { to: "/law-ops", icon: Users, label: "Escritório Jurídico" },
-      { to: "/contracts", icon: FileText, label: "Contratos" },
-    ]
-  },
-  {
-    title: "Compliance / Risco",
-    items: [
-      { to: "/diligence", icon: ShieldCheck, label: "Due Diligence" },
-    ]
-  },
-  {
-    title: "Imobiliário Integrado",
-    items: [
-      { to: "/properties", icon: Home, label: "Imóveis" },
-    ]
-  },
-  {
-    title: "Financeiro / Contábil",
-    items: [
-      { to: "/financial", icon: Landmark, label: "Financeiro" },
-    ]
-  },
-  {
-    title: "Comunicação / CRM",
-    items: [
-      { to: "/crm", icon: Briefcase, label: "CRM Jurídico" },
-      { to: "/communication", icon: MessageSquare, label: "Comunicação" },
-    ]
-  },
-  {
-    title: "IA e Automação",
-    items: [
-      { to: "/ai", icon: Sparkles, label: "IA & Automação" },
-    ]
-  },
-  {
-    title: "SaaS Admin",
-    items: [
-        { to: "/saas-admin", icon: Globe, label: "Painel SaaS" },
-    ]
-  }
+const navItems = [
+  { to: "/", icon: LayoutDashboard, label: "Dashboard Geral" },
+  { to: "/law-ops", icon: Users, label: "Escritório Jurídico" },
+  { to: "/diligence", icon: ShieldCheck, label: "Due Diligence" },
+  { to: "/contracts", icon: FileText, label: "Contratos" },
+  { to: "/properties", icon: Home, label: "Terrenos & Imóveis" },
+  { to: "/crm", icon: Briefcase, label: "CRM Jurídico" },
+  { to: "/financial", icon: Landmark, label: "Financeiro" },
+  { to: "/ai", icon: Sparkles, label: "IA & Automação" },
+  { to: "/saas-admin", icon: Globe, label: "Painel SaaS" },
 ];
 
 const Sidebar = () => (
@@ -74,30 +32,23 @@ const Sidebar = () => (
     <div className="p-4 border-b">
       <h1 className="text-2xl font-bold text-primary">T3 Diligence</h1>
     </div>
-    <nav className="flex-1 p-4 space-y-4">
-      {navSections.map((section) => (
-        <div key={section.title}>
-          <h2 className="px-3 mb-2 text-xs font-semibold tracking-wider text-gray-500 uppercase">{section.title}</h2>
-          <div className="space-y-1">
-            {section.items.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.to === "/"}
-                className={({ isActive }) =>
-                  `flex items-center px-3 py-2 text-sm font-medium rounded-md ${
-                    isActive
-                      ? "bg-gray-200 dark:bg-gray-800 text-primary"
-                      : "hover:bg-gray-200 dark:hover:bg-gray-800"
-                  }`
-                }
-              >
-                <item.icon className="w-5 h-5 mr-3" />
-                {item.label}
-              </NavLink>
-            ))}
-          </div>
-        </div>
+    <nav className="flex-1 p-4 space-y-1">
+      {navItems.map((item) => (
+        <NavLink
+          key={item.to}
+          to={item.to}
+          end={item.to === "/"}
+          className={({ isActive }) =>
+            `flex items-center px-3 py-2 text-sm font-medium rounded-md ${
+              isActive
+                ? "bg-gray-200 dark:bg-gray-800 text-primary"
+                : "hover:bg-gray-200 dark:hover:bg-gray-800"
+            }`
+          }
+        >
+          <item.icon className="w-5 h-5 mr-3" />
+          {item.label}
+        </NavLink>
       ))}
     </nav>
     <div className="p-4 border-t">
