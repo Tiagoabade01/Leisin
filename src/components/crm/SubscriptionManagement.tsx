@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MoreHorizontal, DollarSign, Users, TrendingUp, TrendingDown, Filter, CalendarDays, Repeat, Target } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const subscriptions = [
   { id: 'sub1', customer: { name: 'Construtora Sol Nascente', doc: '12.345.678/0001-90', email: 'financeiro@csn.com' }, plan: 'Enterprise', addons: ['IA Plus'], seats: { used: 45, max: 50 }, status: 'active', cycle: 'Anual', nextBilling: '2025-01-15', lastPayment: { date: '2024-01-15', value: 28000 }, mrr: 2500, riskScore: 5 },
@@ -64,7 +65,10 @@ const SubscriptionManagement = () => {
             <TableBody>
               {subscriptions.map(sub => (
                 <TableRow key={sub.id} className="border-gray-700">
-                  <TableCell><div className="font-medium">{sub.customer.name}</div><div className="text-xs text-gray-400">{sub.customer.doc}</div></TableCell>
+                  <TableCell>
+                    <Link to={`/master/clientes/${sub.id}`} className="font-medium text-blue-400 hover:underline">{sub.customer.name}</Link>
+                    <div className="text-xs text-gray-400">{sub.customer.doc}</div>
+                  </TableCell>
                   <TableCell>{sub.plan} {sub.addons.length > 0 && <span className="text-xs text-gray-400">(+{sub.addons.length})</span>}</TableCell>
                   <TableCell>{sub.seats.used}/{sub.seats.max}</TableCell>
                   <TableCell>{getStatusBadge(sub.status)}</TableCell>
@@ -76,7 +80,7 @@ const SubscriptionManagement = () => {
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="bg-gray-800 text-white border-gray-700">
-                        <DropdownMenuItem>Ver Cliente</DropdownMenuItem>
+                        <DropdownMenuItem asChild><Link to={`/master/clientes/${sub.id}`}>Ver Cliente</Link></DropdownMenuItem>
                         <DropdownMenuItem>Gerenciar Assinatura</DropdownMenuItem>
                         <DropdownMenuItem>Cobrar Agora</DropdownMenuItem>
                         <DropdownMenuItem className="text-yellow-400">Suspender</DropdownMenuItem>
