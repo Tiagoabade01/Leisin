@@ -8,8 +8,9 @@ import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { MoreVertical, PlusCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MoreVertical, PlusCircle, ChevronLeft, ChevronRight, DollarSign, Percent, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 // Tipos
 export interface Opportunity {
@@ -52,16 +53,24 @@ const OpportunityCard = ({ opportunity, onEdit, isOverlay }: { opportunity: Oppo
     opacity: isDragging ? 0 : 1,
   };
 
+  const getProbabilityBadgeVariant = (probability?: number) => {
+    if (!probability) return 'secondary';
+    if (probability >= 75) return 'default';
+    if (probability >= 50) return 'outline';
+    return 'destructive';
+  };
+
   const cardContent = (
-    <div className={cn("p-3 bg-gray-700 rounded-md mb-3 shadow-md", isOverlay && 'ring-2 ring-primary')}>
+    <div className={cn("p-4 bg-gray-700 rounded-lg mb-3 shadow-lg border border-gray-600/50 space-y-3", isOverlay && 'ring-2 ring-primary')}>
+      {/* Header with Title and Menu */}
       <div className="flex justify-between items-start">
         <div>
-          <p className="font-medium text-sm text-white">{opportunity.title}</p>
+          <p className="font-semibold text-sm text-white leading-tight">{opportunity.title}</p>
           <p className="text-xs text-gray-400">{opportunity.client}</p>
         </div>
         {!isOverlay && onEdit && (
           <DropdownMenu>
-            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-6 w-6 text-gray-400 hover:text-white"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-6 w-6 text-gray-400 hover:text-white flex-shrink-0"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
             <DropdownMenuContent className="bg-gray-800 text-white border-gray-700">
               <DropdownMenuItem onClick={() => onEdit(opportunity)}>Editar</DropdownMenuItem>
               <DropdownMenuItem className="text-red-500">Excluir</DropdownMenuItem>
@@ -69,11 +78,40 @@ const OpportunityCard = ({ opportunity, onEdit, isOverlay }: { opportunity: Oppo
           </DropdownMenu>
         )}
       </div>
-      <div className="flex justify-between items-end mt-2">
-        <p className="text-sm font-bold text-green-400">{formatCurrency(opportunity.value)}</p>
-        <Avatar className="h-6 w-6">
-          <AvatarFallback className="text-xs bg-gray-600 text-gray-300">{getInitials(opportunity.responsible)}</AvatarFallback>
-        </Avatar>
+
+      {/* Notes/Description */}
+      {opportunity.notes && (
+        <p className="text-xs text-gray-300">{opportunity.notes}</p>
+      )}
+
+      {/* Info Badges */}
+      <div className="flex flex-wrap gap-x-4 gap-y-2 items-center text-xs">
+        <div className="flex items-center text-green-400 font-medium">
+          <DollarSign className="w-3 h-3 mr-1" />
+          {formatCurrency(opportunity.value)}
+        </div>
+        {opportunity.probability && (
+          <Badge variant={getProbabilityBadgeVariant(opportunity.probability)} className="flex items-center">
+            <Percent className="w-3 h-3 mr-1" />
+            {opportunity.probability}%
+          </Badge>
+        )}
+        {opportunity.expectedCloseDate && (
+          <div className="flex items-center text-gray-400">
+            <Calendar className="w-3 h-3 mr-1" />
+            {new Date(opportunity.expectedCloseDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}
+          </div>
+        )}
+      </div>
+
+      {/* Footer with Responsible */}
+      <div className="flex justify-end items-center pt-2 border-t border-gray-600/50">
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-gray-400">{opportunity.responsible}</span>
+          <Avatar className="h-6 w-6">
+            <AvatarFallback className="text-xs bg-gray-600 text-gray-300">{getInitials(opportunity.responsible)}</AvatarFallback>
+          </Avatar>
+        </div>
       </div>
     </div>
   );
