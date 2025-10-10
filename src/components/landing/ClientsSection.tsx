@@ -22,7 +22,7 @@ export const ClientsSection = () => {
             <div className="flex animate-marquee whitespace-nowrap">
               {clients.concat(clients).map((client, index) => (
                 <div key={index} className="flex-shrink-0 w-48 h-16 mx-8 flex items-center justify-center">
-                  <img src={client.logo} alt={client.name} className="max-h-12 max-w-full grayscale" />
+                  <img src={client.logo} alt={client.name} className="max-h-12 max-w-full grayscale invert opacity-75" />
                 </div>
               ))}
             </div>
