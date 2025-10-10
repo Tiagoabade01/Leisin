@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Progress } from "@/components/ui/progress";
+import { Label } from "@/components/ui/label";
 import {
   DollarSign, Users, Calendar, AlertTriangle, Edit, Power, PowerOff, RefreshCw, FileText,
   BarChart2, LineChart, UserCheck, Clock, Ticket, MessageSquare, BookOpen, History
