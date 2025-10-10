@@ -33,6 +33,7 @@ const VendasAssinaturas = () => {
   const [stages, setStages] = useState<Stage[]>(initialStagesData);
   const [opportunities, setOpportunities] = useState<Opportunity[]>(initialOpportunitiesData);
   const [editingOpportunity, setEditingOpportunity] = useState<Opportunity | null>(null);
+  const [editingStage, setEditingStage] = useState<Stage | null>(null);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -41,31 +42,24 @@ const VendasAssinaturas = () => {
     const activeId = active.id as string;
     const overId = over.id as string;
 
+    const activeIsOpportunity = active.data.current?.type === 'Opportunity';
+    if (!activeIsOpportunity) return;
+
     setOpportunities((prev) => {
       const activeOppIndex = prev.findIndex(op => op.id === activeId);
       const overOppIndex = prev.findIndex(op => op.id === overId);
-
-      if (activeOppIndex === -1) return prev;
-
-      const activeOpp = prev[activeOppIndex];
       
-      // Se soltar sobre uma coluna (stage)
       const overIsStage = stages.some(stage => stage.id === overId);
-      if (overIsStage && activeOpp.stageId !== overId) {
+
+      if (overIsStage) {
         const newOpportunities = [...prev];
-        newOpportunities[activeOppIndex] = { ...activeOpp, stageId: overId };
+        newOpportunities[activeOppIndex].stageId = overId;
         return newOpportunities;
       }
-
-      // Se soltar sobre outra oportunidade na mesma coluna
-      if (overOppIndex !== -1 && prev[overOppIndex].stageId === activeOpp.stageId) {
-        return arrayMove(prev, activeOppIndex, overOppIndex);
-      }
       
-      // Se soltar sobre outra oportunidade em uma coluna diferente
-      if (overOppIndex !== -1 && prev[overOppIndex].stageId !== activeOpp.stageId) {
+      if (overOppIndex !== -1) {
         const newOpportunities = [...prev];
-        newOpportunities[activeOppIndex] = { ...activeOpp, stageId: prev[overOppIndex].stageId };
+        newOpportunities[activeOppIndex].stageId = prev[overOppIndex].stageId;
         return arrayMove(newOpportunities, activeOppIndex, overOppIndex);
       }
 
@@ -73,14 +67,12 @@ const VendasAssinaturas = () => {
     });
   };
 
-  const handleEditClick = (opportunity: Opportunity) => {
-    setEditingOpportunity(opportunity);
-  };
+  const handleEditOpportunityClick = (opportunity: Opportunity) => setEditingOpportunity(opportunity);
+  const handleEditStageClick = (stage: Stage) => setEditingStage(stage);
 
-  const handleSaveChanges = (e: FormEvent<HTMLFormElement>) => {
+  const handleSaveOpportunity = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!editingOpportunity) return;
-
     const formData = new FormData(e.currentTarget);
     const updatedOpportunity = {
       ...editingOpportunity,
@@ -88,9 +80,28 @@ const VendasAssinaturas = () => {
       client: formData.get('client') as string,
       value: parseFloat(formData.get('value') as string),
     };
-
     setOpportunities(prev => prev.map(op => op.id === updatedOpportunity.id ? updatedOpportunity : op));
     setEditingOpportunity(null);
+  };
+
+  const handleSaveStage = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!editingStage) return;
+    const formData = new FormData(e.currentTarget);
+    const updatedStage = {
+      ...editingStage,
+      title: formData.get('title') as string,
+    };
+    setStages(prev => prev.map(s => s.id === updatedStage.id ? updatedStage : s));
+    setEditingStage(null);
+  };
+
+  const handleAddStage = (title: string) => {
+    const newStage: Stage = {
+      id: `stage-${Date.now()}`,
+      title,
+    };
+    setStages(prev => [...prev, newStage]);
   };
 
   return (
@@ -124,7 +135,9 @@ const VendasAssinaturas = () => {
                   stages={stages}
                   opportunities={opportunities}
                   onDragEnd={handleDragEnd}
-                  onEditOpportunity={handleEditClick}
+                  onEditOpportunity={handleEditOpportunityClick}
+                  onAddStage={handleAddStage}
+                  onEditStage={handleEditStageClick}
                 />
               ) : (
                 <SalesPipelineList stages={stages.map(s => ({...s, opportunities: opportunities.filter(o => o.stageId === s.id)}))} />
@@ -132,14 +145,13 @@ const VendasAssinaturas = () => {
             </CardContent>
           </Card>
         </TabsContent>
-        {/* Outras abas aqui */}
       </Tabs>
 
-      {/* Modal de Edição */}
+      {/* Modal de Edição de Oportunidade */}
       <Dialog open={!!editingOpportunity} onOpenChange={() => setEditingOpportunity(null)}>
         <DialogContent className="bg-gray-900 text-white border-gray-700">
           <DialogHeader><DialogTitle>Editar Oportunidade</DialogTitle></DialogHeader>
-          <form onSubmit={handleSaveChanges}>
+          <form onSubmit={handleSaveOpportunity}>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="title" className="text-right">Título</Label>
@@ -157,6 +169,25 @@ const VendasAssinaturas = () => {
             <DialogFooter>
               <DialogClose asChild><Button type="button" variant="ghost">Cancelar</Button></DialogClose>
               <Button type="submit">Salvar Alterações</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal de Edição de Etapa */}
+      <Dialog open={!!editingStage} onOpenChange={() => setEditingStage(null)}>
+        <DialogContent className="bg-gray-900 text-white border-gray-700">
+          <DialogHeader><DialogTitle>Renomear Etapa</DialogTitle></DialogHeader>
+          <form onSubmit={handleSaveStage}>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="title" className="text-right">Título</Label>
+                <Input id="title" name="title" defaultValue={editingStage?.title} className="col-span-3 bg-gray-800 border-gray-600" />
+              </div>
+            </div>
+            <DialogFooter>
+              <DialogClose asChild><Button type="button" variant="ghost">Cancelar</Button></DialogClose>
+              <Button type="submit">Salvar</Button>
             </DialogFooter>
           </form>
         </DialogContent>
