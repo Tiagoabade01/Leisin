@@ -34,10 +34,10 @@ export const Header = () => {
         </nav>
         <div className="flex items-center gap-4">
           <Link to="/app">
-            <Button variant="ghost" className={cn(isScrolled ? "" : "text-white hover:bg-white/10 hover:text-white")}>Login</Button>
+            <Button variant="ghost" className={cn(isScrolled ? "text-foreground hover:text-primary" : "text-white hover:bg-white/10 hover:text-white")}>Login</Button>
           </Link>
           <Link to="/app">
-            <Button className={cn(isScrolled ? "" : "bg-white text-primary hover:bg-gray-200")}>Agendar demonstração</Button>
+            <Button className={cn(isScrolled ? "bg-primary text-primary-foreground" : "bg-white text-primary hover:bg-gray-200")}>Agendar demonstração</Button>
           </Link>
         </div>
       </div>
