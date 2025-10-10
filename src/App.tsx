@@ -31,98 +31,79 @@ import PrazosProcessuais from "./pages/tarefas/PrazosProcessuais";
 import AgendaCalendario from "./pages/tarefas/AgendaCalendario";
 import SLAsAutomacao from "./pages/tarefas/SLAsAutomacao";
 
-// Compliance / Risco
+// ... (outros imports) ...
 import DueDiligenceCorporativa from "./pages/compliance/DueDiligenceCorporativa";
 import AnalisesRisco from "./pages/compliance/AnalisesRisco";
 import CertidoesDocumentosOficiais from "./pages/compliance/CertidoesDocumentosOficiais";
 import RiskMapper from "./pages/compliance/RiskMapper";
 import ConformidadeAuditoria from "./pages/compliance/ConformidadeAuditoria";
-
-// Imobiliário Integrado
 import CadastroImoveis from "./pages/imobiliario/CadastroImoveis";
 import AnaliseJuridicoUrbanistica from "./pages/imobiliario/AnaliseJuridicoUrbanistica";
 import DossiesPropriedade from "./pages/imobiliario/DossiesPropriedade";
 import IntegracoesCartoriais from "./pages/imobiliario/IntegracoesCartoriais";
 import RelatoriosImovel from "./pages/imobiliario/RelatoriosImovel";
-
-// Financeiro
 import ContasPagar from "./pages/financeiro/ContasPagar";
 import ContasReceber from "./pages/financeiro/ContasReceber";
 import FluxoCaixa from "./pages/financeiro/FluxoCaixa";
 import GestaoOrcamento from "./pages/financeiro/GestaoOrcamento";
 import RelatoriosFinanceiros from "./pages/financeiro/RelatoriosFinanceiros";
-
-// Contábil
 import CentroCustos from "./pages/contabil/CentroCustos";
 import LancamentosContabeis from "./pages/contabil/LancamentosContabeis";
 import DREBalancetes from "./pages/contabil/DREBalancetes";
 import RelatoriosFiscais from "./pages/contabil/RelatoriosFiscais";
 import IntegracoesContabeis from "./pages/contabil/IntegracoesContabeis";
-
-// Comunicação
 import InboxUnificada from "./pages/comunicacao/InboxUnificada";
 import ConversasHistoricos from "./pages/comunicacao/ConversasHistoricos";
 import NotificacoesAgendamentos from "./pages/comunicacao/NotificacoesAgendamentos";
 import MensagensOficiais from "./pages/comunicacao/MensagensOficiais";
 import ChatCopilot from "./pages/comunicacao/ChatCopilot";
-
-// CRM Jurídico
 import PipelineOportunidades from "./pages/crm/PipelineOportunidades";
 import Clientes from "./pages/crm/Clientes";
 import ParceirosComerciais from "./pages/crm/ParceirosComerciais";
 import TarefasFollowups from "./pages/crm/TarefasFollowups";
 import PropostasNegociacoes from "./pages/crm/PropostasNegociacoes";
-
-// IA e Automação
 import IACentral from "./pages/ia/IACentral";
 import ClausulaCopilot from "./pages/ia/ClausulaCopilot";
 import MatriculaLens from "./pages/ia/MatriculaLens";
 import PlaybooksOperacoes from "./pages/ia/PlaybooksOperacoes";
 import DossiesAutomaticos from "./pages/ia/DossiesAutomaticos";
-
-// Filiais
 import CadastroDadosGerais from "./pages/filiais/CadastroDadosGerais";
 import EquipesResponsaveis from "./pages/filiais/EquipesResponsaveis";
 import FaturamentoCustos from "./pages/filiais/FaturamentoCustos";
 import IndicadoresPerformance from "./pages/filiais/IndicadoresPerformance";
 import RelatoriosConsolidados from "./pages/filiais/RelatoriosConsolidados";
+import MarketplaceExtensoes from "./pages/master/MarketplaceExtensoes";
+import PortaisExternos from "./pages/master/PortaisExternos";
+import PlanosLicencas from "./pages/master/PlanosLicencas";
+import ConfiguracoesAvancadas from "./pages/master/ConfiguracoesAvancadas";
+import UsuariosPermissoes from "./pages/gestao/UsuariosPermissoes";
+import PersonalizacaoPlataforma from "./pages/gestao/PersonalizacaoPlataforma";
+import ConfiguracoesGerais from "./pages/gestao/ConfiguracoesGerais";
+import AuditoriaSeguranca from "./pages/gestao/AuditoriaSeguranca";
+import LicencasBilling from "./pages/gestao/LicencasBilling";
+import LeisDecretos from "./pages/biblioteca/LeisDecretos";
+import JurisprudenciaPareceres from "./pages/biblioteca/JurisprudenciaPareceres";
+import ModelosInternos from "./pages/biblioteca/ModelosInternos";
+import PesquisaIA from "./pages/biblioteca/PesquisaIA";
+import HistoricoRevisoes from "./pages/biblioteca/HistoricoRevisoes";
+import PoliticasTermos from "./pages/governanca/PoliticasTermos";
+import ControleDadosSensiveis from "./pages/governanca/ControleDadosSensiveis";
+import AuditoriaAcessos from "./pages/governanca/AuditoriaAcessos";
+import RelatoriosConformidade from "./pages/governanca/RelatoriosConformidade";
+import IncidentResponse from "./pages/governanca/IncidentResponse";
 
 // Área Master (Páginas)
 import VisaoGeral from "./pages/master/VisaoGeral";
 import VendasAssinaturas from "./pages/master/VendasAssinaturas";
 import GestaoClientes from "./pages/master/GestaoClientes";
 import GestaoModulos from "./pages/master/GestaoModulos";
+import GestaoTarefas from "./pages/master/GestaoTarefas";
 import FinanceiroCobrancas from "./pages/master/FinanceiroCobrancas";
 import PlanosPrecificacao from "./pages/master/PlanosPrecificacao";
 import RelatoriosMetricas from "./pages/master/RelatoriosMetricas";
 import CrmInterno from "./pages/master/CrmInterno";
 import EquipesUsuarios from "./pages/master/EquipesUsuarios";
 import IntegracoesApi from "./pages/master/IntegracoesApi";
-import MarketplaceExtensoes from "./pages/master/MarketplaceExtensoes";
-import PortaisExternos from "./pages/master/PortaisExternos";
-import PlanosLicencas from "./pages/master/PlanosLicencas";
-import ConfiguracoesAvancadas from "./pages/master/ConfiguracoesAvancadas";
-
-// Gestão / Core
-import UsuariosPermissoes from "./pages/gestao/UsuariosPermissoes";
-import PersonalizacaoPlataforma from "./pages/gestao/PersonalizacaoPlataforma";
-import ConfiguracoesGerais from "./pages/gestao/ConfiguracoesGerais";
-import AuditoriaSeguranca from "./pages/gestao/AuditoriaSeguranca";
-import LicencasBilling from "./pages/gestao/LicencasBilling";
-
-// Biblioteca Jurídica
-import LeisDecretos from "./pages/biblioteca/LeisDecretos";
-import JurisprudenciaPareceres from "./pages/biblioteca/JurisprudenciaPareceres";
-import ModelosInternos from "./pages/biblioteca/ModelosInternos";
-import PesquisaIA from "./pages/biblioteca/PesquisaIA";
-import HistoricoRevisoes from "./pages/biblioteca/HistoricoRevisoes";
-
-// Governança & LGPD
-import PoliticasTermos from "./pages/governanca/PoliticasTermos";
-import ControleDadosSensiveis from "./pages/governanca/ControleDadosSensiveis";
-import AuditoriaAcessos from "./pages/governanca/AuditoriaAcessos";
-import RelatoriosConformidade from "./pages/governanca/RelatoriosConformidade";
-import IncidentResponse from "./pages/governanca/IncidentResponse";
 
 const queryClient = new QueryClient();
 
@@ -137,28 +118,22 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/case/:caseId" element={<CaseDetail />} />
           
-          {/* Dashboard */}
+          {/* ... (outras rotas principais) ... */}
           <Route path="/dashboard/visao-executiva" element={<VisaoExecutiva />} />
           <Route path="/dashboard/performance-juridica" element={<PerformanceJuridica />} />
           <Route path="/dashboard/riscos-compliance" element={<RiscosCompliance />} />
           <Route path="/dashboard/atividades-recentes" element={<AtividadesRecentes />} />
           <Route path="/dashboard/relatorios-exportacoes" element={<RelatoriosExportacoes />} />
-
-          {/* Jurídico Operacional */}
           <Route path="/juridico/casos-processos" element={<CasosProcessos />} />
           <Route path="/juridico/contratos-obrigacoes" element={<ContratosObrigacoes />} />
           <Route path="/juridico/tarefas-timesheets" element={<TarefasTimesheets />} />
           <Route path="/juridico/documentos-relatorios" element={<DocumentosRelatorios />} />
           <Route path="/juridico/clientes-juridicos" element={<ClientesJuridicos />} />
-
-          {/* Tarefas */}
           <Route path="/tarefas/minha-caixa" element={<MinhaCaixa />} />
           <Route path="/tarefas/quadros-kanban" element={<QuadrosKanban />} />
           <Route path="/tarefas/prazos-processuais" element={<PrazosProcessuais />} />
           <Route path="/tarefas/agenda-calendario" element={<AgendaCalendario />} />
           <Route path="/tarefas/slas-automacao" element={<SLAsAutomacao />} />
-
-          {/* ... (outras rotas principais) ... */}
 
           {/* Rotas da Área Master (com layout próprio) */}
           <Route path="/master" element={<MasterLayout />}>
@@ -166,6 +141,7 @@ const App = () => (
             <Route path="vendas-assinaturas" element={<VendasAssinaturas />} />
             <Route path="gestao-clientes" element={<GestaoClientes />} />
             <Route path="gestao-modulos" element={<GestaoModulos />} />
+            <Route path="gestao-tarefas" element={<GestaoTarefas />} />
             <Route path="financeiro-cobrancas" element={<FinanceiroCobrancas />} />
             <Route path="planos-precificacao" element={<PlanosPrecificacao />} />
             <Route path="relatorios-metricas" element={<RelatoriosMetricas />} />
@@ -174,13 +150,11 @@ const App = () => (
             <Route path="integracoes-api" element={<IntegracoesApi />} />
           </Route>
 
-          {/* Rotas antigas da Área Master (mantidas por enquanto) */}
+          {/* ... (resto das rotas) ... */}
           <Route path="/master/marketplace" element={<MarketplaceExtensoes />} />
           <Route path="/master/portais-externos" element={<PortaisExternos />} />
           <Route path="/master/planos-licencas" element={<PlanosLicencas />} />
           <Route path="/master/configuracoes-avancadas" element={<ConfiguracoesAvancadas />} />
-
-          {/* ... (resto das rotas) ... */}
           <Route path="/gestao/usuarios-permissoes" element={<UsuariosPermissoes />} />
           <Route path="/gestao/personalizacao-plataforma" element={<PersonalizacaoPlataforma />} />
           <Route path="/gestao/configuracoes-gerais" element={<ConfiguracoesGerais />} />

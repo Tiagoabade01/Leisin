@@ -3,7 +3,7 @@ import { NavLink, Outlet, Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import {
   LayoutDashboard, ShoppingCart, Users, Package, Banknote, Tag, BarChart3,
-  Handshake, Users2, PlugZap, ArrowLeft, Shield
+  Handshake, Users2, PlugZap, ArrowLeft, Shield, ListChecks
 } from 'lucide-react';
 
 const navItems = [
@@ -11,6 +11,7 @@ const navItems = [
   { to: "/master/vendas-assinaturas", label: "Vendas & Assinaturas", icon: ShoppingCart },
   { to: "/master/gestao-clientes", label: "Gestão de Clientes", icon: Users },
   { to: "/master/gestao-modulos", label: "Gestão de Módulos & Acessos", icon: Package },
+  { to: "/master/gestao-tarefas", label: "Gestão de Tarefas", icon: ListChecks },
   { to: "/master/financeiro-cobrancas", label: "Financeiro & Cobranças", icon: Banknote },
   { to: "/master/planos-precificacao", label: "Planos & Precificação", icon: Tag },
   { to: "/master/relatorios-metricas", label: "Relatórios & Métricas", icon: BarChart3 },
