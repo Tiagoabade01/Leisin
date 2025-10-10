@@ -15,6 +15,7 @@ import Administration from "./pages/Administration";
 import Communication from "./pages/Communication";
 import AI from "./pages/AI";
 import SaaSAdmin from "./pages/SaaSAdmin";
+import CaseDetail from "./pages/CaseDetail";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/case/:caseId" element={<CaseDetail />} />
           <Route path="/diligence" element={<Diligence />} />
           <Route path="/contracts" element={<Contracts />} />
           <Route path="/properties" element={<Properties />} />

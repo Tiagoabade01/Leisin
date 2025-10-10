@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PlusCircle, FileText, AlertTriangle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   return (
@@ -24,21 +25,25 @@ const Dashboard = () => {
             <CardDescription>Diligências em andamento</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="font-medium">Aquisição Terreno XPTO</p>
-                  <p className="text-sm text-gray-500">Permuta | São Paulo</p>
+            <div className="space-y-1">
+              <Link to="/case/xpto" className="block hover:bg-gray-50 dark:hover:bg-gray-800 p-3 rounded-md transition-colors">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="font-medium">Aquisição Terreno XPTO</p>
+                    <p className="text-sm text-gray-500">Permuta | São Paulo</p>
+                  </div>
+                  <Badge variant="secondary">Em Análise</Badge>
                 </div>
-                <Badge variant="secondary">Em Análise</Badge>
-              </div>
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="font-medium">SPE Condomínio Flores</p>
-                  <p className="text-sm text-gray-500">Constituição | Rio de Janeiro</p>
+              </Link>
+              <Link to="/case/flores" className="block hover:bg-gray-50 dark:hover:bg-gray-800 p-3 rounded-md transition-colors">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="font-medium">SPE Condomínio Flores</p>
+                    <p className="text-sm text-gray-500">Constituição | Rio de Janeiro</p>
+                  </div>
+                  <Badge variant="outline">Aguardando Doc.</Badge>
                 </div>
-                <Badge variant="outline">Aguardando Doc.</Badge>
-              </div>
+              </Link>
             </div>
           </CardContent>
         </Card>
