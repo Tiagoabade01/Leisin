@@ -16,15 +16,15 @@ const FinanceiroCobrancas = () => {
         </TabsList>
         <TabsContent value="faturamento" className="mt-6">
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader><CardTitle>Histórico de Faturamento</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-white">Histórico de Faturamento</CardTitle></CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow className="border-gray-700 hover:bg-gray-800">
-                    <TableHead>Cliente</TableHead>
-                    <TableHead>Data</TableHead>
-                    <TableHead>Valor</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead className="text-gray-200">Cliente</TableHead>
+                    <TableHead className="text-gray-200">Data</TableHead>
+                    <TableHead className="text-gray-200">Valor</TableHead>
+                    <TableHead className="text-gray-200">Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

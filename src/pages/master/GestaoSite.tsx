@@ -132,7 +132,7 @@ const GestaoSite = () => {
         {/* Hero Section Tab */}
         <TabsContent value="hero" className="mt-6">
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader><CardTitle>Conteúdo da Seção Principal (Hero)</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-white">Conteúdo da Seção Principal (Hero)</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2"><Label>Pré-título</Label><Input value={heroContent.preHeadline} onChange={e => handleInputChange(setHeroContent, 'preHeadline', e.target.value)} className="bg-gray-700 border-gray-600" /></div>
               <div className="space-y-2"><Label>Título Principal</Label><Textarea value={heroContent.headline} onChange={e => handleInputChange(setHeroContent, 'headline', e.target.value)} className="bg-gray-700 border-gray-600" /></div>
@@ -147,7 +147,7 @@ const GestaoSite = () => {
         {/* Clients Section Tab */}
         <TabsContent value="clients" className="mt-6">
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader><CardTitle>Seção de Clientes</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-white">Seção de Clientes</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               {clients.map(client => (
                 <div key={client.id} className="flex items-center gap-4 p-2 bg-gray-700/50 rounded">
@@ -167,7 +167,7 @@ const GestaoSite = () => {
         {/* Features Section Tab */}
         <TabsContent value="features" className="mt-6">
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader><CardTitle>Seção de Funcionalidades</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-white">Seção de Funcionalidades</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               {features.map(feature => (
                 <div key={feature.id} className="p-3 bg-gray-700/50 rounded-lg space-y-2">
@@ -190,7 +190,7 @@ const GestaoSite = () => {
         {/* Platform Preview Tab */}
         <TabsContent value="preview" className="mt-6">
             <Card className="bg-gray-800 border-gray-700 text-white">
-                <CardHeader><CardTitle>Seção de Preview da Plataforma</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-white">Seção de Preview da Plataforma</CardTitle></CardHeader>
                 <CardContent className="space-y-4">
                     <div className="space-y-2"><Label>Título</Label><Input value={platformPreview.headline} onChange={e => handleInputChange(setPlatformPreview, 'headline', e.target.value)} className="bg-gray-700 border-gray-600" /></div>
                     <div className="space-y-2"><Label>Subtítulo</Label><Textarea value={platformPreview.subheadline} onChange={e => handleInputChange(setPlatformPreview, 'subheadline', e.target.value)} className="bg-gray-700 border-gray-600" /></div>
@@ -205,7 +205,7 @@ const GestaoSite = () => {
         {/* Pricing Tab */}
         <TabsContent value="pricing" className="mt-6">
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader><CardTitle>Seção de Planos e Preços</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-white">Seção de Planos e Preços</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               {plans.map(plan => (
                 <div key={plan.id} className="p-3 bg-gray-700/50 rounded-lg space-y-2">
@@ -232,7 +232,7 @@ const GestaoSite = () => {
         <TabsContent value="contact" className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card className="bg-gray-800 border-gray-700 text-white">
-              <CardHeader><CardTitle>Conteúdo da Seção de Contato</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-white">Conteúdo da Seção de Contato</CardTitle></CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2"><Label>Título</Label><Textarea value={contactContent.headline} onChange={e => handleInputChange(setContactContent, 'headline', e.target.value)} className="bg-gray-700 border-gray-600" /></div>
                 <div className="space-y-2"><Label>Subtítulo</Label><Textarea value={contactContent.subheadline} onChange={e => handleInputChange(setContactContent, 'subheadline', e.target.value)} className="bg-gray-700 border-gray-600" /></div>
@@ -241,10 +241,10 @@ const GestaoSite = () => {
               </CardContent>
             </Card>
             <Card className="bg-gray-800 border-gray-700 text-white">
-              <CardHeader><CardTitle>Caixa de Entrada (Leads)</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-white">Caixa de Entrada (Leads)</CardTitle></CardHeader>
               <CardContent>
                 <Table>
-                  <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Contato</TableHead><TableHead>Status</TableHead><TableHead>Ações</TableHead></TableRow></TableHeader>
+                  <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead className="text-gray-200">Contato</TableHead><TableHead className="text-gray-200">Status</TableHead><TableHead className="text-gray-200">Ações</TableHead></TableRow></TableHeader>
                   <TableBody>
                     {leads.map(lead => (
                       <TableRow key={lead.id} className="border-gray-700">

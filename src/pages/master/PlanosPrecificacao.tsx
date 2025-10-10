@@ -130,10 +130,10 @@ const PlanosPrecificacao = () => {
 
         <TabsContent value="plans" className="mt-6">
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader><CardTitle>Catálogo de Planos</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-white">Catálogo de Planos</CardTitle></CardHeader>
             <CardContent>
               <Table>
-                <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Nome do Plano</TableHead><TableHead>Status</TableHead><TableHead>Usuários</TableHead><TableHead>Preço Mensal</TableHead><TableHead>Versão</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
+                <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead className="text-gray-200">Nome do Plano</TableHead><TableHead className="text-gray-200">Status</TableHead><TableHead className="text-gray-200">Usuários</TableHead><TableHead className="text-gray-200">Preço Mensal</TableHead><TableHead className="text-gray-200">Versão</TableHead><TableHead className="text-right text-gray-200">Ações</TableHead></TableRow></TableHeader>
                 <TableBody>
                   {plans.map(plan => (
                     <TableRow key={plan.id} className="border-gray-700">
@@ -164,13 +164,13 @@ const PlanosPrecificacao = () => {
         <TabsContent value="addons" className="mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="bg-gray-800 border-gray-700 text-white">
-              <CardHeader><CardTitle>Add-ons Contratáveis</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-white">Add-ons Contratáveis</CardTitle></CardHeader>
               <CardContent>
                 <ul className="space-y-3">{addons.map(a => <li key={a.name}><strong>{a.name}:</strong> <span className="text-gray-300">{a.description}</span></li>)}</ul>
               </CardContent>
             </Card>
             <Card className="bg-gray-800 border-gray-700 text-white">
-              <CardHeader><CardTitle>Bundles Prontos</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-white">Bundles Prontos</CardTitle></CardHeader>
               <CardContent>
                 <ul className="space-y-3">{bundles.map(b => <li key={b.name}><strong>{b.name}:</strong> <span className="text-gray-300">{b.description}</span></li>)}</ul>
               </CardContent>
@@ -180,10 +180,10 @@ const PlanosPrecificacao = () => {
 
         <TabsContent value="matrix" className="mt-6">
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader><CardTitle>Matriz de Funcionalidades por Plano</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-white">Matriz de Funcionalidades por Plano</CardTitle></CardHeader>
             <CardContent>
               <Table>
-                <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Funcionalidade</TableHead>{plans.map(p => <TableHead key={p.id}>{p.name}</TableHead>)}</TableRow></TableHeader>
+                <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead className="text-gray-200">Funcionalidade</TableHead>{plans.map(p => <TableHead key={p.id} className="text-gray-200">{p.name}</TableHead>)}</TableRow></TableHeader>
                 <TableBody>
                   {features.map(feat => (
                     <TableRow key={feat.name} className="border-gray-700">
