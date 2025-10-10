@@ -1,85 +1,102 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard,
-  ShieldCheck,
-  FileText,
-  Home,
-  Briefcase,
-  Landmark,
-  Users,
-  Settings,
-  MessageSquare,
-  Sparkles,
-  Globe,
-  PanelLeft,
+  LayoutDashboard, ShieldCheck, FileText, Home, Briefcase, Landmark, Users, Settings, MessageSquare, Sparkles, Globe, PanelLeft, Folder, FileBadge, Map, FileArchive, Plug, Handshake, Receipt, BarChart, Inbox, Bot, BookOpen, FileCog, UserCog, Store, ExternalLink, ChevronDown
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
-const navSections = [
+const navItems = [
   {
     title: "Gestão / Core",
-    items: [
-      { to: "/", icon: LayoutDashboard, label: "Dashboard" },
+    icon: Briefcase,
+    subItems: [
+      { to: "/", label: "Dashboard", icon: LayoutDashboard },
+      { to: "/configuracoes", label: "Configurações", icon: Settings },
+      { to: "/licenses", label: "Licenças", icon: FileBadge },
+      { to: "/users", label: "Usuários", icon: Users },
     ]
   },
   {
     title: "Jurídico Operacional",
-    items: [
-      { to: "/law-ops", icon: Users, label: "Escritório Jurídico" },
-      { to: "/contracts", icon: FileText, label: "Contratos" },
+    icon: Users,
+    subItems: [
+      { to: "/law-ops", label: "Escritório Jurídico", icon: Users },
+      { to: "/contracts", label: "Contratos", icon: FileText },
+      { to: "/documents", label: "Documentos", icon: Folder },
     ]
   },
   {
     title: "Compliance / Risco",
-    items: [
-      { to: "/diligence", icon: ShieldCheck, label: "Due Diligence" },
+    icon: ShieldCheck,
+    subItems: [
+      { to: "/diligence", label: "Due Diligence", icon: ShieldCheck },
+      { to: "/certidoes", label: "Certidões", icon: FileBadge },
+      { to: "/risk-mapper", label: "Risk Mapper", icon: Map },
     ]
   },
   {
     title: "Imobiliário Integrado",
-    items: [
-      { to: "/properties", icon: Home, label: "Imóveis" },
+    icon: Home,
+    subItems: [
+      { to: "/terrenos", label: "Terrenos", icon: Home },
+      { to: "/dossies", label: "Dossiês", icon: FileArchive },
+      { to: "/integrations", label: "Integrações", icon: Plug },
     ]
   },
   {
     title: "Financeiro / Contábil",
-    items: [
-      { to: "/financial", icon: Landmark, label: "Financeiro" },
+    icon: Landmark,
+    subItems: [
+      { to: "/honorarios", label: "Honorários", icon: Handshake },
+      { to: "/faturamento", label: "Faturamento", icon: Receipt },
+      { to: "/dre", label: "DRE", icon: BarChart },
     ]
   },
   {
     title: "Comunicação / CRM",
-    items: [
-      { to: "/crm", icon: Briefcase, label: "CRM Jurídico" },
-      { to: "/communication", icon: MessageSquare, label: "Comunicação" },
+    icon: MessageSquare,
+    subItems: [
+      { to: "/crm", label: "CRM Jurídico", icon: Briefcase },
+      { to: "/inbox", label: "Inbox", icon: Inbox },
+      { to: "/chat-copilot", label: "Chat Copilot", icon: Bot },
     ]
   },
   {
     title: "IA e Automação",
-    items: [
-      { to: "/ai", icon: Sparkles, label: "IA & Automação" },
+    icon: Sparkles,
+    subItems: [
+      { to: "/ia-central", label: "IA Central", icon: Sparkles },
+      { to: "/playbooks", label: "Playbooks", icon: BookOpen },
+      { to: "/dossies-automaticos", label: "Dossiês Automáticos", icon: FileCog },
     ]
   },
   {
-    title: "SaaS Admin",
-    items: [
-        { to: "/saas-admin", icon: Globe, label: "Painel SaaS" },
+    title: "Área master",
+    icon: Globe,
+    subItems: [
+      { to: "/painel-master", label: "Painel Master", icon: UserCog },
+      { to: "/marketplace", label: "Marketplace", icon: Store },
+      { to: "/portais-externos", label: "Portais externos", icon: ExternalLink },
     ]
   },
-  {
-    title: "Configurações",
-    items: [
-        { to: "/administration", icon: Settings, label: "Administração" },
-    ]
-  }
 ];
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const location = useLocation();
+
+  const findOpenSection = () => {
+    return navItems.find(section => 
+      section.subItems.some(item => item.to === location.pathname)
+    )?.title || null;
+  };
+
+  const [openSection, setOpenSection] = useState<string | null>(findOpenSection());
 
   return (
     <aside
@@ -92,43 +109,76 @@ const Sidebar = () => {
         <h1 className={cn("text-xl font-bold text-white whitespace-nowrap", isCollapsed && "sr-only")}>T3 Diligence</h1>
         {isCollapsed && <ShieldCheck className="w-8 h-8 text-white" />}
       </div>
-      <nav className="flex-1 p-2 space-y-2 overflow-y-auto no-scrollbar">
-        {navSections.map((section) => (
-          <div key={section.title}>
-            {!isCollapsed && (
-              <h2 className="px-3 mb-2 text-xs font-semibold tracking-wider text-gray-400 uppercase">{section.title}</h2>
-            )}
-            <div className="space-y-1">
-              {section.items.map((item) => (
-                <Tooltip key={item.to} delayDuration={0}>
-                  <TooltipTrigger asChild>
+      <nav className="flex-1 p-2 space-y-1 overflow-y-auto no-scrollbar">
+        {navItems.map((section) =>
+          isCollapsed ? (
+            <Popover key={section.title}>
+              <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" className="w-full justify-center h-12 text-gray-400 hover:bg-gray-800 hover:text-white">
+                      <section.icon className="w-6 h-6" />
+                    </Button>
+                  </PopoverTrigger>
+                </TooltipTrigger>
+                <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">
+                  {section.title}
+                </TooltipContent>
+              </Tooltip>
+              <PopoverContent side="right" align="start" className="ml-2 w-auto bg-gray-900 border-gray-700 text-white p-1">
+                <div className="flex flex-col space-y-1">
+                  {section.subItems.map((item) => (
                     <NavLink
+                      key={item.to}
+                      to={item.to}
+                      className={({ isActive }) =>
+                        cn(
+                          "flex items-center px-3 py-2 text-sm font-medium rounded-md whitespace-nowrap",
+                          isActive ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white"
+                        )
+                      }
+                    >
+                      <item.icon className="w-5 h-5 mr-3" />
+                      {item.label}
+                    </NavLink>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
+          ) : (
+            <Collapsible key={section.title} open={openSection === section.title} onOpenChange={() => setOpenSection(openSection === section.title ? null : section.title)}>
+              <CollapsibleTrigger className="w-full">
+                <div className="flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md text-gray-400 hover:bg-gray-800 hover:text-white">
+                  <div className="flex items-center">
+                    <section.icon className="w-5 h-5 mr-3" />
+                    <span>{section.title}</span>
+                  </div>
+                  <ChevronDown className={cn("w-4 h-4 transition-transform", openSection === section.title && "rotate-180")} />
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pl-6">
+                <div className="space-y-1 py-1">
+                  {section.subItems.map((item) => (
+                    <NavLink
+                      key={item.to}
                       to={item.to}
                       end={item.to === "/"}
                       className={({ isActive }) =>
                         cn(
                           "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                          isActive
-                            ? "bg-gray-800 text-white"
-                            : "text-gray-400 hover:bg-gray-800 hover:text-white",
-                          isCollapsed && "justify-center"
+                          isActive ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white"
                         )
                       }
                     >
-                      <item.icon className={cn("w-5 h-5", !isCollapsed && "mr-3")} />
-                      <span className={cn(isCollapsed && "sr-only")}>{item.label}</span>
+                      <item.icon className="w-5 h-5 mr-3" />
+                      <span>{item.label}</span>
                     </NavLink>
-                  </TooltipTrigger>
-                  {isCollapsed && (
-                    <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">
-                      {item.label}
-                    </TooltipContent>
-                  )}
-                </Tooltip>
-              ))}
-            </div>
-          </div>
-        ))}
+                  ))}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          )
+        )}
       </nav>
       <div className="p-4 border-t border-gray-700">
         <div className="flex items-center mb-4">
