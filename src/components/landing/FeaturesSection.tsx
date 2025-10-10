@@ -1,12 +1,12 @@
-import { BarChart3, ShieldCheck, FileSignature, Bot, Wallet, CalendarCheck } from 'lucide-react';
+import { BrainCircuit, Share2, FileCog, ShieldCheck, Briefcase, Wallet } from 'lucide-react';
 
 const features = [
-  { icon: <BarChart3 className="w-7 h-7 text-white" />, title: "Previsão de Desfechos", description: "Utilize dados preditivos para prever o tempo de duração e possíveis desfechos de processos." },
-  { icon: <ShieldCheck className="w-7 h-7 text-white" />, title: "Acesso para Clientes", description: "Ofereça visualização de processos e movimentações para seus clientes ou escritórios." },
-  { icon: <FileSignature className="w-7 h-7 text-white" />, title: "Relatórios Personalizados", description: "Extraia relatórios gerenciais e tome decisões estratégicas com mais confiança." },
-  { icon: <Bot className="w-7 h-7 text-white" />, title: "Automação Inteligente", description: "Cadastre processos automaticamente e receba informações antecipadas para agir." },
-  { icon: <Wallet className="w-7 h-7 text-white" />, title: "Gestão Financeira", description: "Administre fluxos financeiros e emita NF-e diretamente no sistema, tudo em um só lugar." },
-  { icon: <CalendarCheck className="w-7 h-7 text-white" />, title: "Controle de Agendas", description: "Controle as agendas dos advogados e agenda Jurídica em um único local." },
+  { icon: <BrainCircuit className="w-7 h-7 text-white" />, title: "IA Jurídica Avançada", description: "Analise matrículas, contratos e certidões em segundos com nossa IA treinada (MatrículaLens & CláusulaCopilot)." },
+  { icon: <Share2 className="w-7 h-7 text-white" />, title: "Risk Mapper Integrado", description: "Visualize grafos de relações complexas entre pessoas, empresas e imóveis para identificar riscos ocultos." },
+  { icon: <FileCog className="w-7 h-7 text-white" />, title: "Automação de Documentos", description: "Gere dossiês completos, relatórios de diligência e minutas de contrato com base em seus templates." },
+  { icon: <ShieldCheck className="w-7 h-7 text-white" />, title: "Compliance Centralizado", description: "Monitore certidões, processos e pendências de forma automática, garantindo conformidade contínua." },
+  { icon: <Briefcase className="w-7 h-7 text-white" />, title: "Gestão de Casos", description: "Organize todos os seus casos, tarefas, prazos e documentos em um único local acessível para toda a equipe." },
+  { icon: <Wallet className="w-7 h-7 text-white" />, title: "Módulo Financeiro", description: "Controle honorários, custos de projeto e faturamento, integrando a operação jurídica à gestão financeira." },
 ];
 
 export const FeaturesSection = () => {
@@ -14,8 +14,8 @@ export const FeaturesSection = () => {
     <section id="features" className="py-20 bg-secondary text-foreground">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold">Funcionalidades do nosso <span className="text-primary">sistema para escritório de advocacia</span></h2>
-          <p className="text-lg text-muted-foreground mt-2">Tudo que você precisa para uma gestão jurídica eficiente.</p>
+          <h2 className="text-3xl md:text-4xl font-bold">Uma plataforma, <span className="text-primary">infinitas possibilidades</span></h2>
+          <p className="text-lg text-muted-foreground mt-2">Ferramentas poderosas para cada etapa da sua operação.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature) => (
