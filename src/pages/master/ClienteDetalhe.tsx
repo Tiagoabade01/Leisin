@@ -195,11 +195,11 @@ const ClienteDetalhe = () => {
         <TabsContent value="resumo" className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <Card className="lg:col-span-2 bg-gray-800 border-gray-700 text-white">
-              <CardHeader><CardTitle>Receita Gerada (Últimos 6 meses)</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-white">Receita Gerada (Últimos 6 meses)</CardTitle></CardHeader>
               <CardContent><ResponsiveContainer width="100%" height={300}><RechartsLineChart data={client.revenueData}><XAxis dataKey="name" stroke="#a1a1aa" /><YAxis stroke="#a1a1aa" /><Tooltip contentStyle={{ backgroundColor: '#333' }} /><Legend /><RechartsLine type="monotone" dataKey="receita" stroke="#8884d8" /></RechartsLineChart></ResponsiveContainer></CardContent>
             </Card>
             <Card className="bg-gray-800 border-gray-700 text-white">
-              <CardHeader><CardTitle>Uso por Módulo</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-white">Uso por Módulo</CardTitle></CardHeader>
               <CardContent><ResponsiveContainer width="100%" height={300}><RechartsBarChart data={client.moduleUsageData} layout="vertical"><XAxis type="number" hide /><YAxis type="category" dataKey="name" stroke="#a1a1aa" width={80} /><Tooltip contentStyle={{ backgroundColor: '#333' }} /><Bar dataKey="uso" fill="#82ca9d" radius={[0, 4, 4, 0]} /></RechartsBarChart></ResponsiveContainer></CardContent>
             </Card>
           </div>
@@ -207,10 +207,10 @@ const ClienteDetalhe = () => {
 
         <TabsContent value="plano" className="mt-6">
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader><CardTitle>Detalhes do Plano e Assinatura</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-white">Detalhes do Plano e Assinatura</CardTitle></CardHeader>
             <CardContent className="grid md:grid-cols-2 gap-6">
               <div>
-                <h3 className="font-semibold mb-2">Plano Atual</h3>
+                <h3 className="font-semibold mb-2 text-white">Plano Atual</h3>
                 <p><strong>Nome:</strong> {client.subscription.planName}</p>
                 <p><strong>Ciclo:</strong> {client.subscription.cycle}</p>
                 <p><strong>Valor:</strong> {formatCurrency(client.subscription.value)}/{client.subscription.cycle === 'Anual' ? 'ano' : 'mês'}</p>
@@ -218,7 +218,7 @@ const ClienteDetalhe = () => {
                 <p><strong>Renova em:</strong> {formatDate(client.subscription.renewsAt)}</p>
               </div>
               <div>
-                <h3 className="font-semibold mb-2">Limites de Uso</h3>
+                <h3 className="font-semibold mb-2 text-white">Limites de Uso</h3>
                 <div className="space-y-2">
                   <div><Label>Usuários</Label><Progress value={(client.subscription.limits.users.used / client.subscription.limits.users.total) * 100} /> <span className="text-xs">{client.subscription.limits.users.used} de {client.subscription.limits.users.total}</span></div>
                   <div><Label>Armazenamento (GB)</Label><Progress value={(client.subscription.limits.storage.used / client.subscription.limits.storage.total) * 100} /> <span className="text-xs">{client.subscription.limits.storage.used} de {client.subscription.limits.storage.total}</span></div>
@@ -231,10 +231,10 @@ const ClienteDetalhe = () => {
 
         <TabsContent value="financeiro" className="mt-6">
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader><CardTitle>Faturas e Cobranças</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-white">Faturas e Cobranças</CardTitle></CardHeader>
             <CardContent>
               <Table>
-                <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Data</TableHead><TableHead>Valor</TableHead><TableHead>Status</TableHead><TableHead>Método</TableHead><TableHead>Nota Fiscal</TableHead></TableRow></TableHeader>
+                <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead className="text-gray-200">Data</TableHead><TableHead className="text-gray-200">Valor</TableHead><TableHead className="text-gray-200">Status</TableHead><TableHead className="text-gray-200">Método</TableHead><TableHead className="text-gray-200">Nota Fiscal</TableHead></TableRow></TableHeader>
                 <TableBody>
                   {client.invoices.map(inv => (
                     <TableRow key={inv.id} className="border-gray-700"><TableCell>{formatDate(inv.date)}</TableCell><TableCell>{formatCurrency(inv.value)}</TableCell><TableCell><Badge>{inv.status}</Badge></TableCell><TableCell>{inv.method}</TableCell><TableCell><a href={inv.nfe} className="text-blue-400 hover:underline">Ver NFe</a></TableCell></TableRow>
@@ -247,10 +247,10 @@ const ClienteDetalhe = () => {
 
         <TabsContent value="usuarios" className="mt-6">
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader><CardTitle>Usuários e Acessos</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-white">Usuários e Acessos</CardTitle></CardHeader>
             <CardContent>
               <Table>
-                <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Nome</TableHead><TableHead>E-mail</TableHead><TableHead>Papel</TableHead><TableHead>Status</TableHead><TableHead>Último Login</TableHead></TableRow></TableHeader>
+                <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead className="text-gray-200">Nome</TableHead><TableHead className="text-gray-200">E-mail</TableHead><TableHead className="text-gray-200">Papel</TableHead><TableHead className="text-gray-200">Status</TableHead><TableHead className="text-gray-200">Último Login</TableHead></TableRow></TableHeader>
                 <TableBody>
                   {client.users.map(user => (
                     <TableRow key={user.id} className="border-gray-700"><TableCell>{user.name}</TableCell><TableCell>{user.email}</TableCell><TableCell>{user.role}</TableCell><TableCell><Badge variant={user.status === 'Ativo' ? 'default' : 'secondary'}>{user.status}</Badge></TableCell><TableCell>{user.lastLogin}</TableCell></TableRow>
@@ -263,7 +263,7 @@ const ClienteDetalhe = () => {
 
         <TabsContent value="atividades" className="mt-6">
             <Card className="bg-gray-800 border-gray-700 text-white">
-                <CardHeader><CardTitle>Atividades Recentes</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-white">Atividades Recentes</CardTitle></CardHeader>
                 <CardContent>
                     <ul className="space-y-4">
                         {client.events.map((event, index) => (
@@ -286,10 +286,10 @@ const ClienteDetalhe = () => {
 
         <TabsContent value="documentos" className="mt-6">
             <Card className="bg-gray-800 border-gray-700 text-white">
-                <CardHeader><CardTitle>Contratos & Documentos</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-white">Contratos & Documentos</CardTitle></CardHeader>
                 <CardContent>
                     <Table>
-                        <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Nome do Documento</TableHead><TableHead>Tipo</TableHead><TableHead>Data</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
+                        <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead className="text-gray-200">Nome do Documento</TableHead><TableHead className="text-gray-200">Tipo</TableHead><TableHead className="text-gray-200">Data</TableHead><TableHead className="text-right text-gray-200">Ações</TableHead></TableRow></TableHeader>
                         <TableBody>
                             {client.documents.map(doc => (
                                 <TableRow key={doc.id} className="border-gray-700">
@@ -307,10 +307,10 @@ const ClienteDetalhe = () => {
 
         <TabsContent value="suporte" className="mt-6">
             <Card className="bg-gray-800 border-gray-700 text-white">
-                <CardHeader><CardTitle>Tickets de Suporte</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-white">Tickets de Suporte</CardTitle></CardHeader>
                 <CardContent>
                     <Table>
-                        <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Assunto</TableHead><TableHead>Status</TableHead><TableHead>Data</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
+                        <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead className="text-gray-200">Assunto</TableHead><TableHead className="text-gray-200">Status</TableHead><TableHead className="text-gray-200">Data</TableHead><TableHead className="text-right text-gray-200">Ações</TableHead></TableRow></TableHeader>
                         <TableBody>
                             {client.supportTickets.map(ticket => (
                                 <TableRow key={ticket.id} className="border-gray-700">
@@ -328,10 +328,10 @@ const ClienteDetalhe = () => {
 
         <TabsContent value="historico" className="mt-6">
             <Card className="bg-gray-800 border-gray-700 text-white">
-                <CardHeader><CardTitle>Histórico / Auditoria</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-white">Histórico / Auditoria</CardTitle></CardHeader>
                 <CardContent>
                     <Table>
-                        <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Data</TableHead><TableHead>Evento</TableHead></TableRow></TableHeader>
+                        <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead className="text-gray-200">Data</TableHead><TableHead className="text-gray-200">Evento</TableHead></TableRow></TableHeader>
                         <TableBody>
                             {client.events.map((event, index) => (
                                 <TableRow key={index} className="border-gray-700">
