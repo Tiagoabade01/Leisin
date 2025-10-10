@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowUp, ArrowDown, Plug, BarChart, AlertTriangle, Users, Clock, DollarSign } from "lucide-react";
-import { ResponsiveContainer, BarChart as RechartsBarChart, LineChart, Line, PieChart, Pie, Tooltip, XAxis, YAxis, Legend, Cell } from 'recharts';
+import { ResponsiveContainer, BarChart as RechartsBarChart, Bar, LineChart, Line, PieChart, Pie, Tooltip, XAxis, YAxis, Legend, Cell } from 'recharts';
 
 const kpiData = [
   { title: "Integrações ativas", value: "42", change: "+6%", changeType: "increase", icon: Plug },
