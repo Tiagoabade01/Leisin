@@ -7,7 +7,7 @@ const FinanceiroCobrancas = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold text-white mb-2">Financeiro & Cobranças</h1>
-      <p className="text-gray-400 mb-8">Controle total das finanças do SaaS e fluxo de receitas.</p>
+      <p className="text-gray-300 mb-8">Controle total das finanças do SaaS e fluxo de receitas.</p>
       <Tabs defaultValue="faturamento">
         <TabsList className="grid w-full grid-cols-3 bg-gray-800">
           <TabsTrigger value="faturamento">Faturamento</TabsTrigger>

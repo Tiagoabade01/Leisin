@@ -45,15 +45,15 @@ const VisaoGeral = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold text-white mb-2">Visão Geral</h1>
-      <p className="text-gray-400 mb-8">Dashboard com indicadores chave de negócio e operacionais.</p>
+      <p className="text-gray-300 mb-8">Dashboard com indicadores chave de negócio e operacionais.</p>
 
       {/* KPIs em Tempo Real */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {kpiData.map((kpi) => (
           <Card key={kpi.title} className="bg-gray-800 border-gray-700 text-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-400">{kpi.title}</CardTitle>
-              <kpi.icon className="h-4 w-4 text-gray-400" />
+              <CardTitle className="text-sm font-medium text-gray-300">{kpi.title}</CardTitle>
+              <kpi.icon className="h-4 w-4 text-gray-300" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{kpi.value}</div>
@@ -76,8 +76,8 @@ const VisaoGeral = () => {
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={revenueData}>
-                <XAxis dataKey="name" stroke="#888888" fontSize={12} />
-                <YAxis stroke="#888888" fontSize={12} />
+                <XAxis dataKey="name" stroke="#a1a1aa" fontSize={12} />
+                <YAxis stroke="#a1a1aa" fontSize={12} />
                 <Tooltip contentStyle={{ backgroundColor: '#333', border: 'none' }} />
                 <Legend />
                 <Line type="monotone" dataKey="receita" stroke="#8884d8" strokeWidth={2} />
@@ -130,8 +130,8 @@ const VisaoGeral = () => {
           <CardContent>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={revenueData.map(d => ({ name: d.name, atividade: d.receita * 1.5 }))}>
-                <XAxis dataKey="name" stroke="#888888" fontSize={12} />
-                <YAxis stroke="#888888" fontSize={12} />
+                <XAxis dataKey="name" stroke="#a1a1aa" fontSize={12} />
+                <YAxis stroke="#a1a1aa" fontSize={12} />
                 <Tooltip contentStyle={{ backgroundColor: '#333', border: 'none' }} cursor={{fill: 'rgba(136, 132, 216, 0.2)'}}/>
                 <Bar dataKey="atividade" fill="#8884d8" radius={[4, 4, 0, 0]} />
               </BarChart>

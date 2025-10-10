@@ -8,7 +8,7 @@ const GestaoClientes = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold text-white mb-2">Gestão de Clientes</h1>
-      <p className="text-gray-400 mb-8">Controle e histórico de todos os clientes da plataforma.</p>
+      <p className="text-gray-300 mb-8">Controle e histórico de todos os clientes da plataforma.</p>
       <Card className="bg-gray-800 border-gray-700 text-white">
         <CardHeader>
           <div className="flex items-center justify-between">

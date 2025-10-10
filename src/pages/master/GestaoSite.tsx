@@ -112,7 +112,7 @@ const GestaoSite = () => {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Gestão do Site</h1>
-          <p className="text-gray-400">Edite o conteúdo, gerencie páginas e acompanhe os leads do seu site público.</p>
+          <p className="text-gray-300">Edite o conteúdo, gerencie páginas e acompanhe os leads do seu site público.</p>
         </div>
         <a href="/" target="_blank" rel="noopener noreferrer">
           <Button variant="outline" className="bg-gray-800 border-gray-700"><Eye className="h-4 w-4 mr-2" /> Ver Site ao Vivo</Button>
@@ -248,7 +248,7 @@ const GestaoSite = () => {
                   <TableBody>
                     {leads.map(lead => (
                       <TableRow key={lead.id} className="border-gray-700">
-                        <TableCell><div className="font-medium">{lead.name}</div><div className="text-xs text-gray-400">{lead.email}</div></TableCell>
+                        <TableCell><div className="font-medium">{lead.name}</div><div className="text-xs text-gray-300">{lead.email}</div></TableCell>
                         <TableCell><Badge variant={lead.status === 'Novo' ? 'default' : 'secondary'}>{lead.status}</Badge></TableCell>
                         <TableCell><Button variant="outline" size="sm" className="bg-gray-700 border-gray-600"><Mail className="h-3 w-3 mr-1" /> Responder</Button></TableCell>
                       </TableRow>

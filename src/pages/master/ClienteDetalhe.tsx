@@ -150,7 +150,7 @@ const ClienteDetalhe = () => {
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold text-white">{client.name}</h1>
-            <p className="text-gray-400">{client.document} • {client.email}</p>
+            <p className="text-gray-300">{client.document} • {client.email}</p>
             <div className="flex items-center gap-4 mt-2">
               {getStatusBadge()}
               <span className="text-sm text-gray-300">Plano: <strong>{client.plan}</strong></span>
@@ -171,12 +171,12 @@ const ClienteDetalhe = () => {
 
       {/* KPIs Rápidos */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
-        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-400">MRR</CardTitle><p className="text-2xl font-bold">{formatCurrency(client.kpis.mrr)}</p></CardHeader></Card>
-        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-400">Total Pago</CardTitle><p className="text-2xl font-bold">{formatCurrency(client.kpis.totalPaid)}</p></CardHeader></Card>
-        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-400">Faturas em Atraso</CardTitle><p className="text-2xl font-bold">{client.kpis.overdue}</p></CardHeader></Card>
-        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-400">Usuários Ativos</CardTitle><p className="text-2xl font-bold">{client.kpis.activeUsers} / {client.kpis.totalSeats}</p></CardHeader></Card>
-        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-400">Último Login</CardTitle><p className="text-2xl font-bold">{formatDate(client.kpis.lastLogin)}</p></CardHeader></Card>
-        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-400">Status de Risco</CardTitle><p className="text-2xl font-bold text-green-400">{client.kpis.riskStatus}</p></CardHeader></Card>
+        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-300">MRR</CardTitle><p className="text-2xl font-bold">{formatCurrency(client.kpis.mrr)}</p></CardHeader></Card>
+        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-300">Total Pago</CardTitle><p className="text-2xl font-bold">{formatCurrency(client.kpis.totalPaid)}</p></CardHeader></Card>
+        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-300">Faturas em Atraso</CardTitle><p className="text-2xl font-bold">{client.kpis.overdue}</p></CardHeader></Card>
+        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-300">Usuários Ativos</CardTitle><p className="text-2xl font-bold">{client.kpis.activeUsers} / {client.kpis.totalSeats}</p></CardHeader></Card>
+        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-300">Último Login</CardTitle><p className="text-2xl font-bold">{formatDate(client.kpis.lastLogin)}</p></CardHeader></Card>
+        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="p-4"><CardTitle className="text-sm font-medium text-gray-300">Status de Risco</CardTitle><p className="text-2xl font-bold text-green-400">{client.kpis.riskStatus}</p></CardHeader></Card>
       </div>
 
       {/* Navegação por Abas */}
@@ -196,11 +196,11 @@ const ClienteDetalhe = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <Card className="lg:col-span-2 bg-gray-800 border-gray-700 text-white">
               <CardHeader><CardTitle>Receita Gerada (Últimos 6 meses)</CardTitle></CardHeader>
-              <CardContent><ResponsiveContainer width="100%" height={300}><RechartsLineChart data={client.revenueData}><XAxis dataKey="name" stroke="#888888" /><YAxis stroke="#888888" /><Tooltip contentStyle={{ backgroundColor: '#333' }} /><Legend /><RechartsLine type="monotone" dataKey="receita" stroke="#8884d8" /></RechartsLineChart></ResponsiveContainer></CardContent>
+              <CardContent><ResponsiveContainer width="100%" height={300}><RechartsLineChart data={client.revenueData}><XAxis dataKey="name" stroke="#a1a1aa" /><YAxis stroke="#a1a1aa" /><Tooltip contentStyle={{ backgroundColor: '#333' }} /><Legend /><RechartsLine type="monotone" dataKey="receita" stroke="#8884d8" /></RechartsLineChart></ResponsiveContainer></CardContent>
             </Card>
             <Card className="bg-gray-800 border-gray-700 text-white">
               <CardHeader><CardTitle>Uso por Módulo</CardTitle></CardHeader>
-              <CardContent><ResponsiveContainer width="100%" height={300}><RechartsBarChart data={client.moduleUsageData} layout="vertical"><XAxis type="number" hide /><YAxis type="category" dataKey="name" stroke="#888888" width={80} /><Tooltip contentStyle={{ backgroundColor: '#333' }} /><Bar dataKey="uso" fill="#82ca9d" radius={[0, 4, 4, 0]} /></RechartsBarChart></ResponsiveContainer></CardContent>
+              <CardContent><ResponsiveContainer width="100%" height={300}><RechartsBarChart data={client.moduleUsageData} layout="vertical"><XAxis type="number" hide /><YAxis type="category" dataKey="name" stroke="#a1a1aa" width={80} /><Tooltip contentStyle={{ backgroundColor: '#333' }} /><Bar dataKey="uso" fill="#82ca9d" radius={[0, 4, 4, 0]} /></RechartsBarChart></ResponsiveContainer></CardContent>
             </Card>
           </div>
         </TabsContent>
@@ -270,7 +270,7 @@ const ClienteDetalhe = () => {
                             <li key={index} className="flex items-start">
                                 <div className="flex-shrink-0 w-10 text-right mr-4">
                                     <p className="text-sm font-medium text-white">{formatDate(event.date).split('/')[0]}/{formatDate(event.date).split('/')[1]}</p>
-                                    <p className="text-xs text-gray-400">{formatDate(event.date).split('/')[2]}</p>
+                                    <p className="text-xs text-gray-300">{formatDate(event.date).split('/')[2]}</p>
                                 </div>
                                 <div className="relative w-full">
                                     <div className="absolute top-1 left-[-22px] h-full w-px bg-gray-700"></div>
@@ -352,7 +352,7 @@ const ClienteDetalhe = () => {
         <AlertDialogContent className="bg-gray-900 text-white border-gray-700">
           <AlertDialogHeader>
             <AlertDialogTitle>Confirmar Suspensão</AlertDialogTitle>
-            <AlertDialogDescription className="text-gray-400">
+            <AlertDialogDescription className="text-gray-300">
               Tem certeza que deseja suspender a conta de {client.name}? Isso bloqueará o acesso de todos os usuários à plataforma.
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -368,7 +368,7 @@ const ClienteDetalhe = () => {
         <DialogContent className="bg-gray-900 text-white border-gray-700">
           <DialogHeader>
             <DialogTitle>Gerenciar Plano de {client.name}</DialogTitle>
-            <DialogDescription className="text-gray-400">Altere o plano principal e adicione ou remova funcionalidades extras.</DialogDescription>
+            <DialogDescription className="text-gray-300">Altere o plano principal e adicione ou remova funcionalidades extras.</DialogDescription>
           </DialogHeader>
           <div className="py-4 space-y-4">
             <div className="space-y-2">

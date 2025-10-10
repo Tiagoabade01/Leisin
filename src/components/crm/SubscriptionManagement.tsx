@@ -36,11 +36,11 @@ const SubscriptionManagement = () => {
     <div className="space-y-6">
       {/* KPIs */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-gray-400">MRR</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">{formatCurrency(totalMRR)}</div><p className="text-xs text-green-400">+2.1% vs. 30d</p></CardContent></Card>
-        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-gray-400">Novas Assinaturas (30d)</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">+12</div><p className="text-xs text-gray-400">R$ 8.5k Novo MRR</p></CardContent></Card>
-        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-gray-400">Churn (30d)</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">2.5%</div><p className="text-xs text-red-400">R$ 1.2k MRR perdido</p></CardContent></Card>
-        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-gray-400">Receita Recuperada</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">{formatCurrency(1250)}</div><p className="text-xs text-gray-400">via dunning em 30d</p></CardContent></Card>
-        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-gray-400">ARPA</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">{formatCurrency(1850.50)}</div><p className="text-xs text-gray-400">Ticket médio por conta</p></CardContent></Card>
+        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-gray-300">MRR</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">{formatCurrency(totalMRR)}</div><p className="text-xs text-green-400">+2.1% vs. 30d</p></CardContent></Card>
+        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-gray-300">Novas Assinaturas (30d)</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">+12</div><p className="text-xs text-gray-300">R$ 8.5k Novo MRR</p></CardContent></Card>
+        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-gray-300">Churn (30d)</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">2.5%</div><p className="text-xs text-red-400">R$ 1.2k MRR perdido</p></CardContent></Card>
+        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-gray-300">Receita Recuperada</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">{formatCurrency(1250)}</div><p className="text-xs text-gray-300">via dunning em 30d</p></CardContent></Card>
+        <Card className="bg-gray-800 border-gray-700 text-white"><CardHeader className="pb-2"><CardTitle className="text-sm font-medium text-gray-300">ARPA</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">{formatCurrency(1850.50)}</div><p className="text-xs text-gray-300">Ticket médio por conta</p></CardContent></Card>
       </div>
 
       {/* Filtros e Ações */}
@@ -67,13 +67,13 @@ const SubscriptionManagement = () => {
                 <TableRow key={sub.id} className="border-gray-700">
                   <TableCell>
                     <Link to={`/master/clientes/${sub.id}`} className="font-medium text-blue-400 hover:underline">{sub.customer.name}</Link>
-                    <div className="text-xs text-gray-400">{sub.customer.doc}</div>
+                    <div className="text-xs text-gray-300">{sub.customer.doc}</div>
                   </TableCell>
-                  <TableCell>{sub.plan} {sub.addons.length > 0 && <span className="text-xs text-gray-400">(+{sub.addons.length})</span>}</TableCell>
+                  <TableCell>{sub.plan} {sub.addons.length > 0 && <span className="text-xs text-gray-300">(+{sub.addons.length})</span>}</TableCell>
                   <TableCell>{sub.seats.used}/{sub.seats.max}</TableCell>
                   <TableCell>{getStatusBadge(sub.status)}</TableCell>
-                  <TableCell><div className="font-medium">{sub.cycle}</div><div className="text-xs text-gray-400">Próx: {formatDate(sub.nextBilling)}</div></TableCell>
-                  <TableCell><div className="font-medium">{formatCurrency(sub.lastPayment.value)}</div><div className="text-xs text-gray-400">{formatDate(sub.lastPayment.date)}</div></TableCell>
+                  <TableCell><div className="font-medium">{sub.cycle}</div><div className="text-xs text-gray-300">Próx: {formatDate(sub.nextBilling)}</div></TableCell>
+                  <TableCell><div className="font-medium">{formatCurrency(sub.lastPayment.value)}</div><div className="text-xs text-gray-300">{formatDate(sub.lastPayment.date)}</div></TableCell>
                   <TableCell>{formatCurrency(sub.mrr)}</TableCell>
                   <TableCell>{sub.riskScore}%</TableCell>
                   <TableCell className="text-right">

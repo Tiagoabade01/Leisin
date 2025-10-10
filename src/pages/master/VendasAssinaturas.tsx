@@ -142,7 +142,7 @@ const VendasAssinaturas = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold text-white mb-2">Vendas & Assinaturas</h1>
-      <p className="text-gray-400 mb-8">Controle completo do ciclo comercial do SaaS.</p>
+      <p className="text-gray-300 mb-8">Controle completo do ciclo comercial do SaaS.</p>
 
       <Tabs defaultValue="crm" className="w-full">
         <TabsList className="grid w-full grid-cols-3 bg-gray-800">
@@ -156,7 +156,7 @@ const VendasAssinaturas = () => {
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle>Pipeline de Vendas</CardTitle>
-                <CardDescription className="text-gray-400">Gerencie suas oportunidades de negócio.</CardDescription>
+                <CardDescription className="text-gray-300">Gerencie suas oportunidades de negócio.</CardDescription>
               </div>
               <div className="flex items-center gap-2">
                 <Button variant={viewMode === 'kanban' ? 'secondary' : 'ghost'} size="icon" onClick={() => setViewMode('kanban')}><LayoutGrid className="h-4 w-4" /></Button>
@@ -282,7 +282,7 @@ const VendasAssinaturas = () => {
         <AlertDialogContent className="bg-gray-900 text-white border-gray-700">
           <AlertDialogHeader>
             <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
-            <AlertDialogDescription className="text-gray-400">
+            <AlertDialogDescription className="text-gray-300">
               Esta ação não pode ser desfeita. Isso excluirá permanentemente a oportunidade do pipeline.
             </AlertDialogDescription>
           </AlertDialogHeader>

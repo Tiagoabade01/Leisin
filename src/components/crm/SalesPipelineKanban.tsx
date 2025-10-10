@@ -66,7 +66,7 @@ const OpportunityCard = ({ opportunity, onEdit, isOverlay }: { opportunity: Oppo
       <div className="flex justify-between items-start">
         <div>
           <p className="font-semibold text-sm text-white leading-tight">{opportunity.title}</p>
-          <p className="text-xs text-gray-400">{opportunity.client}</p>
+          <p className="text-xs text-gray-300">{opportunity.client}</p>
         </div>
         {!isOverlay && onEdit && (
           <DropdownMenu>
@@ -97,7 +97,7 @@ const OpportunityCard = ({ opportunity, onEdit, isOverlay }: { opportunity: Oppo
           </Badge>
         )}
         {opportunity.expectedCloseDate && (
-          <div className="flex items-center text-gray-400">
+          <div className="flex items-center text-gray-300">
             <Calendar className="w-3 h-3 mr-1" />
             {new Date(opportunity.expectedCloseDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}
           </div>
@@ -107,7 +107,7 @@ const OpportunityCard = ({ opportunity, onEdit, isOverlay }: { opportunity: Oppo
       {/* Footer with Responsible */}
       <div className="flex justify-end items-center pt-2 border-t border-gray-600/50">
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-400">{opportunity.responsible}</span>
+          <span className="text-xs text-gray-300">{opportunity.responsible}</span>
           <Avatar className="h-6 w-6">
             <AvatarFallback className="text-xs bg-gray-600 text-gray-300">{getInitials(opportunity.responsible)}</AvatarFallback>
           </Avatar>
@@ -135,7 +135,7 @@ const StageColumn = ({ stage, opportunities, onEditOpportunity, onEditStage, onA
       <div className="p-4 bg-gray-900/50 rounded-lg h-full flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <div>
-            <h3 className="font-semibold text-gray-300">{stage.title}</h3>
+            <h3 className="font-semibold text-gray-200">{stage.title}</h3>
             <p className="text-sm text-green-400 font-mono">{formatCurrency(totalValue)}</p>
           </div>
           <DropdownMenu>
@@ -151,7 +151,7 @@ const StageColumn = ({ stage, opportunities, onEditOpportunity, onEditStage, onA
             {opportunities.map(op => <OpportunityCard key={op.id} opportunity={op} onEdit={onEditOpportunity} />)}
           </div>
         </SortableContext>
-        <Button onClick={() => onAddOpportunity(stage.id)} variant="ghost" className="w-full mt-3 text-gray-400 hover:text-white"><PlusCircle className="w-4 h-4 mr-2" /> Adicionar Oportunidade</Button>
+        <Button onClick={() => onAddOpportunity(stage.id)} variant="ghost" className="w-full mt-3 text-gray-300 hover:text-white"><PlusCircle className="w-4 h-4 mr-2" /> Adicionar Oportunidade</Button>
       </div>
     </div>
   );

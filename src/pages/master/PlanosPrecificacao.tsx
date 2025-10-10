@@ -113,7 +113,7 @@ const PlanosPrecificacao = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold text-white mb-2">Planos & Precificação</h1>
-      <p className="text-gray-400 mb-8">Controle estratégico de produtos e modelos comerciais.</p>
+      <p className="text-gray-300 mb-8">Controle estratégico de produtos e modelos comerciais.</p>
 
       <div className="flex items-center gap-2 mb-6">
         <Button onClick={() => handleOpenModal()}><PlusCircle className="h-4 w-4 mr-2" /> Criar Plano</Button>
@@ -166,13 +166,13 @@ const PlanosPrecificacao = () => {
             <Card className="bg-gray-800 border-gray-700 text-white">
               <CardHeader><CardTitle>Add-ons Contratáveis</CardTitle></CardHeader>
               <CardContent>
-                <ul className="space-y-3">{addons.map(a => <li key={a.name}><strong>{a.name}:</strong> <span className="text-gray-400">{a.description}</span></li>)}</ul>
+                <ul className="space-y-3">{addons.map(a => <li key={a.name}><strong>{a.name}:</strong> <span className="text-gray-300">{a.description}</span></li>)}</ul>
               </CardContent>
             </Card>
             <Card className="bg-gray-800 border-gray-700 text-white">
               <CardHeader><CardTitle>Bundles Prontos</CardTitle></CardHeader>
               <CardContent>
-                <ul className="space-y-3">{bundles.map(b => <li key={b.name}><strong>{b.name}:</strong> <span className="text-gray-400">{b.description}</span></li>)}</ul>
+                <ul className="space-y-3">{bundles.map(b => <li key={b.name}><strong>{b.name}:</strong> <span className="text-gray-300">{b.description}</span></li>)}</ul>
               </CardContent>
             </Card>
           </div>
