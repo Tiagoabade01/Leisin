@@ -26,7 +26,7 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   {
-    title: "🏠 Dashboard",
+    title: "Dashboard",
     icon: Home,
     subItems: [
       { to: "/", label: "Visão Executiva", icon: BarChart2 },
@@ -37,7 +37,7 @@ const navItems = [
     ]
   },
   {
-    title: "⚖️ Jurídico Operacional",
+    title: "Jurídico Operacional",
     icon: Briefcase,
     subItems: [
       { to: "/juridico/casos-processos", label: "Casos e Processos", icon: FolderKanban },
@@ -48,7 +48,7 @@ const navItems = [
     ]
   },
   {
-    title: "🧩 Compliance / Risco",
+    title: "Compliance / Risco",
     icon: Shield,
     subItems: [
       { to: "/compliance/due-diligence-corporativa", label: "Due Diligence Corporativa", icon: SearchCheck },
@@ -59,7 +59,7 @@ const navItems = [
     ]
   },
   {
-    title: "🏗️ Imobiliário Integrado",
+    title: "Imobiliário Integrado",
     icon: Building,
     subItems: [
       { to: "/imobiliario/cadastro-imoveis", label: "Cadastro de Imóveis", icon: Building },
@@ -70,7 +70,7 @@ const navItems = [
     ]
   },
   {
-    title: "💰 Financeiro",
+    title: "Financeiro",
     icon: DollarSign,
     subItems: [
       { to: "/financeiro/contas-pagar", label: "Contas a Pagar", icon: ArrowLeftRight },
@@ -81,7 +81,7 @@ const navItems = [
     ]
   },
   {
-    title: "📊 Contábil",
+    title: "Contábil",
     icon: Calculator,
     subItems: [
       { to: "/contabil/centro-custos", label: "Centro de Custos", icon: Landmark },
@@ -92,7 +92,7 @@ const navItems = [
     ]
   },
   {
-    title: "💬 Comunicação",
+    title: "Comunicação",
     icon: MessageSquare,
     subItems: [
       { to: "/comunicacao/inbox-unificada", label: "Inbox Unificada", icon: Inbox },
@@ -103,7 +103,7 @@ const navItems = [
     ]
   },
   {
-    title: "🤝 CRM Jurídico",
+    title: "CRM Jurídico",
     icon: Handshake,
     subItems: [
       { to: "/crm/pipeline-oportunidades", label: "Pipeline de Oportunidades", icon: Filter },
@@ -114,7 +114,7 @@ const navItems = [
     ]
   },
   {
-    title: "🧠 IA e Automação",
+    title: "IA e Automação",
     icon: BrainCircuit,
     subItems: [
       { to: "/ia/central", label: "IA Central (Jurídica)", icon: BrainCircuit },
@@ -125,7 +125,7 @@ const navItems = [
     ]
   },
   {
-    title: "🏢 Filiais",
+    title: "Filiais",
     icon: Building2,
     subItems: [
       { to: "/filiais/cadastro-dados-gerais", label: "Cadastro e Dados Gerais", icon: Building2 },
@@ -136,7 +136,7 @@ const navItems = [
     ]
   },
   {
-    title: "⚙️ Área Master",
+    title: "Área Master",
     icon: Settings,
     subItems: [
       { to: "/master/painel", label: "Painel Master", icon: Settings },
@@ -147,7 +147,7 @@ const navItems = [
     ]
   },
   {
-    title: "🛠️ Gestão / Core",
+    title: "Gestão / Core",
     icon: Wrench,
     subItems: [
       { to: "/gestao/usuarios-permissoes", label: "Usuários e Permissões", icon: Users },
@@ -158,7 +158,7 @@ const navItems = [
     ]
   },
   {
-    title: "📚 Biblioteca Jurídica",
+    title: "Biblioteca Jurídica",
     icon: Book,
     subItems: [
       { to: "/biblioteca/leis-decretos", label: "Leis e Decretos", icon: Scale },
@@ -169,7 +169,7 @@ const navItems = [
     ]
   },
   {
-    title: "🛡️ Governança & LGPD",
+    title: "Governança & LGPD",
     icon: Lock,
     subItems: [
       { to: "/governanca/politicas-termos", label: "Políticas e Termos", icon: FileLock },
@@ -187,7 +187,7 @@ const Sidebar = () => {
 
   const findOpenSection = () => {
     if (location.pathname === "/") {
-      return "🏠 Dashboard";
+      return "Dashboard";
     }
     return navItems.find(section => 
       section.subItems.some(item => location.pathname.startsWith(item.to) && item.to !== "/")
