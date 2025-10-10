@@ -92,7 +92,7 @@ const Sidebar = () => {
         <h1 className={cn("text-xl font-bold text-white whitespace-nowrap", isCollapsed && "sr-only")}>T3 Diligence</h1>
         {isCollapsed && <ShieldCheck className="w-8 h-8 text-white" />}
       </div>
-      <nav className="flex-1 p-2 space-y-2 overflow-y-auto">
+      <nav className="flex-1 p-2 space-y-2 overflow-y-auto no-scrollbar">
         {navSections.map((section) => (
           <div key={section.title}>
             {!isCollapsed && (
