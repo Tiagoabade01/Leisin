@@ -150,7 +150,7 @@ const navItems = [
     title: "Área Master",
     icon: Settings,
     subItems: [
-      { to: "/master/painel", label: "Painel Master", icon: Settings },
+      { to: "/master/visao-geral", label: "Painel Master", icon: Settings },
       { to: "/master/marketplace", label: "Marketplace de Extensões", icon: Store },
       { to: "/master/portais-externos", label: "Portais Externos", icon: ExternalLink },
       { to: "/master/planos-licencas", label: "Planos e Licenças", icon: Ticket },
