@@ -3,11 +3,72 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Check, Minus } from "lucide-react";
 
 const plans = [
-  { name: 'Free', price: '0', description: 'Para testar funcionalidades essenciais e organizar seus primeiros casos.', features: ['1 Usuário', 'Até 3 Casos', 'Gestão de Documentos Básica'], cta: 'Comece de Graça' },
-  { name: 'Starter', price: '149', description: 'Para profissionais solo e escritórios pequenos.', features: ['Jurídico Operacional', 'Gestão de Documentos'], cta: 'Começar Agora' },
-  { name: 'Pro', price: '690', description: 'Para times que precisam de mais colaboração e IA.', features: ['Tudo do Starter', 'Due Diligence / Certidões', 'Contratos & Assinaturas', 'CRM Jurídico', 'Nível de IA Padrão'], cta: 'Escolher Pro' },
-  { name: 'Business', price: '2.490', description: 'Para escritórios com automações e risco avançado.', features: ['Tudo do Pro', 'Risk Mapper', 'Terrenos / Dossiês', 'Financeiro Interno', 'Nível de IA Avançada'], cta: 'Escolher Business' },
-  { name: 'Enterprise', price: 'Sob Consulta', description: 'Para grandes grupos com necessidades complexas.', features: ['Tudo do Business', 'Filiais & RBAC Avançado', 'Integrações & SSO', 'Gerente de Conta Dedicado', 'SLA Customizado'], cta: 'Fale Conosco' },
+  { 
+    name: 'Free', 
+    price: '0', 
+    description: 'Para testar funcionalidades essenciais e organizar seus primeiros casos.', 
+    features: [
+      '1 Usuário', 
+      'Até 3 Casos Ativos', 
+      'Gestão de Documentos Básica',
+      'Tarefas Simples'
+    ], 
+    cta: 'Comece de Graça' 
+  },
+  { 
+    name: 'Starter', 
+    price: '149', 
+    description: 'Para profissionais solo e escritórios pequenos.', 
+    features: [
+      'Tudo do Free, e mais:',
+      'Gestão de Casos e Processos',
+      'Controle de Documentos',
+      'Tarefas e Prazos Básicos',
+      'Biblioteca Jurídica'
+    ], 
+    cta: 'Começar Agora' 
+  },
+  { 
+    name: 'Pro', 
+    price: '690', 
+    description: 'Para times que precisam de mais colaboração e IA.', 
+    features: [
+      'Tudo do Starter, e mais:',
+      'Contratos e Assinaturas', 
+      'Due Diligence & Certidões', 
+      'CRM Jurídico', 
+      'Comunicação Unificada',
+      'Nível de IA Padrão'
+    ], 
+    cta: 'Escolher Pro' 
+  },
+  { 
+    name: 'Business', 
+    price: '2.490', 
+    description: 'Para escritórios com automações e risco avançado.', 
+    features: [
+      'Tudo do Pro, e mais:',
+      'Risk Mapper Avançado', 
+      'Módulo Imobiliário Integrado',
+      'Módulo Financeiro Completo', 
+      'Governança & LGPD',
+      'Nível de IA Avançada'
+    ], 
+    cta: 'Escolher Business' 
+  },
+  { 
+    name: 'Enterprise', 
+    price: 'Sob Consulta', 
+    description: 'Para grandes grupos com necessidades complexas.', 
+    features: [
+      'Tudo do Business, e mais:',
+      'Gestão de Filiais', 
+      'Integrações & SSO', 
+      'Módulo Contábil',
+      'Suporte com Gerente Dedicado'
+    ], 
+    cta: 'Fale Conosco' 
+  },
 ];
 
 const comparisonFeatures = [
@@ -46,7 +107,10 @@ export const PricingSection = () => {
                 </div>
                 <ul className="space-y-2 text-sm">
                   {plan.features.map(feature => (
-                    <li key={feature} className="flex items-center"><Check className="w-4 h-4 text-primary mr-2" />{feature}</li>
+                    <li key={feature} className="flex items-start">
+                      <Check className="w-4 h-4 text-primary mr-2 mt-1 flex-shrink-0" />
+                      <span>{feature}</span>
+                    </li>
                   ))}
                 </ul>
               </CardContent>
