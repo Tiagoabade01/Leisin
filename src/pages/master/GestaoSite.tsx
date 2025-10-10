@@ -45,7 +45,9 @@ const GestaoSite = () => {
                 <CardTitle>Seção Principal (Hero)</CardTitle>
                 <CardDescription className="text-gray-400">O primeiro impacto do seu visitante.</CardDescription>
               </div>
-              <Button variant="outline" size="sm" className="bg-gray-700 border-gray-600"><Eye className="h-4 w-4 mr-2" /> Ver no Site</Button>
+              <a href="/" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="sm" className="bg-gray-700 border-gray-600"><Eye className="h-4 w-4 mr-2" /> Ver no Site</Button>
+              </a>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
