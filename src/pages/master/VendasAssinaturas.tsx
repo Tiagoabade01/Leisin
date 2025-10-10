@@ -11,6 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { PlusCircle, List, LayoutGrid } from "lucide-react";
 import { SalesPipelineKanban, Opportunity, Stage } from '@/components/crm/SalesPipelineKanban';
 import { SalesPipelineList } from '@/components/crm/SalesPipelineList';
+import SubscriptionManagement from '@/components/crm/SubscriptionManagement';
+import SaaSMetricsDashboard from '@/components/crm/SaaSMetricsDashboard';
 import { DragEndEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 
@@ -25,7 +27,7 @@ const initialStagesData: Stage[] = [
 const responsibles = ['Ana Silva', 'Bruno Costa', 'Carlos Dias', 'Daniela Souza'];
 
 const initialOpportunitiesData: Opportunity[] = [
-  { id: 'op1', title: 'Projeto Website', client: 'Imobiliária Futuro', value: 12000, stageId: 'lead', responsible: 'Ana Silva', notes: 'Cliente pediu urgência.' },
+  { id: 'op1', title: 'Projeto Website', client: 'Imobiliária Futuro', value: 12000, stageId: 'lead', responsible: 'Ana Silva', notes: 'Cliente pediu urgência.', expectedCloseDate: '2024-08-30', probability: 75, contactEmail: 'contato@ifuturo.com', nextStep: 'Enviar proposta detalhada' },
   { id: 'op2', title: 'Consultoria LGPD', client: 'Advocacia Pontes', value: 8500, stageId: 'lead', responsible: 'Bruno Costa' },
   { id: 'op3', title: 'Sistema de Gestão', client: 'Construtora Alfa', value: 25000, stageId: 'proposta', responsible: 'Ana Silva' },
   { id: 'op4', title: 'Plano White Label', client: 'Grupo Investidor Sul', value: 50000, stageId: 'negociacao', responsible: 'Carlos Dias' },
@@ -99,6 +101,10 @@ const VendasAssinaturas = () => {
       stageId: formData.get('stageId') as string,
       responsible: formData.get('responsible') as string,
       notes: formData.get('notes') as string,
+      expectedCloseDate: formData.get('expectedCloseDate') as string,
+      probability: parseFloat(formData.get('probability') as string),
+      contactEmail: formData.get('contactEmail') as string,
+      nextStep: formData.get('nextStep') as string,
     };
 
     if (editingOpportunity?.id) { // Edit
@@ -179,47 +185,69 @@ const VendasAssinaturas = () => {
             </CardContent>
           </Card>
         </TabsContent>
+        <TabsContent value="assinaturas" className="mt-6">
+          <SubscriptionManagement />
+        </TabsContent>
+        <TabsContent value="metricas" className="mt-6">
+          <SaaSMetricsDashboard />
+        </TabsContent>
       </Tabs>
 
       {/* Modal de Criação/Edição de Oportunidade */}
       <Dialog open={isOppModalOpen} onOpenChange={setIsOppModalOpen}>
-        <DialogContent className="bg-gray-900 text-white border-gray-700">
+        <DialogContent className="bg-gray-900 text-white border-gray-700 max-w-2xl">
           <DialogHeader><DialogTitle>{editingOpportunity?.id ? 'Editar' : 'Criar Nova'} Oportunidade</DialogTitle></DialogHeader>
           <form onSubmit={handleSaveOpportunity}>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="title" className="text-right">Título</Label>
-                <Input id="title" name="title" defaultValue={editingOpportunity?.title} className="col-span-3 bg-gray-800 border-gray-600" required />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="title">Título</Label>
+                <Input id="title" name="title" defaultValue={editingOpportunity?.title} className="bg-gray-800 border-gray-600" required />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="client" className="text-right">Cliente</Label>
-                <Input id="client" name="client" defaultValue={editingOpportunity?.client} className="col-span-3 bg-gray-800 border-gray-600" required />
+              <div className="space-y-2">
+                <Label htmlFor="client">Cliente</Label>
+                <Input id="client" name="client" defaultValue={editingOpportunity?.client} className="bg-gray-800 border-gray-600" required />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="value" className="text-right">Valor (R$)</Label>
-                <Input id="value" name="value" type="number" defaultValue={editingOpportunity?.value} className="col-span-3 bg-gray-800 border-gray-600" required />
+              <div className="space-y-2">
+                <Label htmlFor="value">Valor (R$)</Label>
+                <Input id="value" name="value" type="number" defaultValue={editingOpportunity?.value} className="bg-gray-800 border-gray-600" required />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="stageId" className="text-right">Etapa</Label>
+              <div className="space-y-2">
+                <Label htmlFor="contactEmail">E-mail de Contato</Label>
+                <Input id="contactEmail" name="contactEmail" type="email" defaultValue={editingOpportunity?.contactEmail} className="bg-gray-800 border-gray-600" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="stageId">Etapa</Label>
                 <Select name="stageId" defaultValue={editingOpportunity?.stageId}>
-                  <SelectTrigger className="col-span-3 bg-gray-800 border-gray-600"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="bg-gray-800 border-gray-600"><SelectValue /></SelectTrigger>
                   <SelectContent className="bg-gray-800 text-white border-gray-700">
                     {stages.map(stage => <SelectItem key={stage.id} value={stage.id}>{stage.title}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="responsible" className="text-right">Responsável</Label>
+              <div className="space-y-2">
+                <Label htmlFor="responsible">Responsável</Label>
                 <Select name="responsible" defaultValue={editingOpportunity?.responsible}>
-                  <SelectTrigger className="col-span-3 bg-gray-800 border-gray-600"><SelectValue /></SelectTrigger>
+                  <SelectTrigger className="bg-gray-800 border-gray-600"><SelectValue /></SelectTrigger>
                   <SelectContent className="bg-gray-800 text-white border-gray-700">
                     {responsibles.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid grid-cols-4 items-start gap-4">
-                <Label htmlFor="notes" className="text-right pt-2">Observações</Label>
-                <Textarea id="notes" name="notes" defaultValue={editingOpportunity?.notes} className="col-span-3 bg-gray-800 border-gray-600" />
+              <div className="space-y-2">
+                <Label htmlFor="expectedCloseDate">Data Prev. Fechamento</Label>
+                <Input id="expectedCloseDate" name="expectedCloseDate" type="date" defaultValue={editingOpportunity?.expectedCloseDate} className="bg-gray-800 border-gray-600" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="probability">Probabilidade (%)</Label>
+                <Input id="probability" name="probability" type="number" min="0" max="100" defaultValue={editingOpportunity?.probability} className="bg-gray-800 border-gray-600" />
+              </div>
+              <div className="space-y-2 md:col-span-2">
+                <Label htmlFor="nextStep">Próximo Passo</Label>
+                <Input id="nextStep" name="nextStep" defaultValue={editingOpportunity?.nextStep} className="bg-gray-800 border-gray-600" />
+              </div>
+              <div className="space-y-2 md:col-span-2">
+                <Label htmlFor="notes">Observações</Label>
+                <Textarea id="notes" name="notes" defaultValue={editingOpportunity?.notes} className="bg-gray-800 border-gray-600" />
               </div>
             </div>
             <DialogFooter>

@@ -20,6 +20,10 @@ export interface Opportunity {
   stageId: string;
   responsible: string;
   notes?: string;
+  expectedCloseDate?: string;
+  probability?: number;
+  contactEmail?: string;
+  nextStep?: string;
 }
 
 export interface Stage {
