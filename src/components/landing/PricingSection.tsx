@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Check, Minus } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const plans = [
   { 
@@ -13,7 +15,8 @@ const plans = [
       'Gestão de Documentos Básica',
       'Tarefas Simples'
     ], 
-    cta: 'Comece de Graça' 
+    cta: 'Comece de Graça',
+    popular: false
   },
   { 
     name: 'Starter', 
@@ -26,7 +29,8 @@ const plans = [
       'Tarefas e Prazos Básicos',
       'Biblioteca Jurídica'
     ], 
-    cta: 'Começar Agora' 
+    cta: 'Iniciar teste de 14 dias',
+    popular: false
   },
   { 
     name: 'Pro', 
@@ -40,7 +44,8 @@ const plans = [
       'Comunicação Unificada',
       'Nível de IA Padrão'
     ], 
-    cta: 'Escolher Pro' 
+    cta: 'Iniciar teste de 14 dias',
+    popular: true
   },
   { 
     name: 'Business', 
@@ -54,7 +59,8 @@ const plans = [
       'Governança & LGPD',
       'Nível de IA Avançada'
     ], 
-    cta: 'Escolher Business' 
+    cta: 'Iniciar teste de 14 dias',
+    popular: false
   },
   { 
     name: 'Enterprise', 
@@ -67,7 +73,8 @@ const plans = [
       'Módulo Contábil',
       'Suporte com Gerente Dedicado'
     ], 
-    cta: 'Fale Conosco' 
+    cta: 'Fale Conosco',
+    popular: false
   },
 ];
 
@@ -90,14 +97,18 @@ export const PricingSection = () => {
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold">Planos transparentes para cada fase do seu negócio</h2>
           <p className="text-lg text-muted-foreground mt-2">Escolha o plano que se adapta perfeitamente à sua necessidade.</p>
+          <p className="text-sm text-primary font-semibold mt-4">Todos os planos pagos incluem um teste gratuito de 14 dias com acesso a todas as funcionalidades. Sem necessidade de cartão de crédito.</p>
         </div>
         
         {/* Cards de Planos */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-16 items-stretch">
           {plans.map(plan => (
-            <Card key={plan.name} className="flex flex-col shadow-lg border-2 border-transparent hover:border-primary transition-all">
+            <Card key={plan.name} className={cn("flex flex-col shadow-lg border-2 transition-all", plan.popular ? "border-primary" : "border-transparent")}>
               <CardHeader>
-                <CardTitle>{plan.name}</CardTitle>
+                <div className="flex justify-between items-center">
+                  <CardTitle>{plan.name}</CardTitle>
+                  {plan.popular && <Badge>Mais Popular</Badge>}
+                </div>
                 <CardDescription>{plan.description}</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
@@ -115,7 +126,7 @@ export const PricingSection = () => {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button className="w-full">{plan.cta}</Button>
+                <Button className="w-full" variant={plan.popular ? 'default' : 'outline'}>{plan.cta}</Button>
               </CardFooter>
             </Card>
           ))}
