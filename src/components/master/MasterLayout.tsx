@@ -16,7 +16,6 @@ const navItems = [
   { to: "/master/planos-precificacao", label: "Planos & Precificação", icon: Tag },
   { to: "/master/relatorios-metricas", label: "Relatórios & Métricas", icon: BarChart3 },
   { to: "/master/gestao-site", label: "Gestão do Site", icon: LayoutTemplate },
-  { to: "/master/crm-interno", label: "CRM Interno", icon: Handshake },
   { to: "/master/equipes-usuarios", label: "Equipes & Usuários Internos", icon: Users2 },
   { to: "/master/integracoes-api", label: "Integrações & API", icon: PlugZap },
 ];
