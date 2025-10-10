@@ -21,6 +21,13 @@ import TarefasTimesheets from "./pages/juridico/TarefasTimesheets";
 import DocumentosRelatorios from "./pages/juridico/DocumentosRelatorios";
 import ClientesJuridicos from "./pages/juridico/ClientesJuridicos";
 
+// Tarefas
+import MinhaCaixa from "./pages/tarefas/MinhaCaixa";
+import QuadrosKanban from "./pages/tarefas/QuadrosKanban";
+import PrazosProcessuais from "./pages/tarefas/PrazosProcessuais";
+import AgendaCalendario from "./pages/tarefas/AgendaCalendario";
+import SLAsAutomacao from "./pages/tarefas/SLAsAutomacao";
+
 // Compliance / Risco
 import DueDiligenceCorporativa from "./pages/compliance/DueDiligenceCorporativa";
 import AnalisesRisco from "./pages/compliance/AnalisesRisco";
@@ -130,6 +137,13 @@ const App = () => (
           <Route path="/juridico/tarefas-timesheets" element={<TarefasTimesheets />} />
           <Route path="/juridico/documentos-relatorios" element={<DocumentosRelatorios />} />
           <Route path="/juridico/clientes-juridicos" element={<ClientesJuridicos />} />
+
+          {/* Tarefas */}
+          <Route path="/tarefas/minha-caixa" element={<MinhaCaixa />} />
+          <Route path="/tarefas/quadros-kanban" element={<QuadrosKanban />} />
+          <Route path="/tarefas/prazos-processuais" element={<PrazosProcessuais />} />
+          <Route path="/tarefas/agenda-calendario" element={<AgendaCalendario />} />
+          <Route path="/tarefas/slas-automacao" element={<SLAsAutomacao />} />
 
           {/* Compliance / Risco */}
           <Route path="/compliance/due-diligence-corporativa" element={<DueDiligenceCorporativa />} />

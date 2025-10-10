@@ -15,7 +15,7 @@ import {
   Wrench, Palette, Cog, ShieldCheck, Receipt,
   Book, Scale, Files, Search, HistoryIcon,
   Lock, DatabaseZap, ShieldAlert, FileLock, Siren,
-  ChevronDown, ChevronsLeft, ChevronsRight
+  ChevronDown, ChevronsLeft, ChevronsRight, ListChecks, KanbanSquare, Calendar, Zap
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -45,6 +45,17 @@ const navItems = [
       { to: "/juridico/tarefas-timesheets", label: "Tarefas e Timesheets", icon: ListTodo },
       { to: "/juridico/documentos-relatorios", label: "Documentos e Relatórios", icon: FileText },
       { to: "/juridico/clientes-juridicos", label: "Clientes Jurídicos", icon: Users },
+    ]
+  },
+  {
+    title: "Tarefas",
+    icon: ListChecks,
+    subItems: [
+      { to: "/tarefas/minha-caixa", label: "Minha Caixa", icon: Inbox },
+      { to: "/tarefas/quadros-kanban", label: "Quadros (Kanban)", icon: KanbanSquare },
+      { to: "/tarefas/prazos-processuais", label: "Prazos Processuais", icon: Scale },
+      { to: "/tarefas/agenda-calendario", label: "Agenda & Calendário", icon: Calendar },
+      { to: "/tarefas/slas-automacao", label: "SLAs & Automação", icon: Zap },
     ]
   },
   {
