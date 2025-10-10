@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign, TrendingUp, AlertTriangle, FileWarning, BarChart, Percent } from "lucide-react";
-import { Bar, BarChart, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend, Cell } from "recharts";
+import { Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend, Cell } from "recharts";
 
 const kpiData = [
   { title: "Receita Mensal (MRR)", value: "R$ 188.420", icon: DollarSign },
-  { title: "Receita Anual (ARR)", value: "R$ 2.210.000", icon: TrendingUp },
+  { title: "Receita Anual Recorrente (ARR)", value: "R$ 2.210.000", icon: TrendingUp },
   { title: "Inadimplência", value: "3,7%", icon: Percent },
   { title: "Faturas Abertas", value: "41", icon: FileWarning },
   { title: "Pagamentos Pendentes", value: "R$ 28.540", icon: AlertTriangle },
