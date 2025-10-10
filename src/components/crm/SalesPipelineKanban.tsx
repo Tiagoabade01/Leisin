@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { MoreVertical, PlusCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -17,6 +18,8 @@ export interface Opportunity {
   client: string;
   value: number;
   stageId: string;
+  responsible: string;
+  notes?: string;
 }
 
 export interface Stage {
@@ -26,6 +29,10 @@ export interface Stage {
 
 const formatCurrency = (value: number) => {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+};
+
+const getInitials = (name: string = '') => {
+  return name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
 };
 
 // Componente do Cartão (Oportunidade)
@@ -58,7 +65,12 @@ const OpportunityCard = ({ opportunity, onEdit, isOverlay }: { opportunity: Oppo
           </DropdownMenu>
         )}
       </div>
-      <p className="text-sm font-bold mt-2 text-green-400">{formatCurrency(opportunity.value)}</p>
+      <div className="flex justify-between items-end mt-2">
+        <p className="text-sm font-bold text-green-400">{formatCurrency(opportunity.value)}</p>
+        <Avatar className="h-6 w-6">
+          <AvatarFallback className="text-xs bg-gray-600 text-gray-300">{getInitials(opportunity.responsible)}</AvatarFallback>
+        </Avatar>
+      </div>
     </div>
   );
 
@@ -72,7 +84,7 @@ const OpportunityCard = ({ opportunity, onEdit, isOverlay }: { opportunity: Oppo
 };
 
 // Componente da Coluna (Etapa)
-const StageColumn = ({ stage, opportunities, onEditOpportunity, onEditStage }: { stage: Stage, opportunities: Opportunity[], onEditOpportunity: (opp: Opportunity) => void, onEditStage: (stage: Stage) => void }) => {
+const StageColumn = ({ stage, opportunities, onEditOpportunity, onEditStage, onAddOpportunity }: { stage: Stage, opportunities: Opportunity[], onEditOpportunity: (opp: Opportunity) => void, onEditStage: (stage: Stage) => void, onAddOpportunity: (stageId: string) => void }) => {
   const { setNodeRef } = useSortable({ id: stage.id, data: { type: 'Stage', stage } });
   const totalValue = opportunities.reduce((sum, op) => sum + op.value, 0);
 
@@ -97,14 +109,14 @@ const StageColumn = ({ stage, opportunities, onEditOpportunity, onEditStage }: {
             {opportunities.map(op => <OpportunityCard key={op.id} opportunity={op} onEdit={onEditOpportunity} />)}
           </div>
         </SortableContext>
-        <Button variant="ghost" className="w-full mt-3 text-gray-400 hover:text-white"><PlusCircle className="w-4 h-4 mr-2" /> Adicionar Oportunidade</Button>
+        <Button onClick={() => onAddOpportunity(stage.id)} variant="ghost" className="w-full mt-3 text-gray-400 hover:text-white"><PlusCircle className="w-4 h-4 mr-2" /> Adicionar Oportunidade</Button>
       </div>
     </div>
   );
 };
 
 // Componente Principal do Kanban
-export const SalesPipelineKanban = ({ stages, opportunities, onDragEnd, onEditOpportunity, onAddStage, onEditStage }: { stages: Stage[], opportunities: Opportunity[], onDragEnd: (event: DragEndEvent) => void, onEditOpportunity: (opp: Opportunity) => void, onAddStage: (title: string) => void, onEditStage: (stage: Stage) => void }) => {
+export const SalesPipelineKanban = ({ stages, opportunities, onDragEnd, onEditOpportunity, onAddStage, onEditStage, onAddOpportunity }: { stages: Stage[], opportunities: Opportunity[], onDragEnd: (event: DragEndEvent) => void, onEditOpportunity: (opp: Opportunity) => void, onAddStage: (title: string) => void, onEditStage: (stage: Stage) => void, onAddOpportunity: (stageId: string) => void }) => {
   const [activeOpportunity, setActiveOpportunity] = useState<Opportunity | null>(null);
   const [newStageName, setNewStageName] = useState('');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -174,6 +186,7 @@ export const SalesPipelineKanban = ({ stages, opportunities, onDragEnd, onEditOp
                 opportunities={opportunities.filter(op => op.stageId === stage.id)}
                 onEditOpportunity={onEditOpportunity}
                 onEditStage={onEditStage}
+                onAddOpportunity={onAddOpportunity}
               />
             ))}
           </SortableContext>
