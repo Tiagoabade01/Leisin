@@ -1,41 +1,97 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoreVertical, PlusCircle, CreditCard, Users, TrendingDown, Repeat, Target, List, LayoutGrid } from "lucide-react";
-import { ResponsiveContainer, LineChart, XAxis, YAxis, Tooltip, Legend, Line } from "recharts";
-import { SalesPipelineKanban } from '@/components/crm/SalesPipelineKanban';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { PlusCircle, List, LayoutGrid } from "lucide-react";
+import { SalesPipelineKanban, Opportunity, Stage } from '@/components/crm/SalesPipelineKanban';
 import { SalesPipelineList } from '@/components/crm/SalesPipelineList';
+import { DragEndEvent } from '@dnd-kit/core';
+import { arrayMove } from '@dnd-kit/sortable';
 
 // Dados Iniciais
-const initialStages = [
-  { id: 'lead', title: 'Lead', opportunities: [
-    { id: 'op1', title: 'Projeto Website', client: 'Imobiliária Futuro', value: 12000 },
-    { id: 'op2', title: 'Consultoria LGPD', client: 'Advocacia Pontes', value: 8500 }
-  ]},
-  { id: 'proposta', title: 'Proposta Enviada', opportunities: [
-    { id: 'op3', title: 'Sistema de Gestão', client: 'Construtora Alfa', value: 25000 }
-  ]},
-  { id: 'negociacao', title: 'Em Negociação', opportunities: [
-    { id: 'op4', title: 'Plano White Label', client: 'Grupo Investidor Sul', value: 50000 },
-    { id: 'op5', title: 'Módulo Financeiro', client: 'Escritório Central', value: 18000 }
-  ]},
-  { id: 'fechado', title: 'Fechado / Ganho', opportunities: [
-    { id: 'op6', title: 'Contrato Enterprise', client: 'Incorporadora T3', value: 80000 }
-  ]}
+const initialStagesData: Stage[] = [
+  { id: 'lead', title: 'Lead' },
+  { id: 'proposta', title: 'Proposta Enviada' },
+  { id: 'negociacao', title: 'Em Negociação' },
+  { id: 'fechado', title: 'Fechado / Ganho' }
 ];
 
-const mrrData = [
-  { name: 'Jan', MRR: 32000 }, { name: 'Fev', MRR: 35000 }, { name: 'Mar', MRR: 41000 },
-  { name: 'Abr', MRR: 43000 }, { name: 'Mai', MRR: 48000 }, { name: 'Jun', MRR: 45231 },
+const initialOpportunitiesData: Opportunity[] = [
+  { id: 'op1', title: 'Projeto Website', client: 'Imobiliária Futuro', value: 12000, stageId: 'lead' },
+  { id: 'op2', title: 'Consultoria LGPD', client: 'Advocacia Pontes', value: 8500, stageId: 'lead' },
+  { id: 'op3', title: 'Sistema de Gestão', client: 'Construtora Alfa', value: 25000, stageId: 'proposta' },
+  { id: 'op4', title: 'Plano White Label', client: 'Grupo Investidor Sul', value: 50000, stageId: 'negociacao' },
+  { id: 'op5', title: 'Módulo Financeiro', client: 'Escritório Central', value: 18000, stageId: 'negociacao' },
+  { id: 'op6', title: 'Contrato Enterprise', client: 'Incorporadora T3', value: 80000, stageId: 'fechado' }
 ];
 
 const VendasAssinaturas = () => {
   const [viewMode, setViewMode] = useState<'kanban' | 'list'>('kanban');
-  const [stages, setStages] = useState(initialStages);
+  const [stages, setStages] = useState<Stage[]>(initialStagesData);
+  const [opportunities, setOpportunities] = useState<Opportunity[]>(initialOpportunitiesData);
+  const [editingOpportunity, setEditingOpportunity] = useState<Opportunity | null>(null);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over) return;
+
+    const activeId = active.id as string;
+    const overId = over.id as string;
+
+    setOpportunities((prev) => {
+      const activeOppIndex = prev.findIndex(op => op.id === activeId);
+      const overOppIndex = prev.findIndex(op => op.id === overId);
+
+      if (activeOppIndex === -1) return prev;
+
+      const activeOpp = prev[activeOppIndex];
+      
+      // Se soltar sobre uma coluna (stage)
+      const overIsStage = stages.some(stage => stage.id === overId);
+      if (overIsStage && activeOpp.stageId !== overId) {
+        const newOpportunities = [...prev];
+        newOpportunities[activeOppIndex] = { ...activeOpp, stageId: overId };
+        return newOpportunities;
+      }
+
+      // Se soltar sobre outra oportunidade na mesma coluna
+      if (overOppIndex !== -1 && prev[overOppIndex].stageId === activeOpp.stageId) {
+        return arrayMove(prev, activeOppIndex, overOppIndex);
+      }
+      
+      // Se soltar sobre outra oportunidade em uma coluna diferente
+      if (overOppIndex !== -1 && prev[overOppIndex].stageId !== activeOpp.stageId) {
+        const newOpportunities = [...prev];
+        newOpportunities[activeOppIndex] = { ...activeOpp, stageId: prev[overOppIndex].stageId };
+        return arrayMove(newOpportunities, activeOppIndex, overOppIndex);
+      }
+
+      return prev;
+    });
+  };
+
+  const handleEditClick = (opportunity: Opportunity) => {
+    setEditingOpportunity(opportunity);
+  };
+
+  const handleSaveChanges = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!editingOpportunity) return;
+
+    const formData = new FormData(e.currentTarget);
+    const updatedOpportunity = {
+      ...editingOpportunity,
+      title: formData.get('title') as string,
+      client: formData.get('client') as string,
+      value: parseFloat(formData.get('value') as string),
+    };
+
+    setOpportunities(prev => prev.map(op => op.id === updatedOpportunity.id ? updatedOpportunity : op));
+    setEditingOpportunity(null);
+  };
 
   return (
     <div>
@@ -64,22 +120,47 @@ const VendasAssinaturas = () => {
             </CardHeader>
             <CardContent>
               {viewMode === 'kanban' ? (
-                <SalesPipelineKanban stages={stages} setStages={setStages} />
+                <SalesPipelineKanban
+                  stages={stages}
+                  opportunities={opportunities}
+                  onDragEnd={handleDragEnd}
+                  onEditOpportunity={handleEditClick}
+                />
               ) : (
-                <SalesPipelineList stages={stages} />
+                <SalesPipelineList stages={stages.map(s => ({...s, opportunities: opportunities.filter(o => o.stageId === s.id)}))} />
               )}
             </CardContent>
           </Card>
         </TabsContent>
-
-        <TabsContent value="assinaturas" className="mt-6">
-          {/* Conteúdo da aba de assinaturas... */}
-        </TabsContent>
-
-        <TabsContent value="metricas" className="mt-6">
-          {/* Conteúdo da aba de métricas... */}
-        </TabsContent>
+        {/* Outras abas aqui */}
       </Tabs>
+
+      {/* Modal de Edição */}
+      <Dialog open={!!editingOpportunity} onOpenChange={() => setEditingOpportunity(null)}>
+        <DialogContent className="bg-gray-900 text-white border-gray-700">
+          <DialogHeader><DialogTitle>Editar Oportunidade</DialogTitle></DialogHeader>
+          <form onSubmit={handleSaveChanges}>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="title" className="text-right">Título</Label>
+                <Input id="title" name="title" defaultValue={editingOpportunity?.title} className="col-span-3 bg-gray-800 border-gray-600" />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="client" className="text-right">Cliente</Label>
+                <Input id="client" name="client" defaultValue={editingOpportunity?.client} className="col-span-3 bg-gray-800 border-gray-600" />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="value" className="text-right">Valor (R$)</Label>
+                <Input id="value" name="value" type="number" defaultValue={editingOpportunity?.value} className="col-span-3 bg-gray-800 border-gray-600" />
+              </div>
+            </div>
+            <DialogFooter>
+              <DialogClose asChild><Button type="button" variant="ghost">Cancelar</Button></DialogClose>
+              <Button type="submit">Salvar Alterações</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -1,27 +1,26 @@
-import React, { useState } from 'react';
-import { DndContext, DragEndEvent, closestCorners } from '@dnd-kit/core';
-import { SortableContext, horizontalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
+import React from 'react';
+import { DndContext, DragEndEvent, closestCorners, PointerSensor, KeyboardSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { MoreVertical, PlusCircle, Trash2 } from 'lucide-react';
+import { MoreVertical, PlusCircle } from 'lucide-react';
 
 // Tipos
-interface Opportunity {
+export interface Opportunity {
   id: string;
   title: string;
   client: string;
   value: number;
+  stageId: string;
 }
 
-interface Stage {
+export interface Stage {
   id: string;
   title: string;
-  opportunities: Opportunity[];
 }
 
 const formatCurrency = (value: number) => {
@@ -29,45 +28,41 @@ const formatCurrency = (value: number) => {
 };
 
 // Componente do Cartão (Oportunidade)
-const OpportunityCard = ({ opportunity }: { opportunity: Opportunity }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: opportunity.id });
+const OpportunityCard = ({ opportunity, onEdit }: { opportunity: Opportunity, onEdit: (opp: Opportunity) => void }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: opportunity.id });
   const style = {
     transition,
     transform: CSS.Transform.toString(transform),
+    opacity: isDragging ? 0.5 : 1,
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="p-3 bg-gray-700 rounded-md mb-3 touch-none">
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="p-3 bg-gray-700 rounded-md mb-3 touch-none shadow-md">
       <div className="flex justify-between items-start">
         <div>
-          <p className="font-medium text-sm">{opportunity.title}</p>
+          <p className="font-medium text-sm text-white">{opportunity.title}</p>
           <p className="text-xs text-gray-400">{opportunity.client}</p>
         </div>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-6 w-6"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-6 w-6 text-gray-400 hover:text-white"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
           <DropdownMenuContent className="bg-gray-800 text-white border-gray-700">
-            <DropdownMenuItem>Editar</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onEdit(opportunity)}>Editar</DropdownMenuItem>
             <DropdownMenuItem className="text-red-500">Excluir</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <p className="text-sm font-bold mt-2">{formatCurrency(opportunity.value)}</p>
+      <p className="text-sm font-bold mt-2 text-green-400">{formatCurrency(opportunity.value)}</p>
     </div>
   );
 };
 
 // Componente da Coluna (Etapa)
-const StageColumn = ({ stage }: { stage: Stage }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: stage.id });
-  const style = {
-    transition,
-    transform: CSS.Transform.toString(transform),
-  };
-
-  const totalValue = stage.opportunities.reduce((sum, op) => sum + op.value, 0);
+const StageColumn = ({ stage, opportunities, onEditOpportunity }: { stage: Stage, opportunities: Opportunity[], onEditOpportunity: (opp: Opportunity) => void }) => {
+  const { setNodeRef } = useSortable({ id: stage.id });
+  const totalValue = opportunities.reduce((sum, op) => sum + op.value, 0);
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="w-72 flex-shrink-0">
+    <div ref={setNodeRef} className="w-72 flex-shrink-0">
       <div className="p-4 bg-gray-900/50 rounded-lg h-full flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <div>
@@ -75,76 +70,51 @@ const StageColumn = ({ stage }: { stage: Stage }) => {
             <p className="text-sm text-green-400 font-mono">{formatCurrency(totalValue)}</p>
           </div>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-7 w-7"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-7 w-7 text-gray-400 hover:text-white"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
             <DropdownMenuContent className="bg-gray-800 text-white border-gray-700">
               <DropdownMenuItem>Renomear</DropdownMenuItem>
               <DropdownMenuItem className="text-red-500">Excluir Coluna</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <SortableContext items={stage.opportunities.map(op => op.id)}>
-          <div className="flex-1 overflow-y-auto">
-            {stage.opportunities.map(op => <OpportunityCard key={op.id} opportunity={op} />)}
+        <SortableContext items={opportunities.map(op => op.id)}>
+          <div className="flex-1 overflow-y-auto min-h-[100px]">
+            {opportunities.map(op => <OpportunityCard key={op.id} opportunity={op} onEdit={onEditOpportunity} />)}
           </div>
         </SortableContext>
-        <Button variant="ghost" className="w-full mt-3 text-gray-400"><PlusCircle className="w-4 h-4 mr-2" /> Adicionar Oportunidade</Button>
+        <Button variant="ghost" className="w-full mt-3 text-gray-400 hover:text-white"><PlusCircle className="w-4 h-4 mr-2" /> Adicionar Oportunidade</Button>
       </div>
     </div>
   );
 };
 
 // Componente Principal do Kanban
-export const SalesPipelineKanban = ({ stages, setStages }: { stages: Stage[], setStages: React.Dispatch<React.SetStateAction<Stage[]>> }) => {
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over) return;
-
-    const activeId = active.id;
-    const overId = over.id;
-
-    if (activeId === overId) return;
-
-    const activeStage = stages.find(stage => stage.opportunities.some(op => op.id === activeId));
-    const overStage = stages.find(stage => stage.opportunities.some(op => op.id === overId) || stage.id === overId);
-
-    if (!activeStage || !overStage) return;
-
-    setStages(prevStages => {
-      const activeItems = activeStage.opportunities;
-      const overItems = overStage.opportunities;
-      const activeIndex = activeItems.findIndex(op => op.id === activeId);
-      const overIndex = overItems.findIndex(op => op.id === overId);
-
-      let newStages = [...prevStages];
-      if (activeStage.id === overStage.id) {
-        // Mover dentro da mesma coluna
-        const updatedOpportunities = arrayMove(activeItems, activeIndex, overIndex);
-        const stageIndex = newStages.findIndex(s => s.id === activeStage.id);
-        newStages[stageIndex] = { ...activeStage, opportunities: updatedOpportunities };
-      } else {
-        // Mover entre colunas
-        const [movedItem] = activeItems.splice(activeIndex, 1);
-        overItems.splice(overIndex, 0, movedItem);
-
-        const activeStageIndex = newStages.findIndex(s => s.id === activeStage.id);
-        const overStageIndex = newStages.findIndex(s => s.id === overStage.id);
-
-        newStages[activeStageIndex] = { ...activeStage, opportunities: activeItems };
-        newStages[overStageIndex] = { ...overStage, opportunities: overItems };
-      }
-      return newStages;
-    });
-  };
+export const SalesPipelineKanban = ({ stages, opportunities, onDragEnd, onEditOpportunity }: { stages: Stage[], opportunities: Opportunity[], onDragEnd: (event: DragEndEvent) => void, onEditOpportunity: (opp: Opportunity) => void }) => {
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // O ponteiro precisa mover 8px para ativar o arrastar
+      },
+    }),
+    useSensor(KeyboardSensor)
+  );
 
   return (
-    <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
+    <DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={onDragEnd}>
       <div className="flex items-start gap-4 overflow-x-auto pb-4">
         <SortableContext items={stages.map(s => s.id)} strategy={horizontalListSortingStrategy}>
-          {stages.map(stage => <StageColumn key={stage.id} stage={stage} />)}
+          {stages.map(stage => (
+            <StageColumn
+              key={stage.id}
+              stage={stage}
+              opportunities={opportunities.filter(op => op.stageId === stage.id)}
+              onEditOpportunity={onEditOpportunity}
+            />
+          ))}
         </SortableContext>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline" className="h-10 bg-gray-800 border-gray-700 hover:bg-gray-700">
+            <Button variant="outline" className="h-10 bg-gray-800 border-gray-700 hover:bg-gray-700 text-gray-300 hover:text-white">
               <PlusCircle className="w-4 h-4 mr-2" /> Nova Etapa
             </Button>
           </DialogTrigger>
