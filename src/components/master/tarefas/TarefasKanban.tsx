@@ -4,37 +4,25 @@ import { SortableContext, useSortable, arrayMove } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { MoreHorizontal } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { MoreHorizontal, PlusCircle } from "lucide-react";
 
 // Types
-interface Task {
-  id: number;
+export interface Task {
+  id: string;
   task: string;
   area: string;
   responsible: string;
   deadline: string;
-  status: 'Pendente' | 'Em andamento' | 'Concluída';
+  status: string; // Agora é uma string para suportar colunas customizadas
   type: string;
 }
 
-interface Column {
-  id: 'Pendente' | 'Em andamento' | 'Concluída';
+export interface Column {
+  id: string;
   title: string;
 }
-
-const initialTasksData: Task[] = [
-  { id: 1, task: 'Emitir NFe do cliente X', area: 'Financeiro', responsible: 'Maria Lima', deadline: '11/10/25', status: 'Em andamento', type: 'Manual' },
-  { id: 2, task: 'Revalidar contrato da Terlla', area: 'Jurídico', responsible: 'Tiago Abade', deadline: '15/10/25', status: 'Pendente', type: 'Automática' },
-  { id: 3, task: 'Renovar licença do módulo IA', area: 'Master', responsible: 'João Vitor', deadline: '20/10/25', status: 'Concluída', type: 'Recorrente' },
-  { id: 4, task: 'Follow-up com Advocacia Pontes', area: 'Comercial', responsible: 'Ana Silva', deadline: '12/10/25', status: 'Pendente', type: 'Manual' },
-  { id: 5, task: 'Verificar log de erros da API', area: 'Master', responsible: 'João Vitor', deadline: '11/10/25', status: 'Em andamento', type: 'Automática' },
-];
-
-const columns: Column[] = [
-  { id: 'Pendente', title: '🟡 Pendente' },
-  { id: 'Em andamento', title: '🔵 Em Andamento' },
-  { id: 'Concluída', title: '🟢 Concluída' },
-];
 
 const getInitials = (name: string = '') => name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
 
@@ -62,12 +50,21 @@ const TaskCard = ({ task, isOverlay }: { task: Task, isOverlay?: boolean }) => {
 };
 
 // Column Component
-const TaskColumn = ({ column, tasks }: { column: Column, tasks: Task[] }) => {
+const TaskColumn = ({ column, tasks, onEditColumn, onDeleteColumn }: { column: Column, tasks: Task[], onEditColumn: (col: Column) => void, onDeleteColumn: (id: string) => void }) => {
   const { setNodeRef } = useSortable({ id: column.id, data: { type: 'Column', column } });
   return (
     <div ref={setNodeRef} className="w-80 flex-shrink-0">
       <div className="p-4 bg-gray-900/50 rounded-lg h-full flex flex-col">
-        <h3 className="font-semibold text-gray-200 mb-4">{column.title} ({tasks.length})</h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="font-semibold text-gray-200">{column.title} ({tasks.length})</h3>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-7 w-7"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-gray-800 text-white border-gray-700">
+              <DropdownMenuItem onClick={() => onEditColumn(column)}>Renomear</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onDeleteColumn(column.id)} className="text-red-500 hover:!text-red-400">Excluir</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <SortableContext items={tasks.map(t => t.id)}>
           <div className="flex-1 overflow-y-auto min-h-[100px] max-h-[calc(100vh-450px)] no-scrollbar">
             {tasks.map(task => <TaskCard key={task.id} task={task} />)}
@@ -79,8 +76,7 @@ const TaskColumn = ({ column, tasks }: { column: Column, tasks: Task[] }) => {
 };
 
 // Main Kanban Board Component
-export const TarefasKanban = () => {
-  const [tasks, setTasks] = useState<Task[]>(initialTasksData);
+export const TarefasKanban = ({ tasks, columns, onDragEnd, onEditColumn, onDeleteColumn, onAddColumn }: { tasks: Task[], columns: Column[], onDragEnd: (event: DragEndEvent) => void, onEditColumn: (col: Column) => void, onDeleteColumn: (id: string) => void, onAddColumn: () => void }) => {
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
 
@@ -90,55 +86,27 @@ export const TarefasKanban = () => {
     }
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    setActiveTask(null);
-    const { active, over } = event;
-    if (!over) return;
-
-    const activeId = active.id;
-    const overId = over.id;
-
-    if (activeId === overId) return;
-
-    const isActiveATask = active.data.current?.type === 'Task';
-    const isOverAColumn = over.data.current?.type === 'Column';
-
-    if (isActiveATask && isOverAColumn) {
-      setTasks(prev => {
-        const activeIndex = prev.findIndex(t => t.id === activeId);
-        prev[activeIndex].status = overId as Task['status'];
-        return [...prev];
-      });
-    }
-
-    const isOverATask = over.data.current?.type === 'Task';
-    if (isActiveATask && isOverATask) {
-        setTasks(prev => {
-            const activeIndex = prev.findIndex(t => t.id === activeId);
-            const overIndex = prev.findIndex(t => t.id === overId);
-            if (prev[activeIndex].status !== prev[overIndex].status) {
-                prev[activeIndex].status = prev[overIndex].status;
-                return arrayMove(prev, activeIndex, overIndex - 1);
-            }
-            return arrayMove(prev, activeIndex, overIndex);
-        });
-    }
-  };
-
   return (
     <div className="flex items-start gap-4 overflow-x-auto pb-4 no-scrollbar">
-      <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={handleDragStart} onDragEnd={onDragEnd}>
         <SortableContext items={columns.map(c => c.id)}>
           {columns.map(col => (
             <TaskColumn
               key={col.id}
               column={col}
               tasks={tasks.filter(task => task.status === col.id)}
+              onEditColumn={onEditColumn}
+              onDeleteColumn={onDeleteColumn}
             />
           ))}
         </SortableContext>
         <DragOverlay>{activeTask ? <TaskCard task={activeTask} isOverlay /> : null}</DragOverlay>
       </DndContext>
+      <div className="w-80 flex-shrink-0">
+        <Button onClick={onAddColumn} variant="outline" className="w-full h-12 bg-gray-800/50 border-gray-700 border-dashed hover:bg-gray-800">
+          <PlusCircle className="h-4 w-4 mr-2" /> Nova Coluna
+        </Button>
+      </div>
     </div>
   );
 };
