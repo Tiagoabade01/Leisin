@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
 import {
   DollarSign, Users, Calendar, AlertTriangle, Edit, Power, PowerOff, RefreshCw, FileText,
-  BarChart2, LineChart, UserCheck, Clock, Ticket, MessageSquare, BookOpen, History
+  BarChart2, LineChart, UserCheck, Clock, Ticket, MessageSquare, BookOpen, History, ArrowLeft, Download
 } from "lucide-react";
 import { ResponsiveContainer, LineChart as RechartsLineChart, BarChart as RechartsBarChart, Bar, XAxis, YAxis, Tooltip, Legend, Line as RechartsLine } from 'recharts';
 
@@ -59,10 +59,20 @@ const clientData = {
     { id: 'usr_3', name: 'Carlos Pereira', email: 'carlos.p@csn.com', role: 'Usuário', status: 'Pendente', lastLogin: '-' },
   ],
   events: [
+    { date: '2024-08-01', event: 'Usuário João da Silva fez login.' },
     { date: '2024-01-15', event: 'Pagamento de R$ 28.000,00 recebido (Anual)' },
     { date: '2023-07-15', event: 'Upgrade: Add-on "IA Plus" adicionado' },
     { date: '2023-01-15', event: 'Assinatura "Enterprise" iniciada' },
     { date: '2023-01-10', event: 'Conta criada' },
+  ],
+  documents: [
+      { id: 'doc_1', name: 'Contrato de Prestação de Serviços v1.2.pdf', type: 'Contrato', date: '2023-01-15' },
+      { id: 'doc_2', name: 'Termos de Uso (Aceite).pdf', type: 'Termos', date: '2023-01-15' },
+      { id: 'doc_3', name: 'Aditivo - Addon IA Plus.pdf', type: 'Aditivo', date: '2023-07-15' },
+  ],
+  supportTickets: [
+      { id: 'tkt_1', subject: 'Dúvida sobre emissão de NFe', status: 'Fechado', date: '2024-05-20' },
+      { id: 'tkt_2', subject: 'Problema ao adicionar novo usuário', status: 'Em Andamento', date: '2024-07-28' },
   ],
   revenueData: [
     { name: 'Jan', receita: 2200 }, { name: 'Fev', receita: 2200 }, { name: 'Mar', receita: 2200 },
@@ -86,6 +96,10 @@ const ClienteDetalhe = () => {
     <div className="p-4 md:p-6 lg:p-8">
       {/* Header Fixo */}
       <header className="mb-6">
+        <Link to="/master/vendas-assinaturas" className="flex items-center text-sm text-blue-400 hover:underline mb-4">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Voltar para Gestão de Assinaturas
+        </Link>
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold text-white">{client.name}</h1>
@@ -196,10 +210,89 @@ const ClienteDetalhe = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="atividades" className="mt-6"><Card className="bg-gray-800 border-gray-700 text-white"><CardHeader><CardTitle>Atividades</CardTitle></CardHeader><CardContent><p>Em construção.</p></CardContent></Card></TabsContent>
-        <TabsContent value="documentos" className="mt-6"><Card className="bg-gray-800 border-gray-700 text-white"><CardHeader><CardTitle>Contratos & Documentos</CardTitle></CardHeader><CardContent><p>Em construção.</p></CardContent></Card></TabsContent>
-        <TabsContent value="suporte" className="mt-6"><Card className="bg-gray-800 border-gray-700 text-white"><CardHeader><CardTitle>Suporte</CardTitle></CardHeader><CardContent><p>Em construção.</p></CardContent></Card></TabsContent>
-        <TabsContent value="historico" className="mt-6"><Card className="bg-gray-800 border-gray-700 text-white"><CardHeader><CardTitle>Histórico / Auditoria</CardTitle></CardHeader><CardContent><p>Em construção.</p></CardContent></Card></TabsContent>
+        <TabsContent value="atividades" className="mt-6">
+            <Card className="bg-gray-800 border-gray-700 text-white">
+                <CardHeader><CardTitle>Atividades Recentes</CardTitle></CardHeader>
+                <CardContent>
+                    <ul className="space-y-4">
+                        {client.events.map((event, index) => (
+                            <li key={index} className="flex items-start">
+                                <div className="flex-shrink-0 w-10 text-right mr-4">
+                                    <p className="text-sm font-medium text-white">{formatDate(event.date).split('/')[0]}/{formatDate(event.date).split('/')[1]}</p>
+                                    <p className="text-xs text-gray-400">{formatDate(event.date).split('/')[2]}</p>
+                                </div>
+                                <div className="relative w-full">
+                                    <div className="absolute top-1 left-[-22px] h-full w-px bg-gray-700"></div>
+                                    <div className="absolute top-1 left-[-24px] h-2 w-2 rounded-full bg-primary"></div>
+                                    <p className="text-sm">{event.event}</p>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </CardContent>
+            </Card>
+        </TabsContent>
+
+        <TabsContent value="documentos" className="mt-6">
+            <Card className="bg-gray-800 border-gray-700 text-white">
+                <CardHeader><CardTitle>Contratos & Documentos</CardTitle></CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Nome do Documento</TableHead><TableHead>Tipo</TableHead><TableHead>Data</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
+                        <TableBody>
+                            {client.documents.map(doc => (
+                                <TableRow key={doc.id} className="border-gray-700">
+                                    <TableCell className="font-medium">{doc.name}</TableCell>
+                                    <TableCell>{doc.type}</TableCell>
+                                    <TableCell>{formatDate(doc.date)}</TableCell>
+                                    <TableCell className="text-right"><Button variant="outline" size="sm" className="bg-gray-700 border-gray-600"><Download className="h-3 w-3 mr-2" /> Baixar</Button></TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
+        </TabsContent>
+
+        <TabsContent value="suporte" className="mt-6">
+            <Card className="bg-gray-800 border-gray-700 text-white">
+                <CardHeader><CardTitle>Tickets de Suporte</CardTitle></CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Assunto</TableHead><TableHead>Status</TableHead><TableHead>Data</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
+                        <TableBody>
+                            {client.supportTickets.map(ticket => (
+                                <TableRow key={ticket.id} className="border-gray-700">
+                                    <TableCell className="font-medium">{ticket.subject}</TableCell>
+                                    <TableCell><Badge variant={ticket.status === 'Fechado' ? 'secondary' : 'default'}>{ticket.status}</Badge></TableCell>
+                                    <TableCell>{formatDate(ticket.date)}</TableCell>
+                                    <TableCell className="text-right"><Button variant="outline" size="sm" className="bg-gray-700 border-gray-600">Ver Ticket</Button></TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
+        </TabsContent>
+
+        <TabsContent value="historico" className="mt-6">
+            <Card className="bg-gray-800 border-gray-700 text-white">
+                <CardHeader><CardTitle>Histórico / Auditoria</CardTitle></CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800"><TableHead>Data</TableHead><TableHead>Evento</TableHead></TableRow></TableHeader>
+                        <TableBody>
+                            {client.events.map((event, index) => (
+                                <TableRow key={index} className="border-gray-700">
+                                    <TableCell className="font-mono text-xs">{formatDate(event.date)}</TableCell>
+                                    <TableCell>{event.event}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
+        </TabsContent>
 
       </Tabs>
     </div>
