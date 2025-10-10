@@ -15,7 +15,7 @@ import {
   Wrench, Palette, Cog, ShieldCheck, Receipt,
   Book, Scale, Files, Search, HistoryIcon,
   Lock, DatabaseZap, ShieldAlert, FileLock, Siren,
-  PanelLeft, ChevronDown
+  ChevronDown, ChevronsLeft, ChevronsRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -199,30 +199,28 @@ const Sidebar = () => {
   return (
     <aside
       className={cn(
-        "hidden md:flex flex-col bg-gray-900 text-gray-200 border-r border-gray-700 transition-all duration-300 ease-in-out",
+        "hidden md:flex flex-col bg-gray-900 text-gray-200 border-r border-gray-700 transition-all duration-300 ease-in-out relative" ,
         isCollapsed ? "w-20" : "w-64"
       )}
     >
+      <Button 
+          variant="ghost" 
+          size="icon" 
+          className="absolute top-6 -right-3 z-10 h-6 w-6 rounded-full bg-gray-800 text-gray-400 border-2 border-gray-700 hover:bg-gray-700 hover:text-white"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+      >
+          {isCollapsed ? <ChevronsRight className="h-4 w-4" /> : <ChevronsLeft className="h-4 w-4" />}
+          <span className="sr-only">Ocultar/Expandir</span>
+      </Button>
+
       <div className={cn(
-        "border-b border-gray-700 flex items-center h-20 justify-between",
-        isCollapsed ? "px-3" : "p-4"
+        "border-b border-gray-700 flex items-center h-20",
+        isCollapsed ? "justify-center" : "p-4"
       )}>
         <div className="flex items-center">
             <h1 className={cn("text-xl font-bold text-white whitespace-nowrap", isCollapsed && "hidden")}>T3 Diligence</h1>
-            <Shield className={cn("text-white", !isCollapsed && "hidden", isCollapsed ? "w-6 h-6" : "w-8 h-8")} />
+            <Shield className={cn("text-white", !isCollapsed && "hidden", isCollapsed ? "w-8 h-8" : "w-8 h-8")} />
         </div>
-        <Button 
-            variant="ghost" 
-            size="icon" 
-            className={cn(
-                "text-gray-400 hover:bg-gray-800 hover:text-white",
-                isCollapsed && "w-8 h-8"
-            )}
-            onClick={() => setIsCollapsed(!isCollapsed)}
-        >
-            <PanelLeft className={cn("w-5 h-5 transition-transform", isCollapsed && "rotate-180")} />
-            <span className="sr-only">Ocultar/Expandir</span>
-        </Button>
       </div>
 
       <nav className="flex-1 p-2 space-y-1 overflow-y-auto no-scrollbar">
