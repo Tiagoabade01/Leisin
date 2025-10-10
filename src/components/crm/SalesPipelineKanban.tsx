@@ -1,5 +1,5 @@
-import React from 'react';
-import { DndContext, DragEndEvent, closestCorners, PointerSensor, KeyboardSensor, useSensor, useSensors } from '@dnd-kit/core';
+import React, { useState } from 'react';
+import { DndContext, DragEndEvent, DragStartEvent, DragOverlay, closestCorners, PointerSensor, KeyboardSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -28,37 +28,63 @@ const formatCurrency = (value: number) => {
 };
 
 // Componente do Cartão (Oportunidade)
-const OpportunityCard = ({ opportunity, onEdit }: { opportunity: Opportunity, onEdit: (opp: Opportunity) => void }) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: opportunity.id });
+const OpportunityCard = ({ opportunity, onEdit, isOverlay }: { opportunity: Opportunity, onEdit?: (opp: Opportunity) => void, isOverlay?: boolean }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ 
+    id: opportunity.id,
+    data: {
+      type: 'Opportunity',
+      opportunity,
+    }
+  });
+  
   const style = {
     transition,
     transform: CSS.Transform.toString(transform),
-    opacity: isDragging ? 0.5 : 1,
+    // Esconde o cartão original enquanto está sendo arrastado
+    opacity: isDragging ? 0 : 1,
   };
 
-  return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="p-3 bg-gray-700 rounded-md mb-3 touch-none shadow-md">
+  const cardContent = (
+    <div className={`p-3 bg-gray-700 rounded-md mb-3 shadow-md ${isOverlay ? 'ring-2 ring-primary' : ''}`}>
       <div className="flex justify-between items-start">
         <div>
           <p className="font-medium text-sm text-white">{opportunity.title}</p>
           <p className="text-xs text-gray-400">{opportunity.client}</p>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-6 w-6 text-gray-400 hover:text-white"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-gray-800 text-white border-gray-700">
-            <DropdownMenuItem onClick={() => onEdit(opportunity)}>Editar</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-500">Excluir</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {!isOverlay && onEdit && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-6 w-6 text-gray-400 hover:text-white"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-gray-800 text-white border-gray-700">
+              <DropdownMenuItem onClick={() => onEdit(opportunity)}>Editar</DropdownMenuItem>
+              <DropdownMenuItem className="text-red-500">Excluir</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
       <p className="text-sm font-bold mt-2 text-green-400">{formatCurrency(opportunity.value)}</p>
+    </div>
+  );
+
+  if (isOverlay) {
+    return cardContent;
+  }
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="touch-none">
+      {cardContent}
     </div>
   );
 };
 
 // Componente da Coluna (Etapa)
 const StageColumn = ({ stage, opportunities, onEditOpportunity }: { stage: Stage, opportunities: Opportunity[], onEditOpportunity: (opp: Opportunity) => void }) => {
-  const { setNodeRef } = useSortable({ id: stage.id });
+  const { setNodeRef } = useSortable({ 
+    id: stage.id,
+    data: {
+      type: 'Stage',
+      stage,
+    }
+  });
   const totalValue = opportunities.reduce((sum, op) => sum + op.value, 0);
 
   return (
@@ -90,17 +116,35 @@ const StageColumn = ({ stage, opportunities, onEditOpportunity }: { stage: Stage
 
 // Componente Principal do Kanban
 export const SalesPipelineKanban = ({ stages, opportunities, onDragEnd, onEditOpportunity }: { stages: Stage[], opportunities: Opportunity[], onDragEnd: (event: DragEndEvent) => void, onEditOpportunity: (opp: Opportunity) => void }) => {
+  const [activeOpportunity, setActiveOpportunity] = useState<Opportunity | null>(null);
+  
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // O ponteiro precisa mover 8px para ativar o arrastar
+        distance: 8,
       },
     }),
     useSensor(KeyboardSensor)
   );
 
+  function handleDragStart(event: DragStartEvent) {
+    if (event.active.data.current?.type === 'Opportunity') {
+      setActiveOpportunity(event.active.data.current.opportunity);
+    }
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    setActiveOpportunity(null);
+    onDragEnd(event);
+  }
+
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={onDragEnd}>
+    <DndContext 
+      sensors={sensors} 
+      collisionDetection={closestCorners} 
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <div className="flex items-start gap-4 overflow-x-auto pb-4">
         <SortableContext items={stages.map(s => s.id)} strategy={horizontalListSortingStrategy}>
           {stages.map(stage => (
@@ -128,6 +172,9 @@ export const SalesPipelineKanban = ({ stages, opportunities, onDragEnd, onEditOp
           </DialogContent>
         </Dialog>
       </div>
+      <DragOverlay>
+        {activeOpportunity ? <OpportunityCard opportunity={activeOpportunity} isOverlay /> : null}
+      </DragOverlay>
     </DndContext>
   );
 };
