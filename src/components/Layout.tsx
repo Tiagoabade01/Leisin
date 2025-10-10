@@ -199,14 +199,31 @@ const Sidebar = () => {
   return (
     <aside
       className={cn(
-        "hidden md:flex flex-col bg-gray-900 text-gray-200 border-r border-gray-700 transition-all duration-300 ease-in-out",
+        "hidden md:flex flex-col bg-gray-900 text-gray-200 border-r border-gray-700 transition-all duration-300 ease-in-out relative",
         isCollapsed ? "w-20" : "w-64"
       )}
     >
-      <div className="p-4 border-b border-gray-700 flex items-center h-20 justify-center">
-        <h1 className={cn("text-xl font-bold text-white whitespace-nowrap", isCollapsed && "sr-only")}>T3 Diligence</h1>
-        {isCollapsed && <Shield className="w-8 h-8 text-white" />}
+      <div className={cn(
+        "p-4 border-b border-gray-700 flex items-center h-20 justify-between"
+      )}>
+        <div className={cn("flex items-center", isCollapsed && "w-full justify-center")}>
+            <h1 className={cn("text-xl font-bold text-white whitespace-nowrap", isCollapsed && "hidden")}>T3 Diligence</h1>
+            <Shield className={cn("w-8 h-8 text-white", !isCollapsed && "hidden")} />
+        </div>
+        <Button 
+            variant="ghost" 
+            size="icon" 
+            className={cn(
+                "text-gray-400 hover:bg-gray-800 hover:text-white",
+                isCollapsed && "absolute top-4 right-2" 
+            )}
+            onClick={() => setIsCollapsed(!isCollapsed)}
+        >
+            <PanelLeft className={cn("w-5 h-5 transition-transform", isCollapsed && "rotate-180")} />
+            <span className="sr-only">Ocultar/Expandir</span>
+        </Button>
       </div>
+
       <nav className="flex-1 p-2 space-y-1 overflow-y-auto no-scrollbar">
         {navItems.map((section) =>
           isCollapsed ? (
@@ -279,7 +296,7 @@ const Sidebar = () => {
         )}
       </nav>
       <div className="p-4 border-t border-gray-700">
-        <div className="flex items-center mb-4">
+        <div className="flex items-center">
           <Avatar className="h-9 w-9">
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
             <AvatarFallback>AD</AvatarFallback>
@@ -289,10 +306,6 @@ const Sidebar = () => {
             <p className="text-xs text-gray-400">Incorporadora T3</p>
           </div>
         </div>
-        <Button variant="outline" className="w-full bg-transparent border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white" onClick={() => setIsCollapsed(!isCollapsed)}>
-          <PanelLeft className={cn("w-4 h-4 transition-transform", !isCollapsed && "mr-2", isCollapsed && "rotate-180")} />
-          <span className={cn(isCollapsed && "sr-only")}>Ocultar</span>
-        </Button>
       </div>
     </aside>
   );
