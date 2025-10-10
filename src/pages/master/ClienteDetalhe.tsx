@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { showSuccess } from '@/utils/toast';
 import {
   DollarSign, Users, Calendar, AlertTriangle, Edit, Power, PowerOff, RefreshCw, FileText,
   BarChart2, LineChart, UserCheck, Clock, Ticket, MessageSquare, BookOpen, History, ArrowLeft, Download
@@ -14,7 +19,7 @@ import {
 import { ResponsiveContainer, LineChart as RechartsLineChart, BarChart as RechartsBarChart, Bar, XAxis, YAxis, Tooltip, Legend, Line as RechartsLine } from 'recharts';
 
 // --- Mock Data for a Single Client ---
-const clientData = {
+const initialClientData = {
   id: 'cus_123',
   name: 'Construtora Sol Nascente',
   document: '12.345.678/0001-90',
@@ -84,13 +89,55 @@ const clientData = {
   ]
 };
 
+const allAddons = ['IA Plus', 'WhatsApp Business', 'BI Jurídico', 'Cartórios+'];
+
 const formatCurrency = (value: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 const formatDate = (date: string) => new Date(date).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 
 const ClienteDetalhe = () => {
   const { clienteId } = useParams<{ clienteId: string }>();
-  // In a real app, you would fetch clientData based on clienteId
-  const client = clientData;
+  const [client, setClient] = useState(initialClientData);
+  const [isSuspendAlertOpen, setIsSuspendAlertOpen] = useState(false);
+  const [isPlanModalOpen, setIsPlanModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(client.plan);
+  const [selectedAddons, setSelectedAddons] = useState(client.subscription.addons);
+
+  const handleChargeNow = () => {
+    showSuccess(`Cobrança manual enviada para ${client.name}.`);
+  };
+
+  const handleSuspendConfirm = () => {
+    setClient(prev => ({ ...prev, status: 'suspended' }));
+    showSuccess('Conta do cliente suspensa com sucesso.');
+    setIsSuspendAlertOpen(false);
+  };
+
+  const handleReactivate = () => {
+    setClient(prev => ({ ...prev, status: 'active' }));
+    showSuccess('Conta do cliente reativada com sucesso.');
+  };
+
+  const handlePlanSave = () => {
+    setClient(prev => ({
+      ...prev,
+      plan: selectedPlan,
+      subscription: {
+        ...prev.subscription,
+        planName: selectedPlan,
+        addons: selectedAddons,
+      }
+    }));
+    showSuccess('Plano do cliente atualizado com sucesso.');
+    setIsPlanModalOpen(false);
+  };
+
+  const getStatusBadge = () => {
+    switch (client.status) {
+      case 'active': return <Badge>Ativa</Badge>;
+      case 'suspended': return <Badge variant="destructive">Suspensa</Badge>;
+      default: return <Badge variant="secondary">{client.status}</Badge>;
+    }
+  };
 
   return (
     <div className="p-4 md:p-6 lg:p-8">
@@ -105,15 +152,19 @@ const ClienteDetalhe = () => {
             <h1 className="text-3xl font-bold text-white">{client.name}</h1>
             <p className="text-gray-400">{client.document} • {client.email}</p>
             <div className="flex items-center gap-4 mt-2">
-              <Badge variant={client.status === 'active' ? 'default' : 'destructive'}>{client.status === 'active' ? 'Ativa' : 'Inativa'}</Badge>
+              {getStatusBadge()}
               <span className="text-sm text-gray-300">Plano: <strong>{client.plan}</strong></span>
               <span className="text-sm text-gray-300">Próximo Faturamento: <strong>{formatDate(client.nextBilling)}</strong></span>
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" className="bg-gray-800 border-gray-700">Gerenciar Plano</Button>
-            <Button>Cobrar Agora</Button>
-            <Button variant="destructive">Suspender</Button>
+            <Button variant="outline" className="bg-gray-800 border-gray-700" onClick={() => setIsPlanModalOpen(true)}>Gerenciar Plano</Button>
+            <Button onClick={handleChargeNow}>Cobrar Agora</Button>
+            {client.status === 'active' ? (
+              <Button variant="destructive" onClick={() => setIsSuspendAlertOpen(true)}>Suspender</Button>
+            ) : (
+              <Button variant="secondary" onClick={handleReactivate}>Reativar</Button>
+            )}
           </div>
         </div>
       </header>
@@ -295,6 +346,66 @@ const ClienteDetalhe = () => {
         </TabsContent>
 
       </Tabs>
+
+      {/* Diálogo de Suspensão */}
+      <AlertDialog open={isSuspendAlertOpen} onOpenChange={setIsSuspendAlertOpen}>
+        <AlertDialogContent className="bg-gray-900 text-white border-gray-700">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar Suspensão</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-400">
+              Tem certeza que deseja suspender a conta de {client.name}? Isso bloqueará o acesso de todos os usuários à plataforma.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel asChild><Button variant="ghost">Cancelar</Button></AlertDialogCancel>
+            <AlertDialogAction onClick={handleSuspendConfirm} asChild><Button variant="destructive">Suspender Conta</Button></AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Modal de Gerenciamento de Plano */}
+      <Dialog open={isPlanModalOpen} onOpenChange={setIsPlanModalOpen}>
+        <DialogContent className="bg-gray-900 text-white border-gray-700">
+          <DialogHeader>
+            <DialogTitle>Gerenciar Plano de {client.name}</DialogTitle>
+            <DialogDescription className="text-gray-400">Altere o plano principal e adicione ou remova funcionalidades extras.</DialogDescription>
+          </DialogHeader>
+          <div className="py-4 space-y-4">
+            <div className="space-y-2">
+              <Label>Plano Principal</Label>
+              <Select defaultValue={selectedPlan} onValueChange={setSelectedPlan}>
+                <SelectTrigger className="bg-gray-800 border-gray-600"><SelectValue /></SelectTrigger>
+                <SelectContent className="bg-gray-800 text-white border-gray-700">
+                  <SelectItem value="Pro">Pro</SelectItem>
+                  <SelectItem value="Business">Business</SelectItem>
+                  <SelectItem value="Enterprise">Enterprise</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Add-ons</Label>
+              <div className="space-y-2 p-3 bg-gray-800/50 rounded-md">
+                {allAddons.map(addon => (
+                  <div key={addon} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={addon}
+                      checked={selectedAddons.includes(addon)}
+                      onCheckedChange={(checked) => {
+                        setSelectedAddons(prev => checked ? [...prev, addon] : prev.filter(a => a !== addon));
+                      }}
+                    />
+                    <label htmlFor={addon} className="text-sm font-medium leading-none">{addon}</label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setIsPlanModalOpen(false)}>Cancelar</Button>
+            <Button onClick={handlePlanSave}>Salvar Alterações</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
