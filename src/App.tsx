@@ -12,6 +12,7 @@ import CRM from "./pages/CRM";
 import Financial from "./pages/Financial";
 import LawOps from "./pages/LawOps";
 import Administration from "./pages/Administration";
+import Communication from "./pages/Communication";
 import AI from "./pages/AI";
 import SaaSAdmin from "./pages/SaaSAdmin";
 
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/financial" element={<Financial />} />
           <Route path="/law-ops" element={<LawOps />} />
           <Route path="/administration" element={<Administration />} />
+          <Route path="/communication" element={<Communication />} />
           <Route path="/ai" element={<AI />} />
           <Route path="/saas-admin" element={<SaaSAdmin />} />
           <Route path="*" element={<NotFound />} />
