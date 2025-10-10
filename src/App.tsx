@@ -97,7 +97,7 @@ import IncidentResponse from "./pages/governanca/IncidentResponse";
 import VisaoGeral from "./pages/master/VisaoGeral";
 import VendasAssinaturas from "./pages/master/VendasAssinaturas";
 import GestaoClientes from "./pages/master/GestaoClientes";
-import ClienteDetalhe from "./pages/master/ClienteDetalhe"; // Importando a nova página
+import ClienteDetalhe from "./pages/master/ClienteDetalhe";
 import GestaoModulos from "./pages/master/GestaoModulos";
 import GestaoTarefas from "./pages/master/GestaoTarefas";
 import FinanceiroCobrancas from "./pages/master/FinanceiroCobrancas";
@@ -146,7 +146,7 @@ const App = () => (
             <Route path="visao-geral" element={<VisaoGeral />} />
             <Route path="vendas-assinaturas" element={<VendasAssinaturas />} />
             <Route path="gestao-clientes" element={<GestaoClientes />} />
-            <Route path="clientes/:clienteId" element={<ClienteDetalhe />} /> {/* Nova rota */}
+            <Route path="clientes/:clienteId" element={<ClienteDetalhe />} />
             <Route path="gestao-modulos" element={<GestaoModulos />} />
             <Route path="gestao-tarefas" element={<GestaoTarefas />} />
             <Route path="financeiro-cobrancas" element={<FinanceiroCobrancas />} />

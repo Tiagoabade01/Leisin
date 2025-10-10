@@ -1,76 +1,58 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { ListChecks, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { PlusCircle, Zap, BarChart2, Settings } from "lucide-react";
+import VisaoGeralTarefas from "@/components/master/tarefas/VisaoGeralTarefas";
+import TarefasAtivas from "@/components/master/tarefas/TarefasAtivas";
+import TarefasAutomaticas from "@/components/master/tarefas/TarefasAutomaticas";
+import CalendarioCronogramas from "@/components/master/tarefas/CalendarioCronogramas";
+import RelatoriosIndicadores from "@/components/master/tarefas/RelatoriosIndicadores";
+import AutomacaoPlaybooks from "@/components/master/tarefas/AutomacaoPlaybooks";
 
 const GestaoTarefas = () => {
   return (
     <div>
-      <h1 className="text-3xl font-bold text-white mb-2">Gestão de Tarefas</h1>
-      <p className="text-gray-300 mb-8">Visão geral das tarefas e prazos de toda a plataforma.</p>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <Card className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-300">Total de Tarefas Ativas</CardTitle>
-            <ListChecks className="h-4 w-4 text-gray-300" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1,284</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-300">Tarefas Vencidas</CardTitle>
-            <AlertCircle className="h-4 w-4 text-red-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">73</div>
-          </CardContent>
-        </Card>
-        <Card className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-300">Concluídas (Hoje)</CardTitle>
-            <CheckCircle2 className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">92</div>
-          </CardContent>
-        </Card>
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-white mb-2">Gestão de Tarefas</h1>
+          <p className="text-gray-300 max-w-3xl">O centro operacional do ecossistema — onde tudo o que acontece dentro da T3 é rastreável, priorizado e automatizado.</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
+          <Button variant="outline" className="bg-gray-800 border-gray-700"><Zap className="h-4 w-4 mr-2" /> Criar Playbook</Button>
+          <Button variant="outline" className="bg-gray-800 border-gray-700"><BarChart2 className="h-4 w-4 mr-2" /> Relatórios</Button>
+          <Button variant="ghost" size="icon"><Settings className="h-4 w-4" /></Button>
+        </div>
       </div>
+      
+      <Tabs defaultValue="visao_geral" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 bg-gray-800">
+          <TabsTrigger value="visao_geral">Visão Geral</TabsTrigger>
+          <TabsTrigger value="ativas">Tarefas Ativas</TabsTrigger>
+          <TabsTrigger value="automaticas">Tarefas Automáticas</TabsTrigger>
+          <TabsTrigger value="calendario">Calendário</TabsTrigger>
+          <TabsTrigger value="relatorios">Relatórios</TabsTrigger>
+          <TabsTrigger value="automacao">Automação</TabsTrigger>
+        </TabsList>
 
-      <Card className="bg-gray-800 border-gray-700 text-white">
-        <CardHeader><CardTitle className="text-white">Tarefas Críticas e Vencidas</CardTitle></CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow className="border-gray-700 hover:bg-gray-800">
-                <TableHead className="text-gray-200">Tarefa</TableHead>
-                <TableHead className="text-gray-200">Cliente</TableHead>
-                <TableHead className="text-gray-200">Responsável</TableHead>
-                <TableHead className="text-gray-200">Prazo</TableHead>
-                <TableHead className="text-gray-200">Status</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow className="border-gray-700">
-                <TableCell>Elaborar minuta de contrato</TableCell>
-                <TableCell>Construtora Alfa</TableCell>
-                <TableCell>ana.silva@t3.com</TableCell>
-                <TableCell>25/07/2024</TableCell>
-                <TableCell><Badge variant="destructive">Vencido</Badge></TableCell>
-              </TableRow>
-              <TableRow className="border-gray-700">
-                <TableCell>Coletar documentos dos vendedores</TableCell>
-                <TableCell>Imobiliária Beta</TableCell>
-                <TableCell>joao.costa@t3.com</TableCell>
-                <TableCell>02/08/2024</TableCell>
-                <TableCell><Badge variant="secondary">Em Andamento</Badge></TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+        <TabsContent value="visao_geral" className="mt-6">
+          <VisaoGeralTarefas />
+        </TabsContent>
+        <TabsContent value="ativas" className="mt-6">
+          <TarefasAtivas />
+        </TabsContent>
+        <TabsContent value="automaticas" className="mt-6">
+          <TarefasAutomaticas />
+        </TabsContent>
+        <TabsContent value="calendario" className="mt-6">
+          <CalendarioCronogramas />
+        </TabsContent>
+        <TabsContent value="relatorios" className="mt-6">
+          <RelatoriosIndicadores />
+        </TabsContent>
+        <TabsContent value="automacao" className="mt-6">
+          <AutomacaoPlaybooks />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
