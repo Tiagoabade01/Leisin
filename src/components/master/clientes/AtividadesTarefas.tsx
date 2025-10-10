@@ -14,13 +14,13 @@ const AtividadesTarefas = () => {
     <Card className="bg-gray-800 border-gray-700 text-white">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>Atividades e Tarefas de Relacionamento</CardTitle>
+          <CardTitle className="text-white">Atividades e Tarefas de Relacionamento</CardTitle>
           <Button>Nova Tarefa</Button>
         </div>
       </CardHeader>
       <CardContent>
         <Table>
-          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead>Atividade</TableHead><TableHead>Cliente</TableHead><TableHead>Responsável</TableHead><TableHead>Data</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
+          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead className="text-gray-200">Atividade</TableHead><TableHead className="text-gray-200">Cliente</TableHead><TableHead className="text-gray-200">Responsável</TableHead><TableHead className="text-gray-200">Data</TableHead><TableHead className="text-gray-200">Status</TableHead></TableRow></TableHeader>
           <TableBody>
             {activities.map(activity => (
               <TableRow key={activity.id} className="border-gray-700">

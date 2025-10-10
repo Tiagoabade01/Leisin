@@ -44,7 +44,7 @@ const VisaoGeralClientes = () => {
       </div>
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2 bg-gray-800 border-gray-700 text-white">
-          <CardHeader><CardTitle>Evolução de Clientes Ativos</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-white">Evolução de Clientes Ativos</CardTitle></CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={evolutionData}>
@@ -59,7 +59,7 @@ const VisaoGeralClientes = () => {
         </Card>
         <div className="space-y-6">
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader><CardTitle>Canal de Aquisição</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-white">Canal de Aquisição</CardTitle></CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={150}>
                 <BarChart data={acquisitionData} layout="vertical">
@@ -72,7 +72,7 @@ const VisaoGeralClientes = () => {
             </CardContent>
           </Card>
           <Card className="bg-gray-800 border-gray-700 text-white">
-            <CardHeader className="flex flex-row items-center gap-2"><BrainCircuit className="h-5 w-5" /><CardTitle>Insights da IA</CardTitle></CardHeader>
+            <CardHeader className="flex flex-row items-center gap-2"><BrainCircuit className="h-5 w-5" /><CardTitle className="text-white">Insights da IA</CardTitle></CardHeader>
             <CardContent>
               <ul className="space-y-3">
                 {iaInsights.map(insight => (

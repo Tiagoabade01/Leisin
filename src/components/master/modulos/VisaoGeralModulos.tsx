@@ -41,7 +41,7 @@ const VisaoGeralModulos = () => {
       </div>
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader><CardTitle>Usuários por Tipo de Acesso</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-white">Usuários por Tipo de Acesso</CardTitle></CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={usersByRoleData}>
@@ -54,7 +54,7 @@ const VisaoGeralModulos = () => {
           </CardContent>
         </Card>
         <Card className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader><CardTitle>Últimas Alterações Críticas</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-white">Últimas Alterações Críticas</CardTitle></CardHeader>
           <CardContent>
             <ul className="space-y-3 text-sm">
               <li><strong>10/10/25 13:42:</strong> Usuário <strong>Tiago Abade</strong> alterou permissões do módulo <strong>Financeiro</strong>.</li>

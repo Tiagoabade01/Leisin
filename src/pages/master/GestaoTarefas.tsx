@@ -12,7 +12,7 @@ const GestaoTarefas = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <Card className="bg-gray-800 border-gray-700 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total de Tarefas Ativas</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-300">Total de Tarefas Ativas</CardTitle>
             <ListChecks className="h-4 w-4 text-gray-300" />
           </CardHeader>
           <CardContent>
@@ -21,7 +21,7 @@ const GestaoTarefas = () => {
         </Card>
         <Card className="bg-gray-800 border-gray-700 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Tarefas Vencidas</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-300">Tarefas Vencidas</CardTitle>
             <AlertCircle className="h-4 w-4 text-red-500" />
           </CardHeader>
           <CardContent>
@@ -30,7 +30,7 @@ const GestaoTarefas = () => {
         </Card>
         <Card className="bg-gray-800 border-gray-700 text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Concluídas (Hoje)</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-300">Concluídas (Hoje)</CardTitle>
             <CheckCircle2 className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
@@ -40,16 +40,16 @@ const GestaoTarefas = () => {
       </div>
 
       <Card className="bg-gray-800 border-gray-700 text-white">
-        <CardHeader><CardTitle>Tarefas Críticas e Vencidas</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-white">Tarefas Críticas e Vencidas</CardTitle></CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow className="border-gray-700 hover:bg-gray-800">
-                <TableHead>Tarefa</TableHead>
-                <TableHead>Cliente</TableHead>
-                <TableHead>Responsável</TableHead>
-                <TableHead>Prazo</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead className="text-gray-200">Tarefa</TableHead>
+                <TableHead className="text-gray-200">Cliente</TableHead>
+                <TableHead className="text-gray-200">Responsável</TableHead>
+                <TableHead className="text-gray-200">Prazo</TableHead>
+                <TableHead className="text-gray-200">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

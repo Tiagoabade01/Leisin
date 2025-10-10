@@ -13,13 +13,13 @@ const FaturamentoContratos = () => {
     <Card className="bg-gray-800 border-gray-700 text-white">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>Faturamento e Contratos</CardTitle>
+          <CardTitle className="text-white">Faturamento e Contratos</CardTitle>
           <Button>Emitir Nova Fatura</Button>
         </div>
       </CardHeader>
       <CardContent>
         <Table>
-          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead>Cliente</TableHead><TableHead>Nº Contrato</TableHead><TableHead>Tipo</TableHead><TableHead>Valor</TableHead><TableHead>Vencimento</TableHead><TableHead>Status</TableHead><TableHead>Assinado em</TableHead></TableRow></TableHeader>
+          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead className="text-gray-200">Cliente</TableHead><TableHead className="text-gray-200">Nº Contrato</TableHead><TableHead className="text-gray-200">Tipo</TableHead><TableHead className="text-gray-200">Valor</TableHead><TableHead className="text-gray-200">Vencimento</TableHead><TableHead className="text-gray-200">Status</TableHead><TableHead className="text-gray-200">Assinado em</TableHead></TableRow></TableHeader>
           <TableBody>
             {contracts.map(contract => (
               <TableRow key={contract.id} className="border-gray-700">

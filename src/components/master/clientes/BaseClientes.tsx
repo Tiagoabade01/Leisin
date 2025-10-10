@@ -29,7 +29,7 @@ const BaseClientes = () => {
     <Card className="bg-gray-800 border-gray-700 text-white">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>Base de Clientes</CardTitle>
+          <CardTitle className="text-white">Base de Clientes</CardTitle>
           <div className="flex gap-2">
             <Input placeholder="Buscar cliente..." className="max-w-xs bg-gray-700 border-gray-600" />
             <Button variant="outline" className="bg-gray-700 border-gray-600"><Filter className="h-4 w-4 mr-2" /> Filtros</Button>
@@ -39,7 +39,7 @@ const BaseClientes = () => {
       </CardHeader>
       <CardContent>
         <Table>
-          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead>Cliente</TableHead><TableHead>Tipo</TableHead><TableHead>Plano</TableHead><TableHead>Status</TableHead><TableHead>Início</TableHead><TableHead>Último login</TableHead><TableHead>Vendedor</TableHead><TableHead>MRR</TableHead><TableHead>Risco</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
+          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead className="text-gray-200">Cliente</TableHead><TableHead className="text-gray-200">Tipo</TableHead><TableHead className="text-gray-200">Plano</TableHead><TableHead className="text-gray-200">Status</TableHead><TableHead className="text-gray-200">Início</TableHead><TableHead className="text-gray-200">Último login</TableHead><TableHead className="text-gray-200">Vendedor</TableHead><TableHead className="text-gray-200">MRR</TableHead><TableHead className="text-gray-200">Risco</TableHead><TableHead className="text-right text-gray-200">Ações</TableHead></TableRow></TableHeader>
           <TableBody>
             {clients.map(client => (
               <TableRow key={client.id} className="border-gray-700">

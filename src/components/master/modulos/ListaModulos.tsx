@@ -22,10 +22,10 @@ const ListaModulos = () => {
 
   return (
     <Card className="bg-gray-800 border-gray-700 text-white">
-      <CardHeader><CardTitle>Módulos do Sistema</CardTitle></CardHeader>
+      <CardHeader><CardTitle className="text-white">Módulos do Sistema</CardTitle></CardHeader>
       <CardContent>
         <Table>
-          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead>Módulo</TableHead><TableHead>Status</TableHead><TableHead>Planos Disponíveis</TableHead><TableHead>Última Atualização</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
+          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead className="text-gray-200">Módulo</TableHead><TableHead className="text-gray-200">Status</TableHead><TableHead className="text-gray-200">Planos Disponíveis</TableHead><TableHead className="text-gray-200">Última Atualização</TableHead><TableHead className="text-right text-gray-200">Ações</TableHead></TableRow></TableHeader>
           <TableBody>
             {modules.map(mod => (
               <TableRow key={mod.id} className="border-gray-700">

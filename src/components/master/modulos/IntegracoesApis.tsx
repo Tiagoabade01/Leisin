@@ -17,7 +17,7 @@ const IntegracoesApis = () => {
     <div className="space-y-6">
       {Object.entries(integrationsData).map(([category, apis]) => (
         <Card key={category} className="bg-gray-800 border-gray-700 text-white">
-          <CardHeader><CardTitle>{category}</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-white">{category}</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             {apis.map(api => (
               <div key={api.name} className="p-4 bg-gray-700/50 rounded-lg flex items-center justify-between">
@@ -35,7 +35,7 @@ const IntegracoesApis = () => {
         </Card>
       ))}
       <Card className="bg-gray-800 border-gray-700 text-white">
-        <CardHeader className="flex flex-row items-center gap-2"><BrainCircuit className="h-5 w-5 text-blue-400" /><CardTitle>Diagnóstico da IA</CardTitle></CardHeader>
+        <CardHeader className="flex flex-row items-center gap-2"><BrainCircuit className="h-5 w-5 text-blue-400" /><CardTitle className="text-white">Diagnóstico da IA</CardTitle></CardHeader>
         <CardContent>
           <p className="text-sm text-yellow-400">"A API do NFe.io teve 2 falhas nos últimos 7 dias — sugerir reconexão."</p>
         </CardContent>

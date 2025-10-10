@@ -15,13 +15,13 @@ const PermissoesPapeis = () => {
       <Card className="bg-gray-800 border-gray-700 text-white">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle>Papéis de Acesso (RBAC)</CardTitle>
+            <CardTitle className="text-white">Papéis de Acesso (RBAC)</CardTitle>
             <Button><PlusCircle className="h-4 w-4 mr-2" /> Criar Novo Papel</Button>
           </div>
         </CardHeader>
         <CardContent>
           <Table>
-            <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead>Papel</TableHead><TableHead>Módulos Permitidos</TableHead><TableHead>Nível de Acesso</TableHead><TableHead>Usuários Atribuídos</TableHead></TableRow></TableHeader>
+            <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead className="text-gray-200">Papel</TableHead><TableHead className="text-gray-200">Módulos Permitidos</TableHead><TableHead className="text-gray-200">Nível de Acesso</TableHead><TableHead className="text-gray-200">Usuários Atribuídos</TableHead></TableRow></TableHeader>
             <TableBody>
               {rolesData.map(role => (
                 <TableRow key={role.name} className="border-gray-700">
@@ -36,7 +36,7 @@ const PermissoesPapeis = () => {
         </CardContent>
       </Card>
       <Card className="bg-gray-800 border-gray-700 text-white">
-        <CardHeader className="flex flex-row items-center gap-2"><BrainCircuit className="h-5 w-5" /><CardTitle>Sugestões da IA</CardTitle></CardHeader>
+        <CardHeader className="flex flex-row items-center gap-2"><BrainCircuit className="h-5 w-5" /><CardTitle className="text-white">Sugestões da IA</CardTitle></CardHeader>
         <CardContent>
           <p className="text-sm">"Usuário <strong>João</strong> atua apenas em faturamento. Sugerir papel: <strong>Analista Financeiro</strong>."</p>
         </CardContent>

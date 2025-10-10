@@ -10,10 +10,10 @@ const licensesData = [
 const LicencasPlanos = () => {
   return (
     <Card className="bg-gray-800 border-gray-700 text-white">
-      <CardHeader><CardTitle>Licenças por Cliente</CardTitle></CardHeader>
+      <CardHeader><CardTitle className="text-white">Licenças por Cliente</CardTitle></CardHeader>
       <CardContent>
         <Table>
-          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead>Cliente</TableHead><TableHead>Plano</TableHead><TableHead>Licenças</TableHead><TableHead>Módulos Ativos</TableHead><TableHead>Última Fatura</TableHead><TableHead className="text-right">Ações</TableHead></TableRow></TableHeader>
+          <TableHeader><TableRow className="border-gray-700 hover:bg-gray-800/50"><TableHead className="text-gray-200">Cliente</TableHead><TableHead className="text-gray-200">Plano</TableHead><TableHead className="text-gray-200">Licenças</TableHead><TableHead className="text-gray-200">Módulos Ativos</TableHead><TableHead className="text-gray-200">Última Fatura</TableHead><TableHead className="text-right text-gray-200">Ações</TableHead></TableRow></TableHeader>
           <TableBody>
             {licensesData.map(lic => (
               <TableRow key={lic.client} className="border-gray-700">
