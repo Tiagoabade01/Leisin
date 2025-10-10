@@ -103,7 +103,7 @@ const MonthlyView = ({ currentDate, events, setCurrentDate, setView }) => {
     const startDate = startOfWeek(monthStart, { weekStartsOn: 0 });
     const endDate = endOfWeek(monthEnd, { weekStartsOn: 0 });
     const days = eachDayOfInterval({ start: startDate, end: endDate });
-    const handleDayClick = (day) => { setCurrentDate(day); setView('Dia'); };
+    const handleDayClick = (day) => { setCurrentDate(day); setView('Semana'); };
     return (
         <div className="grid grid-cols-7 flex-grow">
             {daysOfWeek.map(day => (<div key={day} className="p-2 text-center text-sm font-medium bg-gray-800 text-gray-400 border-b border-r border-gray-700">{day}</div>))}
@@ -118,6 +118,54 @@ const MonthlyView = ({ currentDate, events, setCurrentDate, setView }) => {
             })}
         </div>
     );
+};
+
+const YearlyView = ({ currentDate, setCurrentDate, setView }) => {
+  const year = currentDate.getFullYear();
+  const months = Array.from({ length: 12 }, (_, i) => new Date(year, i, 1));
+
+  const handleMonthClick = (month) => {
+    setCurrentDate(month);
+    setView('Mês');
+  };
+
+  return (
+    <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {months.map(month => (
+        <div key={month.toString()}>
+          <MiniCalendar
+            month={month}
+            onSelect={(day) => {
+              if (day) {
+                setCurrentDate(day);
+                setView('Semana');
+              }
+            }}
+            locale={ptBR}
+            classNames={{
+              root: "bg-gray-800/50 p-3 rounded-md",
+              nav: "hidden",
+              head_cell: "text-gray-400 font-normal text-xs w-8",
+              cell: "text-center text-xs p-0",
+              day: "h-8 w-8 p-0 font-normal",
+              day_today: "bg-primary text-primary-foreground rounded-full",
+              day_selected: "bg-gray-700 rounded-full",
+            }}
+            components={{
+              Caption: ({ displayMonth }) => (
+                <div 
+                  className="text-center font-semibold mb-2 cursor-pointer hover:text-primary capitalize"
+                  onClick={() => handleMonthClick(displayMonth)}
+                >
+                  {format(displayMonth, 'MMMM', { locale: ptBR })}
+                </div>
+              ),
+            }}
+          />
+        </div>
+      ))}
+    </div>
+  );
 };
 
 const MainCalendar = ({ currentDate, setCurrentDate }) => {
@@ -139,6 +187,7 @@ const MainCalendar = ({ currentDate, setCurrentDate }) => {
     const renderView = () => {
         switch (view) {
             case 'Mês': return <MonthlyView currentDate={currentDate} events={events} setCurrentDate={setCurrentDate} setView={setView} />;
+            case 'Ano': return <YearlyView currentDate={currentDate} setCurrentDate={setCurrentDate} setView={setView} />;
             case 'Semana': default: return <WeeklyView currentDate={currentDate} events={events} />;
         }
     };
@@ -146,7 +195,7 @@ const MainCalendar = ({ currentDate, setCurrentDate }) => {
         <main className="flex-1 flex flex-col">
             <header className="p-4 border-b border-gray-700">
                 <div className="flex justify-between items-center"><h2 className="text-2xl font-bold text-white">Calendário</h2><div className="flex items-center gap-4"><div className="relative w-64"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" /><Input placeholder="Buscar" className="bg-gray-800 border-gray-700 pl-9" /></div><Button variant="outline" className="bg-gray-800 border-gray-700"><Settings className="h-4 w-4 mr-2" /> Personalizar</Button></div></div>
-                <div className="flex justify-between items-center mt-4"><div className="flex items-center gap-2"><Button onClick={handlePrev} variant="outline" size="icon" className="bg-gray-800 border-gray-700"><ChevronLeft className="h-4 w-4" /></Button><Button onClick={handleToday} variant="outline" className="bg-gray-800 border-gray-700">Hoje</Button><Button onClick={handleNext} variant="outline" size="icon" className="bg-gray-800 border-gray-700"><ChevronRight className="h-4 w-4" /></Button><h3 className="text-xl font-semibold ml-4 capitalize">{formatHeaderDate()}</h3></div><div className="flex items-center gap-1 p-1 bg-gray-800 rounded-lg">{['Dia', 'Semana', 'Mês', 'Ano'].map(v => (<Button key={v} variant={view === v ? 'secondary' : 'ghost'} size="sm" onClick={() => setView(v)}>{v}</Button>))}</div></div>
+                <div className="flex justify-between items-center mt-4"><div className="flex items-center gap-2"><Button onClick={handlePrev} variant="outline" size="icon" className="bg-gray-800 border-gray-700"><ChevronLeft className="h-4 w-4" /></Button><Button onClick={handleToday} variant="outline" className="bg-gray-800 border-gray-700">Hoje</Button><Button onClick={handleNext} variant="outline" size="icon" className="bg-gray-800 border-gray-700"><ChevronRight className="h-4 w-4" /></Button><h3 className="text-xl font-semibold ml-4 capitalize">{formatHeaderDate()}</h3></div><div className="flex items-center gap-1 p-1 bg-gray-800 rounded-lg">{['Semana', 'Mês', 'Ano'].map(v => (<Button key={v} variant={view === v ? 'secondary' : 'ghost'} size="sm" onClick={() => setView(v)}>{v}</Button>))}</div></div>
             </header>
             <div className="flex-grow overflow-auto no-scrollbar flex flex-col">{renderView()}</div>
         </main>
