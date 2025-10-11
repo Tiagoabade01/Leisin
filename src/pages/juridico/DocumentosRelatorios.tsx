@@ -2,8 +2,9 @@ import React, { useState, FormEvent } from 'react';
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from '@/components/ui/textarea';
 import { PlusCircle, Download, Brain, FileText } from "lucide-react";
 import DocumentCenter from "@/components/docs/DocumentCenter";
 import TemplateLibrary from "@/components/docs/TemplateLibrary";
@@ -82,14 +83,17 @@ const DocumentosRelatorios = () => {
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="bg-gray-900 text-white border-gray-700">
-          <DialogHeader><DialogTitle>Novo Documento</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>Adicionar Novo Documento</DialogTitle></DialogHeader>
           <form onSubmit={handleSaveDocument}>
             <div className="grid gap-4 py-4">
-              <div className="space-y-2"><Label htmlFor="name">Nome do Documento</Label><Input id="name" name="name" className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="type">Tipo</Label><Input id="type" name="type" className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="module">Módulo</Label><Input id="module" name="module" className="bg-gray-800 border-gray-600" required /></div>
+              <div className="space-y-2"><Label htmlFor="doc-file">Arquivo</Label><Input id="doc-file" name="file" type="file" className="bg-gray-800 border-gray-600" /></div>
+              <div className="space-y-2"><Label htmlFor="doc-name">Nome do Documento</Label><Input id="doc-name" name="name" className="bg-gray-800 border-gray-600" required /></div>
+              <div className="space-y-2"><Label htmlFor="doc-type">Tipo</Label><Input id="doc-type" name="type" className="bg-gray-800 border-gray-600" required /></div>
+              <div className="space-y-2"><Label htmlFor="doc-module">Módulo</Label><Input id="doc-module" name="module" className="bg-gray-800 border-gray-600" required /></div>
+              <div className="space-y-2"><Label htmlFor="doc-link">Vincular a (Cliente/Caso)</Label><Input id="doc-link" name="link" className="bg-gray-800 border-gray-600" /></div>
+              <div className="space-y-2"><Label htmlFor="doc-tags">Tags</Label><Input id="doc-tags" name="tags" placeholder="Ex: confidencial, minuta, fiscal" className="bg-gray-800 border-gray-600" /></div>
             </div>
-            <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>Cancelar</Button><Button type="submit">Salvar</Button></DialogFooter>
+            <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>Cancelar</Button><Button type="submit">Salvar Documento</Button></DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
