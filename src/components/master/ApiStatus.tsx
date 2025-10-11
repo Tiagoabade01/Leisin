@@ -12,7 +12,7 @@ const apis = [
 export const ApiStatus = () => (
   <Card className="bg-gray-800 border-gray-700 text-white">
     <CardHeader>
-      <CardTitle>Status das APIs e Integrações</CardTitle>
+      <CardTitle className="text-white">Status das APIs e Integrações</CardTitle>
     </CardHeader>
     <CardContent>
       <ul className="space-y-3">

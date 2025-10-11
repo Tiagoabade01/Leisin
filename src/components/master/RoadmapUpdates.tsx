@@ -4,7 +4,7 @@ import { Rocket, History, Book } from "lucide-react";
 export const RoadmapUpdates = () => (
   <Card className="bg-gray-800 border-gray-700 text-white">
     <CardHeader>
-      <CardTitle>Roadmap & Atualizações</CardTitle>
+      <CardTitle className="text-white">Roadmap & Atualizações</CardTitle>
     </CardHeader>
     <CardContent className="space-y-3">
       <div className="flex items-center"><Rocket className="w-4 h-4 mr-2 text-purple-400" /><span>Próxima feature: Módulo de IA Preditiva</span></div>

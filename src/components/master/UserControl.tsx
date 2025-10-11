@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export const UserControl = () => (
   <Card className="bg-gray-800 border-gray-700 text-white">
     <CardHeader>
-      <CardTitle>Controle de Usuários e Acessos</CardTitle>
+      <CardTitle className="text-white">Controle de Usuários e Acessos</CardTitle>
     </CardHeader>
     <CardContent>
       <div className="grid grid-cols-3 gap-4 text-center">

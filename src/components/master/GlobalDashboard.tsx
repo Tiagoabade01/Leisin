@@ -13,41 +13,41 @@ const data = [
 export const GlobalDashboard = () => (
   <Card className="bg-gray-800 border-gray-700 text-white xl:col-span-3">
     <CardHeader>
-      <CardTitle>Dashboard Global</CardTitle>
+      <CardTitle className="text-white">Dashboard Global</CardTitle>
     </CardHeader>
     <CardContent>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="p-4 bg-gray-700/50 rounded-lg">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-gray-400">Usuários Ativos</h3>
+            <h3 className="text-sm font-medium text-gray-300">Usuários Ativos</h3>
             <Users className="h-4 w-4 text-gray-400" />
           </div>
           <p className="text-2xl font-bold mt-1">142</p>
         </div>
         <div className="p-4 bg-gray-700/50 rounded-lg">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-gray-400">API Response</h3>
+            <h3 className="text-sm font-medium text-gray-300">API Response</h3>
             <Clock className="h-4 w-4 text-gray-400" />
           </div>
           <p className="text-2xl font-bold mt-1">120ms</p>
         </div>
         <div className="p-4 bg-gray-700/50 rounded-lg">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-gray-400">Erros (24h)</h3>
+            <h3 className="text-sm font-medium text-gray-300">Erros (24h)</h3>
             <AlertCircle className="h-4 w-4 text-gray-400" />
           </div>
           <p className="text-2xl font-bold mt-1">3</p>
         </div>
         <div className="p-4 bg-gray-700/50 rounded-lg">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-gray-400">Consultas IA</h3>
+            <h3 className="text-sm font-medium text-gray-300">Consultas IA</h3>
             <BrainCircuit className="h-4 w-4 text-gray-400" />
           </div>
           <p className="text-2xl font-bold mt-1">873</p>
         </div>
       </div>
       <div>
-        <h4 className="text-lg font-semibold mb-2">Uso por Módulo</h4>
+        <h4 className="text-lg font-semibold mb-2 text-white">Uso por Módulo</h4>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data}>
             <XAxis dataKey="name" stroke="#a1a1aa" fontSize={12} tickLine={false} axisLine={false} />

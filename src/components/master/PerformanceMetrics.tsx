@@ -4,7 +4,7 @@ import { Zap, Server, FileDown, Brain } from "lucide-react";
 export const PerformanceMetrics = () => (
   <Card className="bg-gray-800 border-gray-700 text-white">
     <CardHeader>
-      <CardTitle>Métricas de Performance</CardTitle>
+      <CardTitle className="text-white">Métricas de Performance</CardTitle>
     </CardHeader>
     <CardContent className="space-y-4">
       <div className="flex items-center justify-between">

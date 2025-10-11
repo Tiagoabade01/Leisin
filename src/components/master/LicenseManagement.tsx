@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export const LicenseManagement = () => (
   <Card className="bg-gray-800 border-gray-700 text-white">
     <CardHeader>
-      <CardTitle>Gestão de Planos e Licenças</CardTitle>
+      <CardTitle className="text-white">Gestão de Planos e Licenças</CardTitle>
     </CardHeader>
     <CardContent>
       <div className="grid grid-cols-3 gap-4 text-center">

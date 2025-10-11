@@ -12,7 +12,7 @@ const modules = [
 export const ModuleMonitor = () => (
   <Card className="bg-gray-800 border-gray-700 text-white">
     <CardHeader>
-      <CardTitle>Monitoramento de Módulos</CardTitle>
+      <CardTitle className="text-white">Monitoramento de Módulos</CardTitle>
     </CardHeader>
     <CardContent>
       <ul className="space-y-3">

@@ -4,7 +4,7 @@ import { Share2 } from "lucide-react";
 export const HealthMap = () => (
   <Card className="bg-gray-800 border-gray-700 text-white">
     <CardHeader>
-      <CardTitle>Mapa de Saúde do Sistema</CardTitle>
+      <CardTitle className="text-white">Mapa de Saúde do Sistema</CardTitle>
     </CardHeader>
     <CardContent>
       <div className="h-40 flex items-center justify-center bg-gray-900/50 rounded-lg">

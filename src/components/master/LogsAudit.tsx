@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 export const LogsAudit = () => (
   <Card className="bg-gray-800 border-gray-700 text-white xl:col-span-2">
     <CardHeader>
-      <CardTitle>Logs e Auditoria</CardTitle>
+      <CardTitle className="text-white">Logs e Auditoria</CardTitle>
     </CardHeader>
     <CardContent>
       <div className="flex space-x-2 mb-4">
@@ -16,9 +16,9 @@ export const LogsAudit = () => (
       <Table>
         <TableHeader>
           <TableRow className="border-gray-700">
-            <TableHead>Timestamp</TableHead>
-            <TableHead>Usuário</TableHead>
-            <TableHead>Evento</TableHead>
+            <TableHead className="text-gray-300">Timestamp</TableHead>
+            <TableHead className="text-gray-300">Usuário</TableHead>
+            <TableHead className="text-gray-300">Evento</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
