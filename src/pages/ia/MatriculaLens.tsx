@@ -43,7 +43,7 @@ const getRiskBadge = (level: string) => {
     return <Badge variant="secondary">🟡 Baixo</Badge>;
 };
 
-const MatrículaLensPage = () => {
+const MatriculaLensPage = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
