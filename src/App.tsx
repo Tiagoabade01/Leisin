@@ -217,9 +217,11 @@ const App = () => (
             <Route path="gestao-site" element={<GestaoSite />} />
             <Route path="equipes-usuarios" element={<EquipesUsuarios />} />
             <Route path="integracoes-api" element={<IntegracoesApi />} />
-            <Route path="marketplace" element={<MarketplaceExtensoes />} />
-            <Route path="portais-externos" element={<PortaisExternos />} />
           </Route>
+
+          {/* Rotas de Insights que usam o Layout principal */}
+          <Route path="/insights/marketplace" element={<MarketplaceExtensoes />} />
+          <Route path="/insights/portais-externos" element={<PortaisExternos />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -163,8 +163,8 @@ const navItems = [
     icon: BrainCircuit,
     isGroup: true,
     subItems: [
-      { to: "/painel-master/marketplace", label: "Marketplace", icon: Store },
-      { to: "/painel-master/portais-externos", label: "Portais Externos", icon: ExternalLink },
+      { to: "/insights/marketplace", label: "Marketplace", icon: Store },
+      { to: "/insights/portais-externos", label: "Portais Externos", icon: ExternalLink },
     ]
   },
   {

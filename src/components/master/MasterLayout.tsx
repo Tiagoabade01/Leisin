@@ -21,8 +21,8 @@ const navItems = [
   { to: "/painel-master/gestao-site", label: "Gestão do Site", icon: LayoutTemplate },
   { to: "/painel-master/equipes-usuarios", label: "Equipes & Usuários Internos", icon: Users2 },
   { to: "/painel-master/integracoes-api", label: "Integrações & API", icon: PlugZap },
-  { to: "/painel-master/marketplace", label: "Marketplace", icon: Store },
-  { to: "/painel-master/portais-externos", label: "Portais Externos", icon: ExternalLink },
+  { to: "/insights/marketplace", label: "Marketplace", icon: Store },
+  { to: "/insights/portais-externos", label: "Portais Externos", icon: ExternalLink },
 ];
 
 const MasterLayout = () => {
