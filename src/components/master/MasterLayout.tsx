@@ -67,7 +67,7 @@ const MasterLayout = () => {
                       )
                     }
                   >
-                    <item.icon className="w-6 h-6" />
+                    <item.icon className="w-5 h-5" />
                   </NavLink>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">

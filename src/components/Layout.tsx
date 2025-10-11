@@ -261,7 +261,7 @@ const Sidebar = () => {
                       isActive ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800/50 hover:text-white"
                     )}
                   >
-                    <item.icon className="w-6 h-6" />
+                    <item.icon className="w-5 h-5" />
                   </NavLink>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">{item.label}</TooltipContent>
@@ -288,7 +288,7 @@ const Sidebar = () => {
                 <TooltipTrigger asChild>
                   <PopoverTrigger asChild>
                     <Button variant="ghost" className="w-full justify-center h-12 text-gray-400 hover:bg-gray-800 hover:text-white">
-                      <item.icon className="w-6 h-6" />
+                      <item.icon className="w-5 h-5" />
                     </Button>
                   </PopoverTrigger>
                 </TooltipTrigger>
