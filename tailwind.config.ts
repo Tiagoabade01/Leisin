@@ -31,6 +31,7 @@ export default {
         'alert-orange': '#F5A623',
         'azul-fiscal': '#1E90FF',
         'dourado-tributario': '#CBB26A',
+        'roxo-automacao': '#8A4FFF',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
