@@ -1,11 +1,17 @@
 import Layout from "@/components/Layout";
+import CalendarioCronogramas from "@/components/tasks/CalendarioCronogramas";
 
 const AgendaCalendario = () => {
   return (
     <Layout>
-      <div className="p-8">
-        <h1 className="text-3xl font-bold">Agenda & Calendário</h1>
-        <p className="text-gray-500 mt-2">Esta página está em construção.</p>
+      <div className="bg-[#0A0F14] text-gray-100 h-full p-6 md:p-8 flex flex-col">
+        <header className="mb-6">
+          <h1 className="text-3xl font-bold text-white font-serif">Agenda & Calendário</h1>
+          <p className="text-gray-400">Visualize seus prazos, audiências e compromissos em um só lugar.</p>
+        </header>
+        <div className="flex-grow">
+          <CalendarioCronogramas />
+        </div>
       </div>
     </Layout>
   );
