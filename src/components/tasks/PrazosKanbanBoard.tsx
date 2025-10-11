@@ -88,26 +88,68 @@ const PrazoColumn = ({ column, prazos, onPrazoClick, onEditColumn, onDeleteColum
 const PrazosKanbanBoard = ({ prazos, columns, onDragEnd, onPrazoClick, onEditColumn, onDeleteColumn, onAddColumn }) => {
   const [activePrazo, setActivePrazo] = useState<PrazoProcessual | null>(null);
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [showLeftScroll, setShowLeftScroll] = useState(false);
+  const [showRightScroll, setShowRightScroll] = useState(true);
+
+  const handleScroll = () => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      setShowLeftScroll(scrollLeft > 0);
+      setShowRightScroll(scrollLeft < scrollWidth - clientWidth - 1);
+    }
+  };
+
+  useEffect(() => {
+    handleScroll();
+    const container = scrollContainerRef.current;
+    container?.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    return () => {
+      container?.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [columns, prazos]);
+
+  const scroll = (direction: 'left' | 'right') => {
+    scrollContainerRef.current?.scrollBy({
+      left: direction === 'left' ? -300 : 300,
+      behavior: 'smooth',
+    });
+  };
 
   const handleDragStart = (event) => {
     if (event.active.data.current?.type === 'Prazo') setActivePrazo(event.active.data.current.prazo);
   };
 
   return (
-    <div className="flex items-start gap-4 overflow-x-auto pb-4 no-scrollbar h-full">
-      <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={handleDragStart} onDragEnd={onDragEnd}>
-        <SortableContext items={columns.map(c => c.id)}>
-          {columns.map(col => (
-            <PrazoColumn key={col.id} column={col} prazos={prazos.filter(p => p.status === col.id)} onPrazoClick={onPrazoClick} onEditColumn={onEditColumn} onDeleteColumn={onDeleteColumn} />
-          ))}
-        </SortableContext>
-        <DragOverlay>{activePrazo ? <PrazoCard prazo={activePrazo} isOverlay /> : null}</DragOverlay>
-      </DndContext>
-      <div className="w-80 flex-shrink-0">
-        <Button onClick={onAddColumn} variant="outline" className="w-full h-12 bg-gray-800/50 border-gray-700 border-dashed hover:bg-gray-800">
-          <PlusCircle className="h-4 w-4 mr-2" /> Nova Coluna
+    <div className="relative h-full">
+      {showLeftScroll && (
+        <Button onClick={() => scroll('left')} size="icon" className="absolute left-0 top-1/2 -translate-y-1/2 z-10 rounded-full h-8 w-8 bg-gray-800/50 hover:bg-gray-800">
+          <ChevronLeft className="h-5 w-5" />
         </Button>
+      )}
+      <div ref={scrollContainerRef} className="flex items-start gap-4 overflow-x-auto pb-4 no-scrollbar h-full">
+        <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={handleDragStart} onDragEnd={onDragEnd}>
+          <SortableContext items={columns.map(c => c.id)}>
+            {columns.map(col => (
+              <PrazoColumn key={col.id} column={col} prazos={prazos.filter(p => p.status === col.id)} onPrazoClick={onPrazoClick} onEditColumn={onEditColumn} onDeleteColumn={onDeleteColumn} />
+            ))}
+          </SortableContext>
+          <DragOverlay>{activePrazo ? <PrazoCard prazo={activePrazo} isOverlay /> : null}</DragOverlay>
+        </DndContext>
+        <div className="w-80 flex-shrink-0">
+          <Button onClick={onAddColumn} variant="outline" className="w-full h-12 bg-gray-800/50 border-gray-700 border-dashed hover:bg-gray-800">
+            <PlusCircle className="h-4 w-4 mr-2" /> Nova Coluna
+          </Button>
+        </div>
       </div>
+      {showRightScroll && (
+        <Button onClick={() => scroll('right')} size="icon" className="absolute right-0 top-1/2 -translate-y-1/2 z-10 rounded-full h-8 w-8 bg-gray-800/50 hover:bg-gray-800">
+          <ChevronRight className="h-5 w-5" />
+        </Button>
+      )}
     </div>
   );
 };
