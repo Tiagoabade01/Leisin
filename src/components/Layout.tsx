@@ -257,7 +257,7 @@ const Sidebar = () => {
                   <NavLink
                     to={item.to}
                     className={({ isActive }) => cn(
-                      "flex items-center justify-center h-12 text-sm font-medium rounded-md transition-colors",
+                      "grid h-12 w-full place-items-center rounded-md text-sm font-medium transition-colors",
                       isActive ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800/50 hover:text-white"
                     )}
                   >
