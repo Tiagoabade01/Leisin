@@ -4,20 +4,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from '@/components/ui/textarea';
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { showSuccess } from '@/utils/toast';
 import { TarefasKanban, Column } from '@/components/tasks/TarefasKanban';
+import TaskList from '@/components/tasks/TaskList';
+import CalendarioCronogramas from '@/components/tasks/CalendarioCronogramas';
 import { DragEndEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
-import CalendarioCronogramas from '@/components/tasks/CalendarioCronogramas';
 import { 
   PlusCircle, Clock, BarChart2, Search, AlertCircle, CheckCircle, Calendar, MessageSquare, 
   Paperclip, Play, Zap, History, LayoutGrid, List, BrainCircuit, User, Link as LinkIcon,
@@ -34,7 +34,7 @@ export interface Task {
   priority: 'Alta' | 'Média' | 'Baixa';
   slaHours: number;
   estimatedHours: number;
-  status: 'A fazer' | 'Em andamento' | 'Em revisão' | 'Concluída';
+  status: string; // Alterado para string para suportar colunas customizadas
   badges: ('recorrente' | 'ia' | 'timer' | 'anexos' | 'comentarios')[];
   checklist: { id: string; text: string; done: boolean }[];
   comments: { user: string; text: string }[];
@@ -63,20 +63,10 @@ const initialColumns: Column[] = [
   { id: 'Concluída', title: 'Concluída' },
 ];
 
-// --- COMPONENTES AUXILIARES ---
 const getPriorityBadge = (priority: Task['priority']) => {
   if (priority === 'Alta') return <Badge className="bg-red-500/20 text-red-400 border-red-500/30">🔴 Alta</Badge>;
   if (priority === 'Média') return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">🟠 Média</Badge>;
   return <Badge className="bg-green-500/20 text-green-400 border-green-500/30">🟡 Baixa</Badge>;
-};
-
-const getIconForType = (type: Task['type']) => {
-  switch(type) {
-    case 'Contrato': return <Signature className="h-4 w-4 text-gray-400" />;
-    case 'Processo': return <Briefcase className="h-4 w-4 text-gray-400" />;
-    case 'Financeiro': return <DollarSign className="h-4 w-4 text-gray-400" />;
-    default: return <FileText className="h-4 w-4 text-gray-400" />;
-  }
 };
 
 const MinhaCaixa = () => {
@@ -87,6 +77,9 @@ const MinhaCaixa = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isTimeModalOpen, setIsTimeModalOpen] = useState(false);
+  const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
+  const [editingColumn, setEditingColumn] = useState<Partial<Column> | null>(null);
+  const [columnToDelete, setColumnToDelete] = useState<string | null>(null);
 
   const handleSelectTask = (task: Task) => {
     setSelectedTask(task);
@@ -122,7 +115,7 @@ const MinhaCaixa = () => {
 
       if (isOverAColumn) {
         const newTasks = [...prevTasks];
-        newTasks[activeIndex].status = overId as Task['status'];
+        newTasks[activeIndex].status = overId;
         return newTasks;
       }
       
@@ -133,6 +126,35 @@ const MinhaCaixa = () => {
       }
       return prevTasks;
     });
+  };
+
+  const handleOpenColumnModal = (col?: Column) => {
+    setEditingColumn(col || {});
+    setIsColumnModalOpen(true);
+  };
+
+  const handleSaveColumn = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const title = formData.get('title') as string;
+
+    if (editingColumn?.id) {
+      setColumns(prev => prev.map(c => c.id === editingColumn.id ? { ...c, title } : c));
+      showSuccess("Coluna renomeada!");
+    } else {
+      const newId = title.toLowerCase().replace(/\s+/g, '-');
+      setColumns(prev => [...prev, { id: newId, title }]);
+      showSuccess("Coluna criada!");
+    }
+    setIsColumnModalOpen(false);
+  };
+
+  const confirmDeleteColumn = () => {
+    if (columnToDelete) {
+      setColumns(prev => prev.filter(c => c.id !== columnToDelete));
+      setColumnToDelete(null);
+      showSuccess("Coluna excluída!");
+    }
   };
 
   return (
@@ -170,32 +192,9 @@ const MinhaCaixa = () => {
             </div>
           </CardHeader>
           <CardContent>
-            {view === 'table' && (
-              <Table>
-                <TableHeader><TableRow className="border-gray-700 hover:bg-transparent"><TableHead>Tarefa</TableHead><TableHead>Cliente/Objeto</TableHead><TableHead>Prazo</TableHead><TableHead>Prioridade</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
-                <TableBody>
-                  {tasks.map(task => (
-                    <TableRow key={task.id} onClick={() => handleSelectTask(task)} className="cursor-pointer border-gray-700 hover:bg-gray-800/50">
-                      <TableCell className="font-medium flex items-center gap-2">{getIconForType(task.type)} {task.title}</TableCell>
-                      <TableCell>{task.client}</TableCell>
-                      <TableCell>{task.deadline}</TableCell>
-                      <TableCell>{getPriorityBadge(task.priority)}</TableCell>
-                      <TableCell>{task.status}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
-
-            {view === 'kanban' && (
-              <TarefasKanban tasks={tasks} columns={columns} onDragEnd={handleDragEnd} onTaskClick={handleSelectTask} />
-            )}
-            
-            {view === 'agenda' && (
-              <div className="h-[70vh]">
-                <CalendarioCronogramas />
-              </div>
-            )}
+            {view === 'table' && <TaskList tasks={tasks} onTaskClick={handleSelectTask} />}
+            {view === 'kanban' && <TarefasKanban tasks={tasks} columns={columns} onDragEnd={handleDragEnd} onTaskClick={handleSelectTask} onEditColumn={handleOpenColumnModal} onDeleteColumn={setColumnToDelete} onAddColumn={() => handleOpenColumnModal()} />}
+            {view === 'agenda' && <div className="h-[70vh]"><CalendarioCronogramas /></div>}
           </CardContent>
         </Card>
       </div>
@@ -244,6 +243,24 @@ const MinhaCaixa = () => {
 
       <Dialog open={isTaskModalOpen} onOpenChange={setIsTaskModalOpen}><DialogContent className="bg-gray-900 text-white border-gray-700"><DialogHeader><DialogTitle>Nova Tarefa</DialogTitle></DialogHeader><form onSubmit={handleSaveTask}><div className="py-4 space-y-3"><div className="space-y-1"><Label>Título</Label><Input name="title" required /></div><div className="space-y-1"><Label>Cliente</Label><Input name="client" /></div><div className="space-y-1"><Label>Prazo</Label><Input name="deadline" type="date" /></div></div><DialogFooter><Button type="button" variant="ghost" onClick={() => setIsTaskModalOpen(false)}>Cancelar</Button><Button type="submit">Criar</Button></DialogFooter></form></DialogContent></Dialog>
       <Dialog open={isTimeModalOpen} onOpenChange={setIsTimeModalOpen}><DialogContent className="bg-gray-900 text-white border-gray-700"><DialogHeader><DialogTitle>Registrar Hora</DialogTitle></DialogHeader><form onSubmit={handleSaveTime}><div className="py-4 space-y-3"><div className="space-y-1"><Label>Tarefa</Label><Input name="task" required /></div><div className="space-y-1"><Label>Horas</Label><Input name="hours" type="number" step="0.1" required /></div></div><DialogFooter><Button type="button" variant="ghost" onClick={() => setIsTimeModalOpen(false)}>Cancelar</Button><Button type="submit">Registrar</Button></DialogFooter></form></DialogContent></Dialog>
+
+      {/* Modals for Column Management */}
+      <Dialog open={isColumnModalOpen} onOpenChange={setIsColumnModalOpen}>
+        <DialogContent className="bg-gray-900 text-white border-gray-700">
+          <DialogHeader><DialogTitle>{editingColumn?.id ? 'Renomear' : 'Criar Nova'} Coluna</DialogTitle></DialogHeader>
+          <form onSubmit={handleSaveColumn}>
+            <div className="py-4"><Label htmlFor="title">Título da Coluna</Label><Input id="title" name="title" defaultValue={editingColumn?.title} className="bg-gray-800 border-gray-600 mt-2" required /></div>
+            <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsColumnModalOpen(false)}>Cancelar</Button><Button type="submit">Salvar</Button></DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <AlertDialog open={!!columnToDelete} onOpenChange={() => setColumnToDelete(null)}>
+        <AlertDialogContent className="bg-gray-900 text-white border-gray-700">
+          <AlertDialogHeader><AlertDialogTitle>Excluir Coluna?</AlertDialogTitle><AlertDialogDescription className="text-gray-300">As tarefas nesta coluna não serão excluídas, mas ficarão sem status. Esta ação não pode ser desfeita.</AlertDialogDescription></AlertDialogHeader>
+          <AlertDialogFooter><AlertDialogCancel asChild><Button variant="ghost">Cancelar</Button></AlertDialogCancel><AlertDialogAction onClick={confirmDeleteColumn} asChild><Button variant="destructive">Excluir</Button></AlertDialogAction></AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Layout>
   );
 };
