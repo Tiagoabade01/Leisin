@@ -2,7 +2,10 @@ import React, { useState, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Bold, Italic } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Bold, Italic, Heading2, List, ListOrdered } from "lucide-react";
+
+const emojis = ['👍', '⚠️', '✅', '💡', '🔥', '🎉', '🤔', '👀'];
 
 const PrazosNotasEquipe = () => {
   const [note, setNote] = useState('');
@@ -42,19 +45,32 @@ const PrazosNotasEquipe = () => {
       </CardHeader>
       <CardContent>
         <div className="bg-gray-800 border border-gray-600 rounded-lg">
-          <div className="p-2 border-b border-gray-600 flex items-center gap-1">
+          <div className="p-2 border-b border-gray-600 flex items-center gap-1 flex-wrap">
             <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => insertText('**', true)}><Bold className="h-4 w-4" /></Button>
             <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => insertText('*', true)}><Italic className="h-4 w-4" /></Button>
+            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => insertText('## ')}><Heading2 className="h-4 w-4" /></Button>
             <div className="border-l border-gray-600 h-6 mx-1"></div>
-            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => insertText('👍')}>👍</Button>
-            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => insertText('⚠️')}>⚠️</Button>
-            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => insertText('✅')}>✅</Button>
+            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => insertText('- ')}><List className="h-4 w-4" /></Button>
+            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => insertText('1. ')}><ListOrdered className="h-4 w-4" /></Button>
+            <div className="border-l border-gray-600 h-6 mx-1"></div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-7 w-7">🙂</Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-2 bg-gray-800 border-gray-700">
+                <div className="grid grid-cols-4 gap-1">
+                  {emojis.map(emoji => (
+                    <Button key={emoji} variant="ghost" size="icon" className="h-7 w-7 text-lg" onClick={() => insertText(emoji)}>{emoji}</Button>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
           <Textarea 
             ref={textareaRef}
             value={note}
             onChange={(e) => setNote(e.target.value)}
-            placeholder="Adicione uma nota para a equipe... Use **negrito** e *itálico*."
+            placeholder="Adicione uma nota para a equipe... Use Markdown para formatar."
             className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 min-h-[120px]"
           />
         </div>

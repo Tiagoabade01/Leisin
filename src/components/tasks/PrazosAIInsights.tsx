@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BrainCircuit } from "lucide-react";
 import PrazosNotasEquipe from './PrazosNotasEquipe';
+import PrazosQuadroServicos from './PrazosQuadroServicos';
 
 const PrazosAIInsights = () => {
   return (
@@ -17,9 +18,10 @@ const PrazosAIInsights = () => {
           <p className="text-sm text-gray-300">"Prazo para o processo 402312-92 é crítico e tem 85% de chance de impacto financeiro negativo se perdido."</p>
         </CardContent>
       </Card>
-      <div className="flex-grow">
-        <PrazosNotasEquipe />
-      </div>
+      
+      <PrazosNotasEquipe />
+      <PrazosQuadroServicos />
+
     </div>
   );
 };
