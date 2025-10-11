@@ -60,6 +60,7 @@ import MensagensOficiais from "./pages/comunicacao/MensagensOficiais";
 import ChatCopilot from "./pages/comunicacao/ChatCopilot";
 import PipelineOportunidades from "./pages/crm/PipelineOportunidades";
 import Clientes from "./pages/crm/Clientes";
+import ClienteDetalheApp from "./pages/clientes/ClienteDetalhe"; // Novo import
 import ParceirosComerciais from "./pages/crm/ParceirosComerciais";
 import TarefasFollowups from "./pages/crm/TarefasFollowups";
 import PropostasNegociacoes from "./pages/crm/PropostasNegociacoes";
@@ -177,6 +178,7 @@ const App = () => (
           {/* CRM Jurídico */}
           <Route path="/crm/pipeline-oportunidades" element={<PipelineOportunidades />} />
           <Route path="/crm/clientes" element={<Clientes />} />
+          <Route path="/app/clientes/:clienteId" element={<ClienteDetalheApp />} />
           <Route path="/crm/parceiros-comerciais" element={<ParceirosComerciais />} />
           <Route path="/crm/tarefas-followups" element={<TarefasFollowups />} />
           <Route path="/crm/propostas-negociacoes" element={<PropostasNegociacoes />} />

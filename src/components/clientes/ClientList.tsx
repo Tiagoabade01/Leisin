@@ -18,6 +18,8 @@ const getStatusBadge = (status: string) => {
   switch (status) {
     case "Ativo": return <Badge className="bg-green-500/20 text-green-400 border-green-500/30">🟢 Ativo</Badge>;
     case "Em revisão": return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">🟡 Em revisão</Badge>;
+    case "Em risco": return <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30">🟠 Em risco</Badge>;
+    case "Potencial": return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">🔵 Potencial</Badge>;
     default: return <Badge variant="secondary">{status}</Badge>;
   }
 };
@@ -40,7 +42,7 @@ const ClientList = ({ clients, onEdit, onDelete }: ClientListProps) => {
           <TableBody>
             {clients.map(client => (
               <TableRow key={client.id} className="border-gray-700">
-                <TableCell><Link to={`/juridico/clientes/${client.id}`} className="font-medium text-blue-400 hover:underline">{client.name}</Link></TableCell>
+                <TableCell><Link to={`/app/clientes/${client.id}`} className="font-medium text-blue-400 hover:underline">{client.name}</Link></TableCell>
                 <TableCell>{client.type}</TableCell>
                 <TableCell>{client.responsible}</TableCell>
                 <TableCell>{client.contracts}</TableCell>
