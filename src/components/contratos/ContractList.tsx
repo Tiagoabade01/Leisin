@@ -7,12 +7,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Search } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Contract } from "@/pages/juridico/ContratosObrigacoes";
 
-const contracts = [
-  { id: "CT-204", type: "Prestação de serviços", client: "Mettri Arquitetura", lawyer: "Ana Faria", status: "Vigente", risk: "Baixo", expiry: "15/11/2025" },
-  { id: "CT-212", type: "Compra e venda", client: "Terlla Incorporadora", lawyer: "João Lima", status: "Revisão", risk: "Médio", expiry: "08/12/2025" },
-  { id: "CT-219", type: "Parceria comercial", client: "Nivem Construtora", lawyer: "Maria Souza", status: "Em execução", risk: "Alto", expiry: "03/01/2026" },
-];
+interface ContractListProps {
+  contracts: Contract[];
+  onEdit: (contract: Contract) => void;
+  onDelete: (id: string) => void;
+}
 
 const getRiskBadge = (risk: string) => {
   switch (risk) {
@@ -23,7 +24,7 @@ const getRiskBadge = (risk: string) => {
   }
 };
 
-const ContractList = () => {
+const ContractList = ({ contracts, onEdit, onDelete }: ContractListProps) => {
   return (
     <Card className="bg-petroleum-blue border-gray-700 text-white">
       <CardHeader>
@@ -54,9 +55,9 @@ const ContractList = () => {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="bg-gray-800 text-white border-gray-700">
-                      <DropdownMenuItem>Ver Detalhes</DropdownMenuItem>
-                      <DropdownMenuItem>Revisar Cláusulas</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onEdit(contract)}>Editar</DropdownMenuItem>
                       <DropdownMenuItem>Analisar com IA</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onDelete(contract.id)} className="text-red-400">Excluir</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

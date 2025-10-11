@@ -7,12 +7,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Search } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Process } from "@/pages/juridico/CasosProcessos";
 
-const processes = [
-  { id: "1012456-33.2025.8.26.0100", type: "Cível", client: "Mettri Arquitetura", lawyer: "Ana Faria", status: "Em andamento", risk: "Médio", lastUpdate: "09/10/25" },
-  { id: "402312-92.2024.8.26.0450", type: "Trabalhista", client: "Nivem Construtora", lawyer: "João Lima", status: "Em recurso", risk: "Alto", lastUpdate: "07/10/25" },
-  { id: "225481-88.2025.8.26.0001", type: "Imobiliário", client: "Terlla", lawyer: "Maria Souza", status: "Encerrado", risk: "Baixo", lastUpdate: "02/10/25" },
-];
+interface ProcessListProps {
+  processes: Process[];
+  onEdit: (process: Process) => void;
+  onDelete: (id: string) => void;
+}
 
 const getRiskBadge = (risk: string) => {
   switch (risk) {
@@ -23,7 +24,7 @@ const getRiskBadge = (risk: string) => {
   }
 };
 
-const ProcessList = () => {
+const ProcessList = ({ processes, onEdit, onDelete }: ProcessListProps) => {
   return (
     <Card className="bg-petroleum-blue border-gray-700 text-white">
       <CardHeader>
@@ -54,9 +55,10 @@ const ProcessList = () => {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="bg-gray-800 text-white border-gray-700">
-                      <DropdownMenuItem>Ver Dossiê</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onEdit(proc)}>Editar</DropdownMenuItem>
                       <DropdownMenuItem>Analisar com IA</DropdownMenuItem>
                       <DropdownMenuItem>Gerar Relatório</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onDelete(proc.id)} className="text-red-400">Excluir</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

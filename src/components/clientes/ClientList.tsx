@@ -6,13 +6,13 @@ import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Search } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Client } from "@/pages/juridico/ClientesJuridicos";
 
-const clients = [
-  { id: "1", name: "Mettri Arquitetura", type: "PJ", responsible: "Ana Faria", contracts: 3, processes: 2, status: "Ativo", lastInteraction: "09/10/25" },
-  { id: "2", name: "Nivem Construtora", type: "PJ", responsible: "João Lima", contracts: 2, processes: 1, status: "Em revisão", lastInteraction: "07/10/25" },
-  { id: "3", name: "Terlla Incorporadora", type: "PJ", responsible: "Maria Souza", contracts: 5, processes: 4, status: "Ativo", lastInteraction: "08/10/25" },
-  { id: "4", name: "Marcos Abade", type: "PF", responsible: "Ana Faria", contracts: 1, processes: 0, status: "Ativo", lastInteraction: "03/10/25" },
-];
+interface ClientListProps {
+  clients: Client[];
+  onEdit: (client: Client) => void;
+  onDelete: (id: string) => void;
+}
 
 const getStatusBadge = (status: string) => {
   switch (status) {
@@ -22,7 +22,7 @@ const getStatusBadge = (status: string) => {
   }
 };
 
-const ClientList = () => {
+const ClientList = ({ clients, onEdit, onDelete }: ClientListProps) => {
   return (
     <Card className="bg-petroleum-blue border-gray-700 text-white">
       <CardHeader>
@@ -51,9 +51,9 @@ const ClientList = () => {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="bg-gray-800 text-white border-gray-700">
-                      <DropdownMenuItem>Ver Ficha</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onEdit(client)}>Editar</DropdownMenuItem>
                       <DropdownMenuItem>Analisar com IA</DropdownMenuItem>
-                      <DropdownMenuItem>Abrir CRM</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onDelete(client.id)} className="text-red-400">Excluir</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

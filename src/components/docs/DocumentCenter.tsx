@@ -5,14 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Search } from "lucide-react";
+import { Document } from "@/pages/juridico/DocumentosRelatorios";
 
-const documents = [
-  { id: "1", name: "Contrato CT-212.pdf", type: "Contrato", module: "Contratos", responsible: "João Lima", date: "08/10/25", status: "Vigente" },
-  { id: "2", name: "Proc_1012456_decisão.pdf", type: "Decisão", module: "Processos", responsible: "Ana Faria", date: "07/10/25", status: "Concluído" },
-  { id: "3", name: "Certidão_Terlla.pdf", type: "Certidão", module: "Due Diligence", responsible: "Maria Souza", date: "03/10/25", status: "Válida" },
-];
+interface DocumentCenterProps {
+  documents: Document[];
+}
 
-const DocumentCenter = () => {
+const DocumentCenter = ({ documents }: DocumentCenterProps) => {
   return (
     <Card className="bg-petroleum-blue border-gray-700 text-white">
       <CardHeader>
