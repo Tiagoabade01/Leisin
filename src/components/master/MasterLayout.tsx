@@ -60,7 +60,7 @@ const MasterLayout = () => {
                     end={item.end}
                     className={({ isActive }) =>
                       cn(
-                        "grid place-items-center h-12 text-sm font-medium rounded-md transition-colors",
+                        "flex items-center justify-center h-12 text-sm font-medium rounded-md transition-colors",
                         isActive
                           ? "bg-gray-800 text-white"
                           : "text-gray-400 hover:bg-gray-800/50 hover:text-white"
