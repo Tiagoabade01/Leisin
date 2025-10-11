@@ -9,17 +9,38 @@ const performanceData = [
   { usuario: "Lucas Martins", tarefas: 23, concluidas: 19, eficiencia: "82,6%", tempoMedio: "2h 10m", scoreIA: 8.4 },
 ];
 
-const productivityData = [
-    { name: 'Jurídico', produtividade: 93 },
-    { name: 'Financeiro', produtividade: 98 },
-    { name: 'Admin/CRM', produtividade: 85 },
+const metasData = [
+    { setor: "Jurídico Operacional", meta: "120 casos/mês", realizado: "138", percent: "115%", status: "🟢 Superou" },
+    { setor: "Financeiro", meta: "R$ 220 mil", realizado: "R$ 204 mil", percent: "93%", status: "🟡 Abaixo" },
+    { setor: "CRM Jurídico", meta: "40 propostas", realizado: "37", percent: "92%", status: "🟡 Próximo" },
+    { setor: "Contábil", meta: "100 lançamentos", realizado: "110", percent: "110%", status: "🟢 Ok" },
 ];
 
 const MetasDesempenho = () => {
   return (
     <div className="space-y-6">
       <Card className="bg-petroleum-blue border-gray-700 text-white">
-        <CardHeader><CardTitle>Desempenho Operacional</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Metas e Indicadores de Equipe</CardTitle></CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader><TableRow className="border-gray-700 hover:bg-transparent"><TableHead>Setor</TableHead><TableHead>Meta</TableHead><TableHead>Realizado</TableHead><TableHead>%</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
+            <TableBody>
+              {metasData.map(item => (
+                <TableRow key={item.setor} className="border-gray-700">
+                  <TableCell>{item.setor}</TableCell>
+                  <TableCell>{item.meta}</TableCell>
+                  <TableCell>{item.realizado}</TableCell>
+                  <TableCell>{item.percent}</TableCell>
+                  <TableCell>{item.status}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <p className="text-sm text-risk-gold mt-4">💡 IA Insight: “O Financeiro da filial Recife está abaixo da meta de faturamento em 8%. Sugiro revisar playbooks de cobrança.”</p>
+        </CardContent>
+      </Card>
+      <Card className="bg-petroleum-blue border-gray-700 text-white">
+        <CardHeader><CardTitle>Produtividade e Desempenho</CardTitle></CardHeader>
         <CardContent>
           <Table>
             <TableHeader><TableRow className="border-gray-700 hover:bg-transparent"><TableHead>Usuário</TableHead><TableHead>Tarefas/Mês</TableHead><TableHead>Concluídas</TableHead><TableHead>Eficiência</TableHead><TableHead>Tempo Médio</TableHead><TableHead>Score IA</TableHead></TableRow></TableHeader>
@@ -36,22 +57,9 @@ const MetasDesempenho = () => {
               ))}
             </TableBody>
           </Table>
+          <p className="text-sm text-risk-gold mt-4">💡 IA Insight: “A equipe contábil de Campinas tem o menor tempo médio de execução (6 h por tarefa). Esse padrão pode ser replicado em outras filiais.”</p>
         </CardContent>
       </Card>
-      <Card className="bg-petroleum-blue border-gray-700 text-white">
-        <CardHeader><CardTitle>Produtividade Mensal por Setor (%)</CardTitle></CardHeader>
-        <CardContent>
-            <ResponsiveContainer width="100%" height={250}>
-                <BarChart data={productivityData}>
-                    <XAxis dataKey="name" stroke="#a1a1aa" />
-                    <YAxis stroke="#a1a1aa" />
-                    <Tooltip contentStyle={{ backgroundColor: '#1C2A3A' }} />
-                    <Bar dataKey="produtividade" fill="#2EF3C1" radius={[4, 4, 0, 0]} />
-                </BarChart>
-            </ResponsiveContainer>
-        </CardContent>
-      </Card>
-      <p className="text-sm text-risk-gold text-center">💡 IA Insight: “O setor financeiro superou a meta de eficiência em 12%. A IA sugere criar uma bonificação automatizada via módulo Financeiro.”</p>
     </div>
   );
 };

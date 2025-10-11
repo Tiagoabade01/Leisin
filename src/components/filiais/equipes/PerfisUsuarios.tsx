@@ -3,40 +3,38 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 
 const users = [
-  { name: "Dra. Larissa Campos", cargo: "Diretora Regional", filial: "SP - Matriz", status: "Ativa", acesso: "Master", ultimoLogin: "11/10/25 18:10" },
-  { name: "Dr. Felipe Ramos", cargo: "Coordenador Jurídico", filial: "SP - Matriz", status: "Ativa", acesso: "Jurídico", ultimoLogin: "11/10/25 17:45" },
-  { name: "Ana Souza", cargo: "Controller Financeiro", filial: "SP - Matriz", status: "Ativa", acesso: "Financeiro", ultimoLogin: "11/10/25 17:00" },
-  { name: "Lucas Martins", cargo: "Estagiário", filial: "SP - Matriz", status: "Treinamento", acesso: "Básico", ultimoLogin: "11/10/25 16:10" },
-  { name: "IA Copilot", cargo: "Assistente Virtual", filial: "Todas", status: "Ativa", acesso: "Autômato", ultimoLogin: "--" },
+  { name: "Dra. Larissa Campos", cargo: "Diretora Regional", email: "larissa@leisin.com", permissao: "🟣 Master Filial", status: "Ativa" },
+  { name: "Dr. Felipe Ramos", cargo: "Coordenador Jurídico", email: "felipe@leisin.com", permissao: "🟢 Jurídico", status: "Ativa" },
+  { name: "Ana Souza", cargo: "Controller", email: "ana@leisin.com", permissao: "🟢 Financeiro", status: "Ativa" },
+  { name: "Pedro Lima", cargo: "Analista CRM", email: "pedro@leisin.com", permissao: "🟡 CRM", status: "Ativa" },
+  { name: "João Pereira", cargo: "Estagiário", email: "joao@leisin.com", permissao: "🔵 Operacional", status: "Ativa" },
 ];
 
 const getStatusBadge = (status: string) => {
   if (status === "Ativa") return <Badge className="bg-green-500/20 text-green-400 border-green-500/30">🟢 Ativa</Badge>;
-  if (status === "Treinamento") return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">🟡 Treinamento</Badge>;
   return <Badge variant="secondary">{status}</Badge>;
 };
 
 const PerfisUsuarios = () => {
   return (
     <Card className="bg-petroleum-blue border-gray-700 text-white">
-      <CardHeader><CardTitle>Cadastro e Perfis de Usuários</CardTitle></CardHeader>
+      <CardHeader><CardTitle>Cadastro de Membros e Papéis</CardTitle></CardHeader>
       <CardContent>
         <Table>
-          <TableHeader><TableRow className="border-gray-700 hover:bg-transparent"><TableHead>Nome</TableHead><TableHead>Cargo</TableHead><TableHead>Filial</TableHead><TableHead>Status</TableHead><TableHead>Acesso</TableHead><TableHead>Último Login</TableHead></TableRow></TableHeader>
+          <TableHeader><TableRow className="border-gray-700 hover:bg-transparent"><TableHead>Nome</TableHead><TableHead>Cargo</TableHead><TableHead>E-mail</TableHead><TableHead>Permissão</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
           <TableBody>
             {users.map(user => (
               <TableRow key={user.name} className="border-gray-700">
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.cargo}</TableCell>
-                <TableCell>{user.filial}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.permissao}</TableCell>
                 <TableCell>{getStatusBadge(user.status)}</TableCell>
-                <TableCell>{user.acesso}</TableCell>
-                <TableCell>{user.ultimoLogin}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        <p className="text-sm text-risk-gold mt-4">💡 IA Insight: “Usuário ‘Ana Souza’ possui permissão de edição financeira em duas filiais diferentes. Deseja unificar o controle para evitar duplicidade?”</p>
+        <p className="text-sm text-risk-gold mt-4">💡 IA Insight: “O advogado Felipe Ramos ultrapassou 130% da meta mensal. Deseja enviar reconhecimento automático via Comunicação?”</p>
       </CardContent>
     </Card>
   );

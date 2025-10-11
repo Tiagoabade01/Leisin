@@ -27,28 +27,28 @@ const EquipesResponsaveisPage = () => {
         </div>
       </header>
 
-      <Tabs defaultValue="estrutura" className="w-full">
+      <Tabs defaultValue="organograma" className="w-full">
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-5 bg-gray-800">
-          <TabsTrigger value="estrutura">Estrutura Hierárquica</TabsTrigger>
-          <TabsTrigger value="perfis">Perfis de Usuários</TabsTrigger>
-          <TabsTrigger value="responsabilidades">Responsabilidades</TabsTrigger>
-          <TabsTrigger value="metas">Metas e Desempenho</TabsTrigger>
-          <TabsTrigger value="ia">IA & Automação</TabsTrigger>
+          <TabsTrigger value="organograma">Organograma e Hierarquia</TabsTrigger>
+          <TabsTrigger value="cadastro">Cadastro de Membros e Papéis</TabsTrigger>
+          <TabsTrigger value="metas">Metas e Indicadores</TabsTrigger>
+          <TabsTrigger value="produtividade">Produtividade e Desempenho</TabsTrigger>
+          <TabsTrigger value="integracao">Integração com Módulos e IA</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="estrutura" className="mt-6">
+        <TabsContent value="organograma" className="mt-6">
           <EstruturaHierarquica />
         </TabsContent>
-        <TabsContent value="perfis" className="mt-6">
+        <TabsContent value="cadastro" className="mt-6">
           <PerfisUsuarios />
-        </TabsContent>
-        <TabsContent value="responsabilidades" className="mt-6">
-          <Responsabilidades />
         </TabsContent>
         <TabsContent value="metas" className="mt-6">
           <MetasDesempenho />
         </TabsContent>
-        <TabsContent value="ia" className="mt-6">
+        <TabsContent value="produtividade" className="mt-6">
+          <Responsabilidades />
+        </TabsContent>
+        <TabsContent value="integracao" className="mt-6">
           <IntegracaoIA />
         </TabsContent>
       </Tabs>
