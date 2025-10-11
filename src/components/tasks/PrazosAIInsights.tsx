@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BrainCircuit } from "lucide-react";
 import PrazosNotasEquipe from './PrazosNotasEquipe';
-import PrazosQuadroServicos from './PrazosQuadroServicos';
 
 const PrazosAIInsights = () => {
   return (
@@ -20,7 +19,6 @@ const PrazosAIInsights = () => {
       </Card>
       
       <PrazosNotasEquipe />
-      <PrazosQuadroServicos />
 
     </div>
   );
