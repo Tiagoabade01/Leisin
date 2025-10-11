@@ -13,7 +13,7 @@ const ProcessAnalysis = () => {
       <CardHeader><CardTitle className="text-white">Análise de Processos</CardTitle></CardHeader>
       <CardContent className="space-y-6">
         <div>
-          <h3 className="font-semibold mb-2 text-sm">Taxa de Êxito vs. Perda por Área</h3>
+          <h3 className="font-semibold mb-2 text-sm text-white">Taxa de Êxito vs. Perda por Área</h3>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={successRate} layout="vertical" stackOffset="expand">
               <XAxis type="number" hide />

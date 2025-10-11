@@ -13,7 +13,7 @@ const FinancialRevenue = () => {
     <Card className="bg-petroleum-blue border-gray-700 text-white">
       <CardHeader><CardTitle className="text-white">Financeiro e Receita</CardTitle></CardHeader>
       <CardContent>
-        <h3 className="font-semibold mb-2">Curva de Faturamento (Ano)</h3>
+        <h3 className="font-semibold mb-2 text-white">Curva de Faturamento (Ano)</h3>
         <ResponsiveContainer width="100%" height={250}>
           <AreaChart data={revenueData}>
             <defs>

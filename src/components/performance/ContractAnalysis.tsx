@@ -17,7 +17,7 @@ const ContractAnalysis = () => {
       <CardHeader><CardTitle className="text-white">Análise de Contratos</CardTitle></CardHeader>
       <CardContent className="space-y-6">
         <div>
-          <h3 className="font-semibold mb-2 text-sm">Evolução de Contratos</h3>
+          <h3 className="font-semibold mb-2 text-sm text-white">Evolução de Contratos</h3>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={contractEvolution}>
               <XAxis dataKey="name" stroke="#a1a1aa" fontSize={12} />
@@ -30,7 +30,7 @@ const ContractAnalysis = () => {
           </ResponsiveContainer>
         </div>
         <div>
-          <h3 className="font-semibold mb-2 text-sm">Contratos por Tipo</h3>
+          <h3 className="font-semibold mb-2 text-sm text-white">Contratos por Tipo</h3>
           <ResponsiveContainer width="100%" height={200}>
             <PieChart>
               <Pie data={contractTypes} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70} labelLine={false} label={({ percent }) => `${(percent * 100).toFixed(0)}%`}>

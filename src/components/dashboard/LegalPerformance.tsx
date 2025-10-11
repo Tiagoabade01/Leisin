@@ -17,7 +17,7 @@ const LegalPerformance = () => {
       <CardHeader><CardTitle className="text-white">Performance Jurídica</CardTitle></CardHeader>
       <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h3 className="font-semibold mb-2">Evolução Mensal de Processos</h3>
+          <h3 className="font-semibold mb-2 text-white">Evolução Mensal de Processos</h3>
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={processData}>
               <XAxis dataKey="name" stroke="#a1a1aa" />
@@ -30,7 +30,7 @@ const LegalPerformance = () => {
           </ResponsiveContainer>
         </div>
         <div>
-          <h3 className="font-semibold mb-2">Contratos por Tipo</h3>
+          <h3 className="font-semibold mb-2 text-white">Contratos por Tipo</h3>
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie data={contractData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
