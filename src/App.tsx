@@ -122,6 +122,7 @@ const App = () => (
 
           {/* Rotas da Aplicação Principal (agora em /app) */}
           <Route path="/app" element={<Index />} />
+          <Route path="/painel-master" element={<VisaoGeral />} />
           <Route path="/case/:caseId" element={<CaseDetail />} />
           
           {/* ... (outras rotas principais) ... */}
@@ -199,7 +200,6 @@ const App = () => (
 
           {/* Rotas da Área Master (com layout próprio) */}
           <Route path="/master" element={<MasterLayout />}>
-            <Route path="visao-geral" element={<VisaoGeral />} />
             <Route path="vendas-assinaturas" element={<VendasAssinaturas />} />
             <Route path="gestao-clientes" element={<GestaoClientes />} />
             <Route path="clientes/:clienteId" element={<ClienteDetalhe />} />
@@ -211,13 +211,13 @@ const App = () => (
             <Route path="gestao-site" element={<GestaoSite />} />
             <Route path="equipes-usuarios" element={<EquipesUsuarios />} />
             <Route path="integracoes-api" element={<IntegracoesApi />} />
+            <Route path="marketplace" element={<MarketplaceExtensoes />} />
+            <Route path="portais-externos" element={<PortaisExternos />} />
+            <Route path="planos-licencas" element={<PlanosLicencas />} />
+            <Route path="configuracoes-avancadas" element={<ConfiguracoesAvancadas />} />
           </Route>
 
           {/* ... (resto das rotas) ... */}
-          <Route path="/master/marketplace" element={<MarketplaceExtensoes />} />
-          <Route path="/master/portais-externos" element={<PortaisExternos />} />
-          <Route path="/master/planos-licencas" element={<PlanosLicencas />} />
-          <Route path="/master/configuracoes-avancadas" element={<ConfiguracoesAvancadas />} />
           <Route path="/gestao/usuarios-permissoes" element={<UsuariosPermissoes />} />
           <Route path="/gestao/personalizacao-plataforma" element={<PersonalizacaoPlataforma />} />
           <Route path="/gestao/configuracoes-gerais" element={<ConfiguracoesGerais />} />

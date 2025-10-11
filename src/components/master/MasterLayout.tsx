@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const navItems = [
-  { to: "/master/visao-geral", label: "Visão Geral", icon: LayoutDashboard },
   { to: "/master/vendas-assinaturas", label: "Vendas & Assinaturas", icon: ShoppingCart },
   { to: "/master/gestao-clientes", label: "Gestão de Clientes", icon: Users },
   { to: "/master/gestao-modulos", label: "Gestão de Módulos & Acessos", icon: Package },
