@@ -5,7 +5,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { Badge } from "@/components/ui/badge";
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, PlusCircle, Signature, Briefcase, DollarSign, FileText, ChevronLeft, ChevronRight } from "lucide-react";
+import { MoreHorizontal, PlusCircle, Signature, Briefcase, DollarSign, FileText, ChevronLeft, ChevronRight, MessageSquare, Paperclip, CheckSquare } from "lucide-react";
 import { Task } from '@/pages/tarefas/MinhaCaixa';
 
 export interface Column {
@@ -41,6 +41,11 @@ const TaskCard = ({ task, isOverlay, onClick }: { task: Task, isOverlay?: boolea
           <span>{task.client}</span>
         </div>
         <span className="font-mono">{task.deadline}</span>
+      </div>
+      <div className="flex items-center gap-2 text-gray-500">
+        {task.badges.includes('comentarios') && <MessageSquare className="h-3 w-3" />}
+        {task.badges.includes('anexos') && <Paperclip className="h-3 w-3" />}
+        {task.checklist.length > 0 && <CheckSquare className="h-3 w-3" />}
       </div>
     </div>
   );
@@ -135,11 +140,6 @@ export const TarefasKanban = ({ tasks, columns, onDragEnd, onTaskClick, onEditCo
           </SortableContext>
           <DragOverlay>{activeTask ? <TaskCard task={activeTask} isOverlay /> : null}</DragOverlay>
         </DndContext>
-        <div className="w-72 flex-shrink-0">
-          <Button onClick={onAddColumn} variant="outline" className="w-full h-12 bg-gray-800/50 border-gray-700 border-dashed hover:bg-gray-800">
-            <PlusCircle className="h-4 w-4 mr-2" /> Nova Coluna
-          </Button>
-        </div>
       </div>
       {showRightScroll && (
         <Button onClick={() => scroll('right')} size="icon" className="absolute right-0 top-1/2 -translate-y-1/2 z-10 rounded-full h-8 w-8 bg-gray-800/50 hover:bg-gray-800">
