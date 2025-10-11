@@ -14,6 +14,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { showSuccess } from '@/utils/toast';
+import { TarefasKanban, Column } from '@/components/tasks/TarefasKanban';
+import { DragEndEvent } from '@dnd-kit/core';
+import { arrayMove } from '@dnd-kit/sortable';
 import { 
   PlusCircle, Clock, BarChart2, Search, AlertCircle, CheckCircle, Calendar, MessageSquare, 
   Paperclip, Play, Zap, History, LayoutGrid, List, BrainCircuit, User, Link as LinkIcon,
@@ -21,7 +24,7 @@ import {
 } from "lucide-react";
 
 // --- TIPOS E DADOS MOCK ---
-interface Task {
+export interface Task {
   id: string;
   title: string;
   type: 'Contrato' | 'Processo' | 'Financeiro' | 'Interno';
@@ -52,13 +55,18 @@ const priorityCards = [
   { title: "Revisão IA", value: 2, filter: "ia" },
 ];
 
-const kanbanColumns: Task['status'][] = ['A fazer', 'Em andamento', 'Em revisão', 'Concluída'];
+const initialColumns: Column[] = [
+  { id: 'A fazer', title: 'A Fazer' },
+  { id: 'Em andamento', title: 'Em Andamento' },
+  { id: 'Em revisão', title: 'Em Revisão' },
+  { id: 'Concluída', title: 'Concluída' },
+];
 
 // --- COMPONENTES AUXILIARES ---
 const getPriorityBadge = (priority: Task['priority']) => {
-  if (priority === 'Alta') return <span className="text-red-400">🔴 Alta</span>;
-  if (priority === 'Média') return <span className="text-yellow-400">🟠 Média</span>;
-  return <span className="text-green-400">🟡 Baixa</span>;
+  if (priority === 'Alta') return <Badge className="bg-red-500/20 text-red-400 border-red-500/30">🔴 Alta</Badge>;
+  if (priority === 'Média') return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">🟠 Média</Badge>;
+  return <Badge className="bg-green-500/20 text-green-400 border-green-500/30">🟡 Baixa</Badge>;
 };
 
 const getIconForType = (type: Task['type']) => {
@@ -72,7 +80,8 @@ const getIconForType = (type: Task['type']) => {
 
 const MinhaCaixa = () => {
   const [tasks, setTasks] = useState(initialTasks);
-  const [view, setView] = useState<'table' | 'kanban' | 'agenda'>('table');
+  const [columns, setColumns] = useState<Column[]>(initialColumns);
+  const [view, setView] = useState<'table' | 'kanban' | 'agenda'>('kanban');
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
@@ -85,69 +94,88 @@ const MinhaCaixa = () => {
 
   const handleSaveTask = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Lógica de salvar aqui...
     setIsTaskModalOpen(false);
     showSuccess("Tarefa criada com sucesso!");
   };
   
   const handleSaveTime = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Lógica de salvar aqui...
     setIsTimeModalOpen(false);
     showSuccess("Horas registradas com sucesso!");
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over) return;
+    const activeId = String(active.id);
+    const overId = String(over.id);
+    if (activeId === overId) return;
+
+    const isActiveATask = active.data.current?.type === 'Task';
+    if (!isActiveATask) return;
+
+    setTasks(prevTasks => {
+      const activeIndex = prevTasks.findIndex(t => t.id === activeId);
+      const overIndex = prevTasks.findIndex(t => t.id === overId);
+      const isOverAColumn = columns.some(c => c.id === overId);
+
+      if (isOverAColumn) {
+        const newTasks = [...prevTasks];
+        newTasks[activeIndex].status = overId as Task['status'];
+        return newTasks;
+      }
+      
+      if (overIndex !== -1) {
+        const newTasks = [...prevTasks];
+        newTasks[activeIndex].status = prevTasks[overIndex].status;
+        return arrayMove(newTasks, activeIndex, overIndex);
+      }
+      return prevTasks;
+    });
   };
 
   return (
     <Layout>
       <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
-        {/* Cabeçalho */}
         <header className="mb-6">
           <h1 className="text-3xl font-bold text-white font-serif">Minha Caixa</h1>
           <p className="text-gray-400 max-w-3xl">Tudo que é meu, do urgente ao agendado — com IA para priorizar, planejar e concluir.</p>
         </header>
 
-        {/* Filtros Rápidos */}
-        <div className="flex flex-wrap items-center gap-2 mb-6 p-2 bg-petroleum-blue rounded-lg">
-          <div className="relative flex-grow sm:flex-grow-0 sm:w-64"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" /><Input placeholder="Buscar tarefa..." className="bg-gray-800 border-gray-700 pl-9" /></div>
-          <Select><SelectTrigger className="w-full sm:w-[150px] bg-gray-800 border-gray-700"><SelectValue placeholder="Status" /></SelectTrigger></Select>
-          <Select><SelectTrigger className="w-full sm:w-[150px] bg-gray-800 border-gray-700"><SelectValue placeholder="Prioridade" /></SelectTrigger></Select>
-          <div className="flex-grow" />
-          <Button onClick={() => setIsTaskModalOpen(true)}><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
-          <Button onClick={() => setIsTimeModalOpen(true)} variant="outline" className="bg-gray-800 border-gray-700"><Clock className="h-4 w-4 mr-2" /> Registrar Hora</Button>
-          <Button variant="outline" className="bg-gray-800 border-gray-700" onClick={() => showSuccess("Lembrete criado!")}><Bell className="h-4 w-4 mr-2" /> Criar Lembrete</Button>
-          <Button variant="secondary" onClick={() => showSuccess("Relatório pessoal gerado.")}><BarChart2 className="h-4 w-4 mr-2" /> Relatório</Button>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+          {priorityCards.map(card => (
+            <Card key={card.title} className="bg-petroleum-blue border-gray-700 text-white cursor-pointer hover:border-tech-green/50" onClick={() => showSuccess(`Filtrando por: ${card.title}`)}>
+              <CardContent className="p-3 flex justify-between items-center">
+                <span className="text-sm font-medium">{card.title}</span>
+                <span className="text-lg font-bold">{card.value}</span>
+              </CardContent>
+            </Card>
+          ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Painel de Prioridades */}
-          <aside className="lg:col-span-3 space-y-3">
-            {priorityCards.map(card => (
-              <Card key={card.title} className="bg-petroleum-blue border-gray-700 text-white cursor-pointer hover:border-tech-green/50" onClick={() => showSuccess(`Filtrando por: ${card.title}`)}>
-                <CardContent className="p-3 flex justify-between items-center">
-                  <span className="text-sm font-medium">{card.title}</span>
-                  <span className="text-lg font-bold">{card.value}</span>
-                </CardContent>
-              </Card>
-            ))}
-          </aside>
-
-          {/* Lista Inteligente */}
-          <main className="lg:col-span-9">
-            <div className="flex justify-end mb-4">
-              <div className="flex items-center gap-1 p-1 bg-petroleum-blue rounded-lg">
-                <Button variant={view === 'table' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('table')}><List className="h-4 w-4 mr-2" /> Tabela</Button>
-                <Button variant={view === 'kanban' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('kanban')}><LayoutGrid className="h-4 w-4 mr-2" /> Kanban</Button>
-                <Button variant={view === 'agenda' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('agenda')}><Calendar className="h-4 w-4 mr-2" /> Agenda</Button>
+        <Card className="bg-petroleum-blue border-gray-700 text-white">
+          <CardHeader>
+            <div className="flex flex-wrap justify-between items-center gap-4">
+              <CardTitle className="text-white">Lista Inteligente</CardTitle>
+              <div className="flex items-center gap-2">
+                <div className="relative flex-grow sm:flex-grow-0 sm:w-64"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" /><Input placeholder="Buscar tarefa..." className="bg-gray-800 border-gray-700 pl-9" /></div>
+                <div className="flex items-center gap-1 p-1 bg-gray-900/50 rounded-lg">
+                  <Button variant={view === 'table' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('table')}><List className="h-4 w-4" /></Button>
+                  <Button variant={view === 'kanban' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('kanban')}><LayoutGrid className="h-4 w-4" /></Button>
+                  <Button variant={view === 'agenda' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('agenda')}><Calendar className="h-4 w-4" /></Button>
+                </div>
+                <Button onClick={() => setIsTaskModalOpen(true)}><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
               </div>
             </div>
-
+          </CardHeader>
+          <CardContent>
             {view === 'table' && (
               <Table>
                 <TableHeader><TableRow className="border-gray-700 hover:bg-transparent"><TableHead>Tarefa</TableHead><TableHead>Cliente/Objeto</TableHead><TableHead>Prazo</TableHead><TableHead>Prioridade</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
                 <TableBody>
                   {tasks.map(task => (
                     <TableRow key={task.id} onClick={() => handleSelectTask(task)} className="cursor-pointer border-gray-700 hover:bg-gray-800/50">
-                      <TableCell className="font-medium">{task.title}</TableCell>
+                      <TableCell className="font-medium flex items-center gap-2">{getIconForType(task.type)} {task.title}</TableCell>
                       <TableCell>{task.client}</TableCell>
                       <TableCell>{task.deadline}</TableCell>
                       <TableCell>{getPriorityBadge(task.priority)}</TableCell>
@@ -159,33 +187,18 @@ const MinhaCaixa = () => {
             )}
 
             {view === 'kanban' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {kanbanColumns.map(col => (
-                  <div key={col} className="p-3 bg-petroleum-blue rounded-lg">
-                    <h3 className="font-semibold mb-3 text-white">{col}</h3>
-                    <div>
-                      {tasks.filter(t => t.status === col).map(task => (
-                        <Card key={task.id} onClick={() => handleSelectTask(task)} className="p-3 bg-gray-800/50 border-gray-700 mb-3 cursor-pointer hover:bg-gray-800">
-                          <p className="font-semibold text-sm">{task.title}</p>
-                          <div className="flex justify-between items-center text-xs text-gray-400 mt-2"><span>{task.client}</span><span className="font-mono">{task.deadline}</span></div>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <TarefasKanban tasks={tasks} columns={columns} onDragEnd={handleDragEnd} onTaskClick={handleSelectTask} />
             )}
             
             {view === 'agenda' && (
-              <Card className="bg-petroleum-blue border-gray-700 text-white h-96 flex items-center justify-center">
-                <p className="text-gray-400">Visualização de Agenda em construção...</p>
-              </Card>
+              <div className="h-96 flex items-center justify-center text-gray-500 border border-dashed border-gray-700 rounded-lg">
+                <p>Visualização de Agenda em construção...</p>
+              </div>
             )}
-          </main>
-        </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Drawer de Detalhes */}
       <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
         <DrawerContent className="bg-gray-900 text-white border-gray-700 h-[80vh]">
           {selectedTask && (
@@ -228,7 +241,6 @@ const MinhaCaixa = () => {
         </DrawerContent>
       </Drawer>
 
-      {/* Modais de Ação */}
       <Dialog open={isTaskModalOpen} onOpenChange={setIsTaskModalOpen}><DialogContent className="bg-gray-900 text-white border-gray-700"><DialogHeader><DialogTitle>Nova Tarefa</DialogTitle></DialogHeader><form onSubmit={handleSaveTask}><div className="py-4 space-y-3"><div className="space-y-1"><Label>Título</Label><Input name="title" required /></div><div className="space-y-1"><Label>Cliente</Label><Input name="client" /></div><div className="space-y-1"><Label>Prazo</Label><Input name="deadline" type="date" /></div></div><DialogFooter><Button type="button" variant="ghost" onClick={() => setIsTaskModalOpen(false)}>Cancelar</Button><Button type="submit">Criar</Button></DialogFooter></form></DialogContent></Dialog>
       <Dialog open={isTimeModalOpen} onOpenChange={setIsTimeModalOpen}><DialogContent className="bg-gray-900 text-white border-gray-700"><DialogHeader><DialogTitle>Registrar Hora</DialogTitle></DialogHeader><form onSubmit={handleSaveTime}><div className="py-4 space-y-3"><div className="space-y-1"><Label>Tarefa</Label><Input name="task" required /></div><div className="space-y-1"><Label>Horas</Label><Input name="hours" type="number" step="0.1" required /></div></div><DialogFooter><Button type="button" variant="ghost" onClick={() => setIsTimeModalOpen(false)}>Cancelar</Button><Button type="submit">Registrar</Button></DialogFooter></form></DialogContent></Dialog>
     </Layout>
