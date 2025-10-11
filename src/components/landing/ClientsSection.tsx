@@ -17,7 +17,7 @@ export const ClientsSection = () => {
           <h2 className="text-2xl font-semibold text-foreground">
             Confiança de <span className="text-primary">gigantes do mercado</span>
           </h2>
-          <p className="text-muted-foreground mt-2">Mais de 1.600 empresas, incluindo líderes em seus setores, já usam T3norma.</p>
+          <p className="text-muted-foreground mt-2">Mais de 1.600 empresas, incluindo líderes em seus setores, já usam leisim.</p>
           <div className="relative mt-8 overflow-hidden">
             <div className="flex animate-marquee whitespace-nowrap items-center">
               {clients.concat(clients).map((client, index) => (

@@ -9,7 +9,7 @@ export const Header = () => {
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           <Shield className="w-7 h-7 text-primary" />
-          <span className="text-xl font-bold text-foreground">T3norma</span>
+          <span className="text-xl font-bold text-foreground">leisim</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           <a href="#features" className="text-sm text-muted-foreground hover:text-primary">Funcionalidades</a>
