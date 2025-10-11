@@ -4,22 +4,25 @@ import { cn } from '@/lib/utils';
 import {
   LayoutDashboard, ShoppingCart, Users, Package, Banknote, Tag, BarChart3,
   Users2, PlugZap, ArrowLeft, Shield, ListChecks, LayoutTemplate,
-  ChevronsLeft, ChevronsRight
+  ChevronsLeft, ChevronsRight, Store, ExternalLink
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const navItems = [
-  { to: "/master/vendas-assinaturas", label: "Vendas & Assinaturas", icon: ShoppingCart },
-  { to: "/master/gestao-clientes", label: "Gestão de Clientes", icon: Users },
-  { to: "/master/gestao-modulos", label: "Gestão de Módulos & Acessos", icon: Package },
-  { to: "/master/gestao-tarefas", label: "Gestão de Tarefas", icon: ListChecks },
-  { to: "/master/financeiro-cobrancas", label: "Financeiro & Cobranças", icon: Banknote },
-  { to: "/master/planos-precificacao", label: "Planos & Precificação", icon: Tag },
-  { to: "/master/relatorios-metricas", label: "Relatórios & Métricas", icon: BarChart3 },
-  { to: "/master/gestao-site", label: "Gestão do Site", icon: LayoutTemplate },
-  { to: "/master/equipes-usuarios", label: "Equipes & Usuários Internos", icon: Users2 },
-  { to: "/master/integracoes-api", label: "Integrações & API", icon: PlugZap },
+  { to: "/painel-master", label: "Visão Geral", icon: LayoutDashboard, end: true },
+  { to: "/painel-master/vendas-assinaturas", label: "Vendas & Assinaturas", icon: ShoppingCart },
+  { to: "/painel-master/gestao-clientes", label: "Gestão de Clientes", icon: Users },
+  { to: "/painel-master/gestao-modulos", label: "Gestão de Módulos & Acessos", icon: Package },
+  { to: "/painel-master/gestao-tarefas", label: "Gestão de Tarefas", icon: ListChecks },
+  { to: "/painel-master/financeiro-cobrancas", label: "Financeiro & Cobranças", icon: Banknote },
+  { to: "/painel-master/planos-precificacao", label: "Planos & Precificação", icon: Tag },
+  { to: "/painel-master/relatorios-metricas", label: "Relatórios & Métricas", icon: BarChart3 },
+  { to: "/painel-master/gestao-site", label: "Gestão do Site", icon: LayoutTemplate },
+  { to: "/painel-master/equipes-usuarios", label: "Equipes & Usuários Internos", icon: Users2 },
+  { to: "/painel-master/integracoes-api", label: "Integrações & API", icon: PlugZap },
+  { to: "/painel-master/marketplace", label: "Marketplace", icon: Store },
+  { to: "/painel-master/portais-externos", label: "Portais Externos", icon: ExternalLink },
 ];
 
 const MasterLayout = () => {
@@ -56,6 +59,7 @@ const MasterLayout = () => {
                 <TooltipTrigger asChild>
                   <NavLink
                     to={item.to}
+                    end={item.end}
                     className={({ isActive }) =>
                       cn(
                         "flex items-center justify-center h-12 text-sm font-medium rounded-md transition-colors",
@@ -76,6 +80,7 @@ const MasterLayout = () => {
               <NavLink
                 key={item.to}
                 to={item.to}
+                end={item.end}
                 className={({ isActive }) =>
                   cn(
                     "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",

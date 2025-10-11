@@ -15,7 +15,7 @@ import {
   Wrench, Palette, Cog, ShieldCheck, Receipt,
   Book, Scale, Files, Search, HistoryIcon,
   Lock, DatabaseZap, ShieldAlert, FileLock, Siren,
-  ChevronDown, ChevronsLeft, ChevronsRight, ListChecks, KanbanSquare, Calendar, Zap, ShoppingCart
+  ChevronDown, ChevronsLeft, ChevronsRight, ListChecks, KanbanSquare, Calendar, Zap
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -159,24 +159,12 @@ const navItems = [
     ]
   },
   {
-    title: "Área Master",
-    icon: Wrench,
+    title: "Insights",
+    icon: BrainCircuit,
     isGroup: true,
     subItems: [
-      { to: "/master/vendas-assinaturas", label: "Vendas & Assinaturas", icon: ShoppingCart },
-      { to: "/master/gestao-clientes", label: "Gestão de Clientes", icon: Users },
-      { to: "/master/gestao-modulos", label: "Módulos & Acessos", icon: Package },
-      { to: "/master/gestao-tarefas", label: "Gestão de Tarefas", icon: ListChecks },
-      { to: "/master/financeiro-cobrancas", label: "Financeiro", icon: Banknote },
-      { to: "/master/planos-precificacao", label: "Planos & Precificação", icon: Tag },
-      { to: "/master/relatorios-metricas", label: "Relatórios & Métricas", icon: BarChart3 },
-      { to: "/master/gestao-site", label: "Gestão do Site", icon: LayoutTemplate },
-      { to: "/master/equipes-usuarios", label: "Equipes & Usuários", icon: Users2 },
-      { to: "/master/integracoes-api", label: "Integrações & API", icon: PlugZap },
-      { to: "/master/marketplace", label: "Marketplace", icon: Store },
-      { to: "/master/portais-externos", label: "Portais Externos", icon: ExternalLink },
-      { to: "/master/planos-licencas", label: "Planos e Licenças", icon: Ticket },
-      { to: "/master/configuracoes-avancadas", label: "Configurações Avançadas", icon: SlidersHorizontal },
+      { to: "/painel-master/marketplace", label: "Marketplace", icon: Store },
+      { to: "/painel-master/portais-externos", label: "Portais Externos", icon: ExternalLink },
     ]
   },
   {
