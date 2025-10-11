@@ -96,7 +96,7 @@ const TaskColumn = ({ column, tasks, onTaskClick, onEditColumn, onDeleteColumn }
   const { setNodeRef } = useSortable({ id: column.id, data: { type: 'Column', column } });
   return (
     <div ref={setNodeRef} className="w-80 flex-shrink-0">
-      <div className="p-2 bg-petroleum-blue rounded-lg h-full flex flex-col">
+      <div className="p-2 bg-petroleum-blue rounded-lg flex flex-col">
         <div className="flex justify-between items-center px-2 py-1">
           <h3 className="font-semibold text-gray-200">{column.title} <Badge variant="secondary">{tasks.length}</Badge></h3>
           <DropdownMenu>
@@ -108,7 +108,7 @@ const TaskColumn = ({ column, tasks, onTaskClick, onEditColumn, onDeleteColumn }
           </DropdownMenu>
         </div>
         <SortableContext items={tasks.map(t => t.id)}>
-          <div className="flex-1 overflow-y-auto min-h-[100px] no-scrollbar p-2">
+          <div className="overflow-y-auto min-h-[100px] no-scrollbar p-2 max-h-[70vh]">
             {tasks.map(task => <TaskCard key={task.id} task={task} onClick={onTaskClick} />)}
           </div>
         </SortableContext>
@@ -165,7 +165,7 @@ export const TarefasKanban = ({ tasks, columns, onDragEnd, onTaskClick, onEditCo
           <ChevronLeft className="h-5 w-5" />
         </Button>
       )}
-      <div ref={scrollContainerRef} className="flex items-stretch gap-4 overflow-x-auto pb-4 no-scrollbar h-full">
+      <div ref={scrollContainerRef} className="flex items-start gap-4 overflow-x-auto pb-4 no-scrollbar h-full">
         <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           <SortableContext items={columns.map(c => c.id)}>
             {columns.map(col => (
