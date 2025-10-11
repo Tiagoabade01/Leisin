@@ -97,8 +97,8 @@ const QuadrosKanban = () => {
 
   return (
     <Layout>
-      <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
-        <header className="flex justify-between items-center mb-6">
+      <div className="bg-[#0A0F14] text-gray-100 h-full p-6 md:p-8 flex flex-col">
+        <header className="flex justify-between items-center mb-6 flex-shrink-0">
           <div>
             <h1 className="text-3xl font-bold text-white font-serif">Quadros (Kanban)</h1>
             <p className="text-gray-400">Visualize e gerencie o fluxo de trabalho de forma ágil.</p>
@@ -108,15 +108,17 @@ const QuadrosKanban = () => {
             <Button><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
           </div>
         </header>
-        <TarefasKanban 
-          tasks={tasks} 
-          columns={columns} 
-          onDragEnd={handleDragEnd} 
-          onTaskClick={() => {}} 
-          onEditColumn={handleOpenColumnModal} 
-          onDeleteColumn={setColumnToDelete} 
-          onAddColumn={() => handleOpenColumnModal()} 
-        />
+        <div className="flex-grow min-h-0">
+          <TarefasKanban 
+            tasks={tasks} 
+            columns={columns} 
+            onDragEnd={handleDragEnd} 
+            onTaskClick={() => {}} 
+            onEditColumn={handleOpenColumnModal} 
+            onDeleteColumn={setColumnToDelete} 
+            onAddColumn={() => handleOpenColumnModal()} 
+          />
+        </div>
       </div>
 
       <Dialog open={isColumnModalOpen} onOpenChange={setIsColumnModalOpen}>

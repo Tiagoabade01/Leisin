@@ -108,7 +108,7 @@ const TaskColumn = ({ column, tasks, onTaskClick, onEditColumn, onDeleteColumn }
           </DropdownMenu>
         </div>
         <SortableContext items={tasks.map(t => t.id)}>
-          <div className="flex-1 overflow-y-auto min-h-[100px] max-h-[calc(100vh-450px)] no-scrollbar p-2">
+          <div className="flex-1 overflow-y-auto min-h-[100px] no-scrollbar p-2">
             {tasks.map(task => <TaskCard key={task.id} task={task} onClick={onTaskClick} />)}
           </div>
         </SortableContext>
@@ -159,13 +159,13 @@ export const TarefasKanban = ({ tasks, columns, onDragEnd, onTaskClick, onEditCo
   };
 
   return (
-    <div className="relative">
+    <div className="relative h-full">
       {showLeftScroll && (
         <Button onClick={() => scroll('left')} size="icon" className="absolute left-0 top-1/2 -translate-y-1/2 z-10 rounded-full h-8 w-8 bg-gray-800/50 hover:bg-gray-800">
           <ChevronLeft className="h-5 w-5" />
         </Button>
       )}
-      <div ref={scrollContainerRef} className="flex items-start gap-4 overflow-x-auto pb-4 no-scrollbar">
+      <div ref={scrollContainerRef} className="flex items-stretch gap-4 overflow-x-auto pb-4 no-scrollbar h-full">
         <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           <SortableContext items={columns.map(c => c.id)}>
             {columns.map(col => (
