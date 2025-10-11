@@ -27,6 +27,7 @@ export default {
         'tech-green': '#2EF3C1',
         'petroleum-blue': '#1C2A3A',
         'legal-purple': '#6A5ACD',
+        'risk-gold': '#C6A965',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
