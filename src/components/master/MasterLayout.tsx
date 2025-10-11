@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import {
   LayoutDashboard, ShoppingCart, Users, Package, Banknote, Tag, BarChart3,
   Users2, PlugZap, ArrowLeft, Shield, ListChecks, LayoutTemplate,
-  ChevronsLeft, ChevronsRight, Store, ExternalLink
+  ChevronsLeft, ChevronsRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -50,7 +50,7 @@ const MasterLayout = () => {
           <h1 className={cn("text-xl font-bold text-white ml-2 whitespace-nowrap", isCollapsed && "hidden")}>Painel Master</h1>
         </div>
 
-        <nav className="flex-1 p-2 space-y-1 overflow-y-auto no-scrollbar">
+        <nav className="flex flex-col gap-1 flex-1 p-2 overflow-y-auto no-scrollbar">
           {navItems.map((item) => (
             isCollapsed ? (
               <Tooltip key={item.to} delayDuration={0}>
