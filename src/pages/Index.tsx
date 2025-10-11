@@ -1,10 +1,10 @@
 import Layout from "@/components/Layout";
-import Dashboard from "./Dashboard";
+import VisaoExecutiva from "./dashboard/VisaoExecutiva";
 
 const Index = () => {
   return (
     <Layout>
-      <Dashboard />
+      <VisaoExecutiva />
     </Layout>
   );
 };

@@ -24,6 +24,8 @@ export default {
         serif: ["Lora", ...fontFamily.serif],
       },
       colors: {
+        'tech-green': '#2EF3C1',
+        'petroleum-blue': '#1C2A3A',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
