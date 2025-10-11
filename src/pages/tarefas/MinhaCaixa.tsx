@@ -17,6 +17,7 @@ import { showSuccess } from '@/utils/toast';
 import { TarefasKanban, Column } from '@/components/tasks/TarefasKanban';
 import { DragEndEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
+import CalendarioCronogramas from '@/components/tasks/CalendarioCronogramas';
 import { 
   PlusCircle, Clock, BarChart2, Search, AlertCircle, CheckCircle, Calendar, MessageSquare, 
   Paperclip, Play, Zap, History, LayoutGrid, List, BrainCircuit, User, Link as LinkIcon,
@@ -191,8 +192,8 @@ const MinhaCaixa = () => {
             )}
             
             {view === 'agenda' && (
-              <div className="h-96 flex items-center justify-center text-gray-500 border border-dashed border-gray-700 rounded-lg">
-                <p>Visualização de Agenda em construção...</p>
+              <div className="h-[70vh]">
+                <CalendarioCronogramas />
               </div>
             )}
           </CardContent>
