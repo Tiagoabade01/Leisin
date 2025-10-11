@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   PlusCircle, BrainCircuit, FileText, BookOpen, BarChart2,
-  ArrowRight, Upload, Signature, Users, Banknote, ShieldCheck, Bell, MessageSquare, Handshake
+  ArrowRight, Upload, Signature, Users, Banknote, ShieldCheck, Bell, MessageSquare, Handshake, Download
 } from "lucide-react";
 
 // --- MOCK DATA & SUBCOMPONENTS ---
