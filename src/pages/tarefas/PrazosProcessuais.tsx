@@ -63,6 +63,9 @@ const PrazosProcessuais = () => {
   const [editingColumn, setEditingColumn] = useState<Partial<typeof initialColumns[0]> | null>(null);
   const [columnToDelete, setColumnToDelete] = useState<string | null>(null);
 
+  const [isPrazoModalOpen, setIsPrazoModalOpen] = useState(false);
+  const [selectedDateForPrazo, setSelectedDateForPrazo] = useState<Date | null>(null);
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
@@ -129,12 +132,38 @@ const PrazosProcessuais = () => {
     }
   };
 
+  const handleCalendarClick = (date: Date) => {
+    setSelectedDateForPrazo(date);
+    setIsPrazoModalOpen(true);
+  };
+
+  const handleSavePrazo = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const newPrazo: PrazoProcessual = {
+        id: `p${Date.now()}`,
+        descricao: formData.get('descricao') as string,
+        processo: formData.get('processo') as string,
+        cliente: formData.get('cliente') as string,
+        responsavel: [formData.get('responsavel') as string],
+        data: new Date(formData.get('data') as string).toLocaleDateString('pt-BR', { timeZone: 'UTC' }),
+        status: 'A Distribuir',
+        urgencia: formData.get('urgencia') as PrazoProcessual['urgencia'],
+        tarefas: [],
+        comentarios: 0,
+        anexos: 0,
+    };
+    setPrazos(prev => [newPrazo, ...prev]);
+    setIsPrazoModalOpen(false);
+    showSuccess("Novo prazo criado com sucesso!");
+  };
+
   const renderView = () => {
     switch (viewMode) {
       case 'list':
         return <PrazosList prazos={prazos} onPrazoClick={handlePrazoClick} />;
       case 'calendar':
-        return <TarefasCalendario />;
+        return <TarefasCalendario onSlotClick={handleCalendarClick} />;
       case 'kanban':
       default:
         return (
@@ -161,7 +190,7 @@ const PrazosProcessuais = () => {
               <p className="text-gray-400">Controle visual de todos os prazos e audiências da sua carteira de processos.</p>
             </div>
             <div className="flex items-center gap-2">
-              <Button><PlusCircle className="h-4 w-4 mr-2" /> Novo Prazo</Button>
+              <Button onClick={() => setIsPrazoModalOpen(true)}><PlusCircle className="h-4 w-4 mr-2" /> Novo Prazo</Button>
             </div>
           </div>
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -201,6 +230,28 @@ const PrazosProcessuais = () => {
           onUpdate={handleUpdatePrazo}
         />
       )}
+
+      <Dialog open={isPrazoModalOpen} onOpenChange={setIsPrazoModalOpen}>
+        <DialogContent className="bg-gray-900 text-white border-gray-700">
+          <DialogHeader><DialogTitle>Criar Novo Prazo</DialogTitle></DialogHeader>
+          <form onSubmit={handleSavePrazo}>
+            <div className="grid gap-4 py-4">
+              <div className="space-y-2"><Label htmlFor="descricao">Descrição</Label><Input id="descricao" name="descricao" className="bg-gray-800 border-gray-600" required /></div>
+              <div className="space-y-2"><Label htmlFor="processo">Nº Processo</Label><Input id="processo" name="processo" className="bg-gray-800 border-gray-600" /></div>
+              <div className="space-y-2"><Label htmlFor="cliente">Cliente</Label><Input id="cliente" name="cliente" className="bg-gray-800 border-gray-600" /></div>
+              <div className="space-y-2"><Label htmlFor="responsavel">Responsável</Label><Input id="responsavel" name="responsavel" className="bg-gray-800 border-gray-600" required /></div>
+              <div className="space-y-2"><Label htmlFor="data">Data</Label><Input id="data" name="data" type="date" defaultValue={selectedDateForPrazo ? selectedDateForPrazo.toISOString().split('T')[0] : ''} className="bg-gray-800 border-gray-600" required /></div>
+              <div className="space-y-2"><Label htmlFor="urgencia">Urgência</Label>
+                <Select name="urgencia" defaultValue="Média">
+                  <SelectTrigger className="bg-gray-800 border-gray-600"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-gray-800 text-white border-gray-700"><SelectItem value="Crítico">Crítico</SelectItem><SelectItem value="Alta">Alta</SelectItem><SelectItem value="Média">Média</SelectItem><SelectItem value="Baixa">Baixa</SelectItem></SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsPrazoModalOpen(false)}>Cancelar</Button><Button type="submit">Criar Prazo</Button></DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={isColumnModalOpen} onOpenChange={setIsColumnModalOpen}>
         <DialogContent className="bg-gray-900 text-white border-gray-700">

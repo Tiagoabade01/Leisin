@@ -83,7 +83,7 @@ const Sidebar = ({ currentDate, setCurrentDate }) => {
     );
 };
 
-const WeeklyView = ({ currentDate, events }) => {
+const WeeklyView = ({ currentDate, events, onSlotClick }) => {
     const weekStart = startOfWeek(currentDate, { weekStartsOn: 0 });
     const weekEnd = endOfWeek(currentDate, { weekStartsOn: 0 });
     const daysInWeek = eachDayOfInterval({ start: weekStart, end: weekEnd });
@@ -91,26 +91,28 @@ const WeeklyView = ({ currentDate, events }) => {
         <div className="grid gap-px bg-gray-700" style={{ gridTemplateColumns: '60px repeat(7, 1fr)', gridTemplateRows: 'auto repeat(24, 30px)' }}>
             <div className="sticky top-0 z-20 bg-gray-800"></div>
             {daysInWeek.map((day) => (<div key={day.toString()} className="sticky top-0 z-20 p-2 text-center bg-gray-800 text-sm font-medium capitalize">{format(day, 'EEE', { locale: ptBR })} <span className="text-gray-400">{format(day, 'd')}</span></div>))}
-            {hours.map((hour, i) => (<React.Fragment key={`row-${hour}`}><div className="row-start-[${i * 2 + 2}] row-span-2 text-right pr-2 text-xs text-gray-400 bg-gray-800 -mt-px pt-px sticky left-0 z-10">{hour}:00</div>{daysInWeek.map((day, j) => (<React.Fragment key={`cell-${i}-${j}`}><div className="bg-gray-800 border-t border-gray-700" style={{ gridColumn: j + 2, gridRow: i * 2 + 2 }}></div><div className="bg-gray-800 border-t border-dashed border-gray-700" style={{ gridColumn: j + 2, gridRow: i * 2 + 3 }}></div></React.Fragment>))}</React.Fragment>))}
+            {hours.map((hour, i) => (<React.Fragment key={`row-${hour}`}><div className="row-start-[${i * 2 + 2}] row-span-2 text-right pr-2 text-xs text-gray-400 bg-gray-800 -mt-px pt-px sticky left-0 z-10">{hour}:00</div>{daysInWeek.map((day, j) => (<React.Fragment key={`cell-${i}-${j}`}>
+                <div className="bg-gray-800 border-t border-gray-700 cursor-pointer hover:bg-gray-700/50" style={{ gridColumn: j + 2, gridRow: i * 2 + 2 }} onClick={() => { const d = new Date(day); d.setHours(hour, 0, 0, 0); onSlotClick?.(d); }}></div>
+                <div className="bg-gray-800 border-t border-dashed border-gray-700 cursor-pointer hover:bg-gray-700/50" style={{ gridColumn: j + 2, gridRow: i * 2 + 3 }} onClick={() => { const d = new Date(day); d.setHours(hour, 30, 0, 0); onSlotClick?.(d); }}></div>
+            </React.Fragment>))}</React.Fragment>))}
             {events.filter(e => e.date >= weekStart && e.date <= weekEnd).map(event => <EventCard key={event.id} event={event} />)}
         </div>
     );
 };
 
-const MonthlyView = ({ currentDate, events, setCurrentDate, setView }) => {
+const MonthlyView = ({ currentDate, events, onSlotClick }) => {
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
     const startDate = startOfWeek(monthStart, { weekStartsOn: 0 });
     const endDate = endOfWeek(monthEnd, { weekStartsOn: 0 });
     const days = eachDayOfInterval({ start: startDate, end: endDate });
-    const handleDayClick = (day) => { setCurrentDate(day); setView('Semana'); };
     return (
         <div className="grid grid-cols-7 flex-grow">
             {daysOfWeek.map(day => (<div key={day} className="p-2 text-center text-sm font-medium bg-gray-800 text-gray-400 border-b border-r border-gray-700">{day}</div>))}
             {days.map(day => {
                 const dayEvents = events.filter(e => isSameDay(e.date, day));
                 return (
-                    <div key={day.toString()} className={cn("p-2 bg-gray-800 overflow-hidden border-r border-b border-gray-700 cursor-pointer hover:bg-gray-700/50", !isSameMonth(day, monthStart) && "bg-gray-800/50 text-gray-500")} onClick={() => handleDayClick(day)}>
+                    <div key={day.toString()} className={cn("p-2 bg-gray-800 overflow-hidden border-r border-b border-gray-700 cursor-pointer hover:bg-gray-700/50", !isSameMonth(day, monthStart) && "bg-gray-800/50 text-gray-500")} onClick={() => onSlotClick?.(day)}>
                         <span className={cn("font-medium", isToday(day) && "bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center")}>{format(day, 'd')}</span>
                         <div className="mt-1 space-y-1">{dayEvents.slice(0, 2).map(event => (<div key={event.id} className="text-xs p-1 rounded bg-blue-900/50 truncate">{event.title}</div>))}{dayEvents.length > 2 && <div className="text-xs text-gray-400">+{dayEvents.length - 2} mais</div>}</div>
                     </div>
@@ -120,14 +122,9 @@ const MonthlyView = ({ currentDate, events, setCurrentDate, setView }) => {
     );
 };
 
-const YearlyView = ({ currentDate, setCurrentDate, setView }) => {
+const YearlyView = ({ currentDate, onSlotClick }) => {
   const year = currentDate.getFullYear();
   const months = Array.from({ length: 12 }, (_, i) => new Date(year, i, 1));
-
-  const handleMonthClick = (month) => {
-    setCurrentDate(month);
-    setView('Mês');
-  };
 
   return (
     <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -135,12 +132,7 @@ const YearlyView = ({ currentDate, setCurrentDate, setView }) => {
         <div key={month.toString()}>
           <MiniCalendar
             month={month}
-            onSelect={(day) => {
-              if (day) {
-                setCurrentDate(day);
-                setView('Semana');
-              }
-            }}
+            onSelect={(day) => { if (day) { onSlotClick?.(day); } }}
             locale={ptBR}
             classNames={{
               root: "bg-gray-800/50 p-3 rounded-md",
@@ -155,7 +147,7 @@ const YearlyView = ({ currentDate, setCurrentDate, setView }) => {
               Caption: ({ displayMonth }) => (
                 <div 
                   className="text-center font-semibold mb-2 cursor-pointer hover:text-primary capitalize"
-                  onClick={() => handleMonthClick(displayMonth)}
+                  onClick={() => onSlotClick?.(displayMonth)}
                 >
                   {format(displayMonth, 'MMMM', { locale: ptBR })}
                 </div>
@@ -168,7 +160,7 @@ const YearlyView = ({ currentDate, setCurrentDate, setView }) => {
   );
 };
 
-const MainCalendar = ({ currentDate, setCurrentDate }) => {
+const MainCalendar = ({ currentDate, setCurrentDate, onSlotClick }) => {
     const [view, setView] = useState('Semana');
     const handlePrev = () => { if (view === 'Semana') setCurrentDate(subDays(currentDate, 7)); if (view === 'Mês') setCurrentDate(subMonths(currentDate, 1)); if (view === 'Ano') setCurrentDate(subYears(currentDate, 1)); };
     const handleNext = () => { if (view === 'Semana') setCurrentDate(addDays(currentDate, 7)); if (view === 'Mês') setCurrentDate(addMonths(currentDate, 1)); if (view === 'Ano') setCurrentDate(addYears(currentDate, 1)); };
@@ -185,9 +177,9 @@ const MainCalendar = ({ currentDate, setCurrentDate }) => {
     };
     const renderView = () => {
         switch (view) {
-            case 'Mês': return <MonthlyView currentDate={currentDate} events={events} setCurrentDate={setCurrentDate} setView={setView} />;
-            case 'Ano': return <YearlyView currentDate={currentDate} setCurrentDate={setCurrentDate} setView={setView} />;
-            case 'Semana': default: return <WeeklyView currentDate={currentDate} events={events} />;
+            case 'Mês': return <MonthlyView currentDate={currentDate} events={events} onSlotClick={onSlotClick} />;
+            case 'Ano': return <YearlyView currentDate={currentDate} onSlotClick={onSlotClick} />;
+            case 'Semana': default: return <WeeklyView currentDate={currentDate} events={events} onSlotClick={onSlotClick} />;
         }
     };
     return (
@@ -201,14 +193,14 @@ const MainCalendar = ({ currentDate, setCurrentDate }) => {
     );
 };
 
-const TarefasCalendario = () => {
+const TarefasCalendario = ({ onSlotClick }: { onSlotClick?: (date: Date) => void }) => {
   const [currentDate, setCurrentDate] = useState(new Date(2024, 4, 27));
   return (
     <Card className="bg-gray-900/50 border-gray-700 text-white h-full flex flex-col">
       <CardContent className="p-0 flex flex-1 min-h-0">
         <div className="flex h-full w-full">
             <Sidebar currentDate={currentDate} setCurrentDate={setCurrentDate} />
-            <MainCalendar currentDate={currentDate} setCurrentDate={setCurrentDate} />
+            <MainCalendar currentDate={currentDate} setCurrentDate={setCurrentDate} onSlotClick={onSlotClick} />
         </div>
       </CardContent>
     </Card>
