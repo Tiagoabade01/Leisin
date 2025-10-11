@@ -50,7 +50,7 @@ const MasterLayout = () => {
           <h1 className={cn("text-xl font-bold text-white ml-2 whitespace-nowrap", isCollapsed && "hidden")}>Painel Master</h1>
         </div>
 
-        <nav className="flex flex-col gap-1 flex-1 p-2 overflow-y-auto no-scrollbar">
+        <nav className="flex-1 p-2 space-y-1 overflow-y-auto no-scrollbar">
           {navItems.map((item) => (
             isCollapsed ? (
               <Tooltip key={item.to} delayDuration={0}>
@@ -60,14 +60,14 @@ const MasterLayout = () => {
                     end={item.end}
                     className={({ isActive }) =>
                       cn(
-                        "grid h-12 w-full place-items-center rounded-md text-sm font-medium transition-colors",
+                        "flex items-center justify-center h-12 w-full rounded-md text-sm font-medium transition-colors",
                         isActive
                           ? "bg-gray-800 text-white"
                           : "text-gray-400 hover:bg-gray-800/50 hover:text-white"
                       )
                     }
                   >
-                    <item.icon className="h-5 w-5" />
+                    <item.icon className="h-5 w-5 flex-shrink-0" />
                   </NavLink>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">
