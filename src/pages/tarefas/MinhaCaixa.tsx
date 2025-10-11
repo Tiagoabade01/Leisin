@@ -187,6 +187,11 @@ const MinhaCaixa = () => {
                   <Button variant={view === 'kanban' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('kanban')}><LayoutGrid className="h-4 w-4" /></Button>
                   <Button variant={view === 'agenda' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('agenda')}><Calendar className="h-4 w-4" /></Button>
                 </div>
+                {view === 'kanban' && (
+                  <Button variant="outline" className="bg-gray-800/50 border-gray-700" onClick={() => handleOpenColumnModal()}>
+                    <PlusCircle className="h-4 w-4 mr-2" /> Nova Coluna
+                  </Button>
+                )}
                 <Button onClick={() => setIsTaskModalOpen(true)}><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
               </div>
             </div>

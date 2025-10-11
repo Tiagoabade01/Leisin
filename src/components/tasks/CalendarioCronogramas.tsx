@@ -192,7 +192,7 @@ const MainCalendar = ({ currentDate, setCurrentDate }) => {
         }
     };
     return (
-        <main className="flex-1 flex flex-col">
+        <main className="flex-1 flex flex-col min-w-0">
             <header className="p-4 border-b border-gray-700">
                 <div className="flex justify-between items-center"><h2 className="text-2xl font-bold text-white">Calendário</h2><div className="flex items-center gap-4"><div className="relative w-64"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" /><Input placeholder="Buscar" className="bg-gray-800 border-gray-700 pl-9" /></div><Button variant="outline" className="bg-gray-800 border-gray-700"><Settings className="h-4 w-4 mr-2" /> Personalizar</Button></div></div>
                 <div className="flex justify-between items-center mt-4"><div className="flex items-center gap-2"><Button onClick={handlePrev} variant="outline" size="icon" className="bg-gray-800 border-gray-700"><ChevronLeft className="h-4 w-4" /></Button><Button onClick={handleToday} variant="outline" className="bg-gray-800 border-gray-700">Hoje</Button><Button onClick={handleNext} variant="outline" size="icon" className="bg-gray-800 border-gray-700"><ChevronRight className="h-4 w-4" /></Button><h3 className="text-xl font-semibold ml-4 capitalize">{formatHeaderDate()}</h3></div><div className="flex items-center gap-1 p-1 bg-gray-800 rounded-lg">{['Semana', 'Mês', 'Ano'].map(v => (<Button key={v} variant={view === v ? 'secondary' : 'ghost'} size="sm" onClick={() => setView(v)}>{v}</Button>))}</div></div>
