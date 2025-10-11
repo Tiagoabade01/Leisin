@@ -205,7 +205,7 @@ const TarefasCalendario = () => {
   const [currentDate, setCurrentDate] = useState(new Date(2024, 4, 27));
   return (
     <Card className="bg-gray-900/50 border-gray-700 text-white h-full flex flex-col">
-      <CardContent className="p-0 flex flex-1">
+      <CardContent className="p-0 flex flex-1 min-h-0">
         <div className="flex h-full w-full">
             <Sidebar currentDate={currentDate} setCurrentDate={setCurrentDate} />
             <MainCalendar currentDate={currentDate} setCurrentDate={setCurrentDate} />
