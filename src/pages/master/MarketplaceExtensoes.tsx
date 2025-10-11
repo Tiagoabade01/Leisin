@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PlusCircle, Refresh, Package, Upload } from "lucide-react";
+import { PlusCircle, RefreshCw, Package, Upload } from "lucide-react";
 
 import CatalogoExtensoes from "@/components/master/marketplace/CatalogoExtensoes";
 import ExtensoesInstaladas from "@/components/master/marketplace/ExtensoesInstaladas";
@@ -22,7 +22,7 @@ const MarketplaceExtensoes = () => {
           </div>
           <div className="flex items-center gap-2">
             <Button variant="secondary"><PlusCircle className="h-4 w-4 mr-2" /> Nova Extensão</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Refresh className="h-4 w-4 mr-2" /> Atualizar</Button>
+            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><RefreshCw className="h-4 w-4 mr-2" /> Atualizar</Button>
             <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Package className="h-4 w-4 mr-2" /> Ver Instalações</Button>
             <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Upload className="h-4 w-4 mr-2" /> Publicar</Button>
           </div>
