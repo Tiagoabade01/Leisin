@@ -4,11 +4,40 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Bold, Italic, Heading2, List, ListOrdered } from "lucide-react";
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+
+interface Note {
+  author: string;
+  content: string;
+  timestamp: string;
+}
 
 const emojis = ['👍', '⚠️', '✅', '💡', '🔥', '🎉', '🤔', '👀'];
 
+const getInitials = (name: string = '') => name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+
+const FormattedContent = ({ content }: { content: string }) => {
+  const parts = content.split(/(\*\*.*?\*\*|\*.*?\*)/g).filter(Boolean);
+  return (
+    <p className="text-sm text-gray-300 whitespace-pre-wrap">
+      {parts.map((part, i) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={i}>{part.slice(2, -2)}</strong>;
+        }
+        if (part.startsWith('*') && part.endsWith('*')) {
+          return <em key={i}>{part.slice(1, -1)}</em>;
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </p>
+  );
+};
+
 const PrazosNotasEquipe = () => {
   const [note, setNote] = useState('');
+  const [savedNotes, setSavedNotes] = useState<Note[]>([
+    { author: 'Ana Faria', content: 'Revisão do **processo 402312-92** concluída. Aguardando documentos do cliente.', timestamp: '10/10/25 14:30' }
+  ]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const insertText = (textToInsert: string, wrap: boolean = false) => {
@@ -36,6 +65,19 @@ const PrazosNotasEquipe = () => {
         textarea.setSelectionRange(start + textToInsert.length, start + textToInsert.length);
       }
     }, 0);
+  };
+
+  const handleSaveNote = () => {
+    if (note.trim() === '') return;
+
+    const newNote: Note = {
+        author: 'Usuário Atual', // Hardcoded for now
+        content: note,
+        timestamp: new Date().toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })
+    };
+
+    setSavedNotes([newNote, ...savedNotes]);
+    setNote('');
   };
 
   return (
@@ -74,7 +116,24 @@ const PrazosNotasEquipe = () => {
             className="bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 min-h-[120px]"
           />
         </div>
-        <Button size="sm" className="mt-2">Salvar Nota</Button>
+        <Button size="sm" className="mt-2" onClick={handleSaveNote}>Salvar Nota</Button>
+
+        <div className="mt-6 space-y-4">
+          {savedNotes.map((savedNote, index) => (
+            <div key={index} className="flex items-start gap-3">
+              <Avatar className="h-8 w-8 mt-1">
+                <AvatarFallback className="text-xs bg-gray-600 text-gray-300">{getInitials(savedNote.author)}</AvatarFallback>
+              </Avatar>
+              <div className="flex-1 bg-gray-800/50 p-3 rounded-lg">
+                <div className="flex justify-between items-center mb-1">
+                  <p className="font-semibold text-sm text-white">{savedNote.author}</p>
+                  <p className="text-xs text-gray-400">{savedNote.timestamp}</p>
+                </div>
+                <FormattedContent content={savedNote.content} />
+              </div>
+            </div>
+          ))}
+        </div>
       </CardContent>
     </Card>
   );
