@@ -15,8 +15,7 @@ import {
   Wrench, Palette, Cog, ShieldCheck, Receipt,
   Book, Scale, Files, Search, HistoryIcon,
   Lock, DatabaseZap, ShieldAlert, FileLock, Siren,
-  ChevronDown, ChevronsLeft, ChevronsRight, ListChecks, KanbanSquare, Calendar, Zap, ShoppingCart,
-  Package, LayoutTemplate, Banknote, Tag, BarChart3, PlugZap
+  ChevronDown, ChevronsLeft, ChevronsRight, ListChecks, KanbanSquare, Calendar, Zap, ShoppingCart
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
