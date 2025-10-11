@@ -17,10 +17,10 @@ export const Header = () => {
           <a href="#contact" className="text-sm text-muted-foreground hover:text-primary">Contato</a>
         </nav>
         <div className="flex items-center gap-4">
-          <Link to="/app">
+          <Link to="/login">
             <Button variant="ghost" className="text-foreground hover:text-primary">Login</Button>
           </Link>
-          <Link to="/app">
+          <Link to="/login">
             <Button>Agendar demonstração</Button>
           </Link>
         </div>

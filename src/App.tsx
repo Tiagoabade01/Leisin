@@ -2,14 +2,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import NotFound from "./pages/NotFound";
-import CaseDetail from "./pages/CaseDetail";
 import LandingPage from "./pages/LandingPage";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Layouts
 import MasterLayout from "./components/master/MasterLayout";
+import Layout from "./components/Layout";
 
 // Dashboard
 import VisaoExecutiva from "./pages/dashboard/VisaoExecutiva";
@@ -115,113 +116,105 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          {/* Rota do Site Público */}
+          {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
 
-          {/* Rotas da Aplicação Principal */}
-          <Route path="/app" element={<Index />} />
-          <Route path="/case/:caseId" element={<CaseDetail />} />
-          
-          <Route path="/dashboard/visao-executiva" element={<VisaoExecutiva />} />
-          <Route path="/dashboard/performance-juridica" element={<PerformanceJuridica />} />
-          <Route path="/dashboard/riscos-compliance" element={<RiscosCompliance />} />
-          <Route path="/dashboard/atividades-recentes" element={<AtividadesRecentes />} />
-          <Route path="/dashboard/relatorios-exportacoes" element={<RelatoriosExportacoes />} />
-          <Route path="/juridico/casos-processos" element={<CasosProcessos />} />
-          <Route path="/juridico/contratos-obrigacoes" element={<ContratosObrigacoes />} />
-          <Route path="/juridico/tarefas-timesheets" element={<TarefasTimesheets />} />
-          <Route path="/juridico/documentos-relatorios" element={<DocumentosRelatorios />} />
-          <Route path="/juridico/clientes-juridicos" element={<ClientesJuridicos />} />
-          <Route path="/tarefas/minha-caixa" element={<MinhaCaixa />} />
-          <Route path="/tarefas/fluxo-de-tarefas" element={<FluxoDeTarefas />} />
-          <Route path="/tarefas/prazos-processuais" element={<PrazosProcessuais />} />
-          <Route path="/tarefas/agenda-calendario" element={<AgendaCalendario />} />
-          <Route path="/tarefas/slas-automacao" element={<SLAsAutomacao />} />
-
-          <Route path="/compliance/due-diligence-corporativa" element={<DueDiligenceCorporativa />} />
-          <Route path="/compliance/analises-risco" element={<AnalisesRisco />} />
-          <Route path="/compliance/certidoes-documentos-oficiais" element={<CertidoesDocumentosOficiais />} />
-          <Route path="/compliance/risk-mapper" element={<RiskMapper />} />
-          <Route path="/compliance/conformidade-auditoria" element={<ConformidadeAuditoria />} />
-
-          <Route path="/imobiliario/cadastro-imoveis" element={<CadastroImoveis />} />
-          <Route path="/imobiliario/analise-juridico-urbanistica" element={<AnaliseJuridicoUrbanistica />} />
-          <Route path="/imobiliario/dossies-propriedade" element={<DossiesPropriedade />} />
-          <Route path="/imobiliario/integracoes-cartoriais" element={<IntegracoesCartoriais />} />
-          <Route path="/imobiliario/relatorios-imovel" element={<RelatoriosImovel />} />
-
-          <Route path="/financeiro/contas-pagar" element={<ContasPagar />} />
-          <Route path="/financeiro/contas-receber" element={<ContasReceber />} />
-          <Route path="/financeiro/fluxo-caixa" element={<FluxoCaixa />} />
-          <Route path="/financeiro/gestao-orcamento" element={<GestaoOrcamento />} />
-          <Route path="/financeiro/relatorios-financeiros" element={<RelatoriosFinanceiros />} />
-
-          <Route path="/contabil/centro-custos" element={<CentroCustos />} />
-          <Route path="/contabil/lancamentos-contabeis" element={<LancamentosContabeis />} />
-          <Route path="/contabil/dre-balancetes" element={<DREBalancetes />} />
-          <Route path="/contabil/relatorios-fiscais" element={<RelatoriosFiscais />} />
-          <Route path="/contabil/integracoes-contabeis" element={<IntegracoesContabeis />} />
-
-          <Route path="/comunicacao/inbox-unificada" element={<InboxUnificada />} />
-          <Route path="/comunicacao/conversas-historicos" element={<ConversasHistoricos />} />
-          <Route path="/comunicacao/notificacoes-agendamentos" element={<NotificacoesAgendamentos />} />
-          <Route path="/comunicacao/mensagens-oficiais" element={<MensagensOficiais />} />
-          <Route path="/comunicacao/chat-copilot" element={<ChatCopilot />} />
-
-          <Route path="/crm/pipeline-oportunidades" element={<PipelineOportunidades />} />
-          <Route path="/crm/clientes" element={<Clientes />} />
-          <Route path="/app/clientes/:clienteId" element={<ClienteDetalheApp />} />
-          <Route path="/crm/parceiros-comerciais" element={<ParceirosComerciais />} />
-          <Route path="/crm/tarefas-followups" element={<TarefasFollowups />} />
-          <Route path="/crm/propostas-negociacoes" element={<PropostasNegociacoes />} />
-
-          <Route path="/ia/central" element={<IACentral />} />
-          <Route path="/ia/clausula-copilot" element={<ClausulaCopilot />} />
-          <Route path="/ia/matricula-lens" element={<MatriculaLens />} />
-          <Route path="/ia/playbooks-operacoes" element={<PlaybooksOperacoes />} />
-          <Route path="/ia/dossies-automaticos" element={<DossiesAutomaticos />} />
-
-          <Route path="/filiais/cadastro-dados-gerais" element={<CadastroDadosGerais />} />
-          <Route path="/filiais/equipes-responsaveis" element={<EquipesResponsaveis />} />
-          <Route path="/filiais/faturamento-custos" element={<FaturamentoCustos />} />
-          <Route path="/filiais/indicadores-performance" element={<IndicadoresPerformance />} />
-          <Route path="/filiais/relatorios-consolidados" element={<RelatoriosConsolidados />} />
-
-          <Route path="/gestao/usuarios-permissoes" element={<UsuariosPermissoes />} />
-          <Route path="/gestao/personalizacao-plataforma" element={<PersonalizacaoPlataforma />} />
-          <Route path="/gestao/configuracoes-gerais" element={<ConfiguracoesGerais />} />
-          <Route path="/gestao/auditoria-seguranca" element={<AuditoriaSeguranca />} />
-          <Route path="/gestao/licencas-billing" element={<LicencasBilling />} />
-          <Route path="/biblioteca/leis-decretos" element={<LeisDecretos />} />
-          <Route path="/biblioteca/jurisprudencia-pareceres" element={<JurisprudenciaPareceres />} />
-          <Route path="/biblioteca/modelos-internos" element={<ModelosInternos />} />
-          <Route path="/biblioteca/pesquisa-ia" element={<PesquisaIA />} />
-          <Route path="/biblioteca/historico-revisoes" element={<HistoricoRevisoes />} />
-          <Route path="/governanca/politicas-termos" element={<PoliticasTermos />} />
-          <Route path="/governanca/controle-dados-sensiveis" element={<ControleDadosSensiveis />} />
-          <Route path="/governanca/auditoria-acessos" element={<AuditoriaAcessos />} />
-          <Route path="/governanca/relatorios-conformidade" element={<RelatoriosConformidade />} />
-          <Route path="/governanca/incident-response" element={<IncidentResponse />} />
-
-          {/* Rotas da Área Master (com layout próprio) */}
-          <Route path="/painel-master" element={<MasterLayout />}>
-            <Route index element={<VisaoGeral />} />
-            <Route path="vendas-assinaturas" element={<VendasAssinaturas />} />
-            <Route path="gestao-clientes" element={<GestaoClientes />} />
-            <Route path="clientes/:clienteId" element={<ClienteDetalhe />} />
-            <Route path="gestao-modulos" element={<GestaoModulos />} />
-            <Route path="gestao-tarefas" element={<GestaoTarefas />} />
-            <Route path="financeiro-cobrancas" element={<FinanceiroCobrancas />} />
-            <Route path="planos-precificacao" element={<PlanosPrecificacao />} />
-            <Route path="relatorios-metricas" element={<RelatoriosMetricas />} />
-            <Route path="gestao-site" element={<GestaoSite />} />
-            <Route path="equipes-usuarios" element={<EquipesUsuarios />} />
-            <Route path="integracoes-api" element={<IntegracoesApi />} />
+          {/* Protected App Routes */}
+          <Route element={<ProtectedRoute allowedRoles={['master', 'admin']} />}>
+            <Route path="/app" element={<Navigate to="/dashboard/visao-executiva" />} />
+            <Route path="/dashboard/visao-executiva" element={<VisaoExecutiva />} />
+            <Route path="/dashboard/performance-juridica" element={<PerformanceJuridica />} />
+            <Route path="/dashboard/riscos-compliance" element={<RiscosCompliance />} />
+            <Route path="/dashboard/atividades-recentes" element={<AtividadesRecentes />} />
+            <Route path="/dashboard/relatorios-exportacoes" element={<RelatoriosExportacoes />} />
+            <Route path="/juridico/casos-processos" element={<CasosProcessos />} />
+            <Route path="/juridico/contratos-obrigacoes" element={<ContratosObrigacoes />} />
+            <Route path="/juridico/tarefas-timesheets" element={<TarefasTimesheets />} />
+            <Route path="/juridico/documentos-relatorios" element={<DocumentosRelatorios />} />
+            <Route path="/juridico/clientes-juridicos" element={<ClientesJuridicos />} />
+            <Route path="/tarefas/minha-caixa" element={<MinhaCaixa />} />
+            <Route path="/tarefas/fluxo-de-tarefas" element={<FluxoDeTarefas />} />
+            <Route path="/tarefas/prazos-processuais" element={<PrazosProcessuais />} />
+            <Route path="/tarefas/agenda-calendario" element={<AgendaCalendario />} />
+            <Route path="/tarefas/slas-automacao" element={<SLAsAutomacao />} />
+            <Route path="/compliance/due-diligence-corporativa" element={<DueDiligenceCorporativa />} />
+            <Route path="/compliance/analises-risco" element={<AnalisesRisco />} />
+            <Route path="/compliance/certidoes-documentos-oficiais" element={<CertidoesDocumentosOficiais />} />
+            <Route path="/compliance/risk-mapper" element={<RiskMapper />} />
+            <Route path="/compliance/conformidade-auditoria" element={<ConformidadeAuditoria />} />
+            <Route path="/imobiliario/cadastro-imoveis" element={<CadastroImoveis />} />
+            <Route path="/imobiliario/analise-juridico-urbanistica" element={<AnaliseJuridicoUrbanistica />} />
+            <Route path="/imobiliario/dossies-propriedade" element={<DossiesPropriedade />} />
+            <Route path="/imobiliario/integracoes-cartoriais" element={<IntegracoesCartoriais />} />
+            <Route path="/imobiliario/relatorios-imovel" element={<RelatoriosImovel />} />
+            <Route path="/financeiro/contas-pagar" element={<ContasPagar />} />
+            <Route path="/financeiro/contas-receber" element={<ContasReceber />} />
+            <Route path="/financeiro/fluxo-caixa" element={<FluxoCaixa />} />
+            <Route path="/financeiro/gestao-orcamento" element={<GestaoOrcamento />} />
+            <Route path="/financeiro/relatorios-financeiros" element={<RelatoriosFinanceiros />} />
+            <Route path="/contabil/centro-custos" element={<CentroCustos />} />
+            <Route path="/contabil/lancamentos-contabeis" element={<LancamentosContabeis />} />
+            <Route path="/contabil/dre-balancetes" element={<DREBalancetes />} />
+            <Route path="/contabil/relatorios-fiscais" element={<RelatoriosFiscais />} />
+            <Route path="/contabil/integracoes-contabeis" element={<IntegracoesContabeis />} />
+            <Route path="/comunicacao/inbox-unificada" element={<InboxUnificada />} />
+            <Route path="/comunicacao/conversas-historicos" element={<ConversasHistoricos />} />
+            <Route path="/comunicacao/notificacoes-agendamentos" element={<NotificacoesAgendamentos />} />
+            <Route path="/comunicacao/mensagens-oficiais" element={<MensagensOficiais />} />
+            <Route path="/comunicacao/chat-copilot" element={<ChatCopilot />} />
+            <Route path="/crm/pipeline-oportunidades" element={<PipelineOportunidades />} />
+            <Route path="/crm/clientes" element={<Clientes />} />
+            <Route path="/app/clientes/:clienteId" element={<ClienteDetalheApp />} />
+            <Route path="/crm/parceiros-comerciais" element={<ParceirosComerciais />} />
+            <Route path="/crm/tarefas-followups" element={<TarefasFollowups />} />
+            <Route path="/crm/propostas-negociacoes" element={<PropostasNegociacoes />} />
+            <Route path="/ia/central" element={<IACentral />} />
+            <Route path="/ia/clausula-copilot" element={<ClausulaCopilot />} />
+            <Route path="/ia/matricula-lens" element={<MatriculaLens />} />
+            <Route path="/ia/playbooks-operacoes" element={<PlaybooksOperacoes />} />
+            <Route path="/ia/dossies-automaticos" element={<DossiesAutomaticos />} />
+            <Route path="/filiais/cadastro-dados-gerais" element={<CadastroDadosGerais />} />
+            <Route path="/filiais/equipes-responsaveis" element={<EquipesResponsaveis />} />
+            <Route path="/filiais/faturamento-custos" element={<FaturamentoCustos />} />
+            <Route path="/filiais/indicadores-performance" element={<IndicadoresPerformance />} />
+            <Route path="/filiais/relatorios-consolidados" element={<RelatoriosConsolidados />} />
+            <Route path="/gestao/usuarios-permissoes" element={<UsuariosPermissoes />} />
+            <Route path="/gestao/personalizacao-plataforma" element={<PersonalizacaoPlataforma />} />
+            <Route path="/gestao/configuracoes-gerais" element={<ConfiguracoesGerais />} />
+            <Route path="/gestao/auditoria-seguranca" element={<AuditoriaSeguranca />} />
+            <Route path="/gestao/licencas-billing" element={<LicencasBilling />} />
+            <Route path="/biblioteca/leis-decretos" element={<LeisDecretos />} />
+            <Route path="/biblioteca/jurisprudencia-pareceres" element={<JurisprudenciaPareceres />} />
+            <Route path="/biblioteca/modelos-internos" element={<ModelosInternos />} />
+            <Route path="/biblioteca/pesquisa-ia" element={<PesquisaIA />} />
+            <Route path="/biblioteca/historico-revisoes" element={<HistoricoRevisoes />} />
+            <Route path="/governanca/politicas-termos" element={<PoliticasTermos />} />
+            <Route path="/governanca/controle-dados-sensiveis" element={<ControleDadosSensiveis />} />
+            <Route path="/governanca/auditoria-acessos" element={<AuditoriaAcessos />} />
+            <Route path="/governanca/relatorios-conformidade" element={<RelatoriosConformidade />} />
+            <Route path="/governanca/incident-response" element={<IncidentResponse />} />
+            <Route path="/insights/marketplace" element={<MarketplaceExtensoes />} />
+            <Route path="/insights/portais-externos" element={<PortaisExternos />} />
           </Route>
 
-          {/* Rotas de Insights que usam o Layout principal */}
-          <Route path="/insights/marketplace" element={<MarketplaceExtensoes />} />
-          <Route path="/insights/portais-externos" element={<PortaisExternos />} />
+          {/* Protected Master Routes */}
+          <Route element={<ProtectedRoute allowedRoles={['master']} />}>
+            <Route path="/painel-master" element={<MasterLayout />}>
+              <Route index element={<VisaoGeral />} />
+              <Route path="vendas-assinaturas" element={<VendasAssinaturas />} />
+              <Route path="gestao-clientes" element={<GestaoClientes />} />
+              <Route path="clientes/:clienteId" element={<ClienteDetalhe />} />
+              <Route path="gestao-modulos" element={<GestaoModulos />} />
+              <Route path="gestao-tarefas" element={<GestaoTarefas />} />
+              <Route path="financeiro-cobrancas" element={<FinanceiroCobrancas />} />
+              <Route path="planos-precificacao" element={<PlanosPrecificacao />} />
+              <Route path="relatorios-metricas" element={<RelatoriosMetricas />} />
+              <Route path="gestao-site" element={<GestaoSite />} />
+              <Route path="equipes-usuarios" element={<EquipesUsuarios />} />
+              <Route path="integracoes-api" element={<IntegracoesApi />} />
+            </Route>
+          </Route>
 
           <Route path="*" element={<NotFound />} />
         </Routes>
