@@ -52,7 +52,7 @@ const navItems = [
     icon: ListChecks,
     subItems: [
       { to: "/tarefas/minha-caixa", label: "Minha Caixa", icon: Inbox },
-      { to: "/tarefas/quadros-kanban", label: "Quadros (Kanban)", icon: KanbanSquare },
+      { to: "/tarefas/fluxo-de-tarefas", label: "Fluxo de Tarefas", icon: KanbanSquare },
       { to: "/tarefas/prazos-processuais", label: "Prazos Processuais", icon: Scale },
       { to: "/tarefas/agenda-calendario", label: "Agenda & Calendário", icon: Calendar },
       { to: "/tarefas/slas-automacao", label: "SLAs & Automação", icon: Zap },

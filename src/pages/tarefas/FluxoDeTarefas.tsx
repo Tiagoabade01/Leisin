@@ -1,14 +1,17 @@
 import React, { useState, FormEvent } from 'react';
 import Layout from "@/components/Layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { PlusCircle } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { PlusCircle, LayoutGrid, List, Calendar, Search } from "lucide-react";
 import { TarefasKanban, Column } from '@/components/tasks/TarefasKanban';
-import { Task } from './MinhaCaixa'; // Reutilizando a interface
+import TaskList from '@/components/tasks/TaskList';
+import TarefasCalendario from '@/components/tasks/TarefasCalendario';
+import TaskDashboardKPIs from '@/components/tasks/TaskDashboardKPIs';
+import { Task } from './MinhaCaixa';
 import { DragEndEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { showSuccess } from '@/utils/toast';
@@ -29,9 +32,11 @@ const initialColumns: Column[] = [
   { id: 'Concluída', title: 'Concluída' },
 ];
 
-const QuadrosKanban = () => {
+const FluxoDeTarefas = () => {
   const [tasks, setTasks] = useState(initialTasks);
   const [columns, setColumns] = useState<Column[]>(initialColumns);
+  const [viewMode, setViewMode] = useState<'kanban' | 'list' | 'calendar'>('kanban');
+  
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [editingColumn, setEditingColumn] = useState<Partial<Column> | null>(null);
   const [columnToDelete, setColumnToDelete] = useState<string | null>(null);
@@ -95,20 +100,15 @@ const QuadrosKanban = () => {
     }
   };
 
-  return (
-    <Layout>
-      <div className="bg-[#0A0F14] text-gray-100 h-full p-6 md:p-8 flex flex-col">
-        <header className="flex justify-between items-center mb-6 flex-shrink-0">
-          <div>
-            <h1 className="text-3xl font-bold text-white font-serif">Quadros (Kanban)</h1>
-            <p className="text-gray-400">Visualize e gerencie o fluxo de trabalho de forma ágil.</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button onClick={() => handleOpenColumnModal()} variant="outline" className="bg-petroleum-blue border-gray-700"><PlusCircle className="h-4 w-4 mr-2" /> Nova Coluna</Button>
-            <Button><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
-          </div>
-        </header>
-        <div className="flex-grow min-h-0">
+  const renderView = () => {
+    switch (viewMode) {
+      case 'list':
+        return <TaskList tasks={tasks} onTaskClick={() => {}} />;
+      case 'calendar':
+        return <TarefasCalendario />;
+      case 'kanban':
+      default:
+        return (
           <TarefasKanban 
             tasks={tasks} 
             columns={columns} 
@@ -118,6 +118,43 @@ const QuadrosKanban = () => {
             onDeleteColumn={setColumnToDelete} 
             onAddColumn={() => handleOpenColumnModal()} 
           />
+        );
+    }
+  };
+
+  return (
+    <Layout>
+      <div className="bg-[#0A0F14] text-gray-100 h-full p-6 md:p-8 flex flex-col">
+        <header className="flex-shrink-0">
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <h1 className="text-3xl font-bold text-white font-serif">Fluxo de Tarefas</h1>
+              <p className="text-gray-400">Visualize e gerencie o fluxo de trabalho de forma ágil.</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div className="flex items-center gap-2 p-1 bg-petroleum-blue rounded-lg">
+              <Button variant={viewMode === 'kanban' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('kanban')}><LayoutGrid className="h-4 w-4 mr-2" /> Kanban</Button>
+              <Button variant={viewMode === 'list' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('list')}><List className="h-4 w-4 mr-2" /> Lista</Button>
+              <Button variant={viewMode === 'calendar' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('calendar')}><Calendar className="h-4 w-4 mr-2" /> Calendário</Button>
+            </div>
+            <div className="flex items-center gap-2 flex-grow sm:flex-grow-0">
+              <div className="relative w-full sm:w-64"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" /><Input placeholder="Buscar tarefas..." className="bg-petroleum-blue border-gray-700 pl-9" /></div>
+              <Select><SelectTrigger className="w-[180px] bg-petroleum-blue border-gray-700"><SelectValue placeholder="Responsável" /></SelectTrigger></Select>
+              <Select><SelectTrigger className="w-[180px] bg-petroleum-blue border-gray-700"><SelectValue placeholder="Prioridade" /></SelectTrigger></Select>
+            </div>
+          </div>
+        </header>
+        
+        <div className="space-y-6 flex-shrink-0">
+          <TaskDashboardKPIs />
+        </div>
+
+        <div className="flex-grow min-h-0 mt-6">
+          {renderView()}
         </div>
       </div>
 
@@ -141,4 +178,4 @@ const QuadrosKanban = () => {
   );
 };
 
-export default QuadrosKanban;
+export default FluxoDeTarefas;
