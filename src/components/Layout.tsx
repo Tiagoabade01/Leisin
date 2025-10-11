@@ -229,7 +229,7 @@ const Sidebar = () => {
         isCollapsed ? "justify-center" : "p-4"
       )}>
         <div className="flex items-center">
-            <h1 className={cn("text-xl font-bold text-white whitespace-nowrap", isCollapsed && "hidden")}>T3 Diligence</h1>
+            <h1 className={cn("text-xl font-bold text-white whitespace-nowrap", isCollapsed && "hidden")}>T3norma</h1>
             <Shield className={cn("text-white", !isCollapsed && "hidden", isCollapsed ? "w-8 h-8" : "w-8 h-8")} />
         </div>
       </div>

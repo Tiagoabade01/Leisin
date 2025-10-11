@@ -23,7 +23,7 @@ export const HeroSection = () => {
               A Plataforma Definitiva para <span className="text-primary">Diligência Jurídica</span> e Imobiliária
             </h1>
             <p className="text-lg text-gray-300 mb-8 font-sans">
-              Automatize processos, mitigue riscos e feche negócios com mais segurança e velocidade. Transforme sua operação com a T3 Diligence.
+              Automatize processos, mitigue riscos e feche negócios com mais segurança e velocidade. Transforme sua operação com a T3norma.
             </p>
             <div className="flex justify-center md:justify-start">
               <Link to="/app">

@@ -11,7 +11,7 @@ export const Footer = () => {
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2">
               <Shield className="w-8 h-8 text-white" />
-              <span className="text-2xl font-bold text-white">T3 Diligence</span>
+              <span className="text-2xl font-bold text-white">T3norma</span>
             </Link>
             <p className="text-sm">
               Transformando a diligência jurídica e imobiliária com tecnologia, automação e inteligência artificial.
@@ -60,14 +60,14 @@ export const Footer = () => {
               </li>
               <li className="flex items-center">
                 <Mail className="w-4 h-4 mr-3" />
-                <span>contato@t3diligence.com</span>
+                <span>contato@t3norma.com</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-sm">
-          <p className="mb-4 md:mb-0">&copy; {new Date().getFullYear()} T3 Diligence. Todos os direitos reservados.</p>
+          <p className="mb-4 md:mb-0">&copy; {new Date().getFullYear()} T3norma. Todos os direitos reservados.</p>
           <div className="flex space-x-6 items-center">
             <a href="#" className="hover:text-white">Política de Privacidade</a>
             <a href="#" className="hover:text-white">Termos de Uso</a>
