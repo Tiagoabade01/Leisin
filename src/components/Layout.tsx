@@ -193,7 +193,7 @@ const navItems = [
 ];
 
 const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
 
   const findOpenSection = () => {
