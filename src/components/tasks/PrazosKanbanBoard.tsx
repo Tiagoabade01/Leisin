@@ -4,6 +4,7 @@ import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Badge } from "@/components/ui/badge";
 import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, PlusCircle, ChevronLeft, ChevronRight, MessageSquare, Paperclip, CheckSquare, Calendar, Scale } from "lucide-react";
 import { PrazoProcessual } from '@/pages/tarefas/PrazosProcessuais';
 import { Progress } from "@/components/ui/progress";
@@ -59,14 +60,23 @@ const PrazoCard = ({ prazo, isOverlay, onClick }: { prazo: PrazoProcessual, isOv
   );
 };
 
-const PrazoColumn = ({ column, prazos, onPrazoClick }) => {
+const PrazoColumn = ({ column, prazos, onPrazoClick, onEditColumn, onDeleteColumn }) => {
   const { setNodeRef } = useSortable({ id: column.id, data: { type: 'Column' } });
   return (
     <div ref={setNodeRef} className="w-80 flex-shrink-0">
       <div className="p-2 bg-petroleum-blue rounded-lg flex flex-col">
-        <h3 className="font-semibold text-gray-200 px-2 py-1">{column.title} <Badge variant="secondary">{prazos.length}</Badge></h3>
+        <div className="flex justify-between items-center px-2 py-1">
+          <h3 className="font-semibold text-gray-200">{column.title} <Badge variant="secondary">{prazos.length}</Badge></h3>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-7 w-7"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-gray-800 text-white border-gray-700">
+              <DropdownMenuItem onClick={() => onEditColumn(column)}>Renomear</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onDeleteColumn(column.id)} className="text-red-400 hover:!text-red-400">Excluir</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <SortableContext items={prazos.map(p => p.id)}>
-          <div className="overflow-y-auto min-h-[100px] no-scrollbar p-2 max-h-[calc(100vh-350px)]">
+          <div className="overflow-y-auto min-h-[100px] no-scrollbar p-2 max-h-[calc(100vh-450px)]">
             {prazos.map(prazo => <PrazoCard key={prazo.id} prazo={prazo} onClick={onPrazoClick} />)}
           </div>
         </SortableContext>
@@ -75,7 +85,7 @@ const PrazoColumn = ({ column, prazos, onPrazoClick }) => {
   );
 };
 
-const PrazosKanbanBoard = ({ prazos, columns, onDragEnd, onPrazoClick }) => {
+const PrazosKanbanBoard = ({ prazos, columns, onDragEnd, onPrazoClick, onEditColumn, onDeleteColumn, onAddColumn }) => {
   const [activePrazo, setActivePrazo] = useState<PrazoProcessual | null>(null);
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
 
@@ -88,11 +98,16 @@ const PrazosKanbanBoard = ({ prazos, columns, onDragEnd, onPrazoClick }) => {
       <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={handleDragStart} onDragEnd={onDragEnd}>
         <SortableContext items={columns.map(c => c.id)}>
           {columns.map(col => (
-            <PrazoColumn key={col.id} column={col} prazos={prazos.filter(p => p.status === col.id)} onPrazoClick={onPrazoClick} />
+            <PrazoColumn key={col.id} column={col} prazos={prazos.filter(p => p.status === col.id)} onPrazoClick={onPrazoClick} onEditColumn={onEditColumn} onDeleteColumn={onDeleteColumn} />
           ))}
         </SortableContext>
         <DragOverlay>{activePrazo ? <PrazoCard prazo={activePrazo} isOverlay /> : null}</DragOverlay>
       </DndContext>
+      <div className="w-80 flex-shrink-0">
+        <Button onClick={onAddColumn} variant="outline" className="w-full h-12 bg-gray-800/50 border-gray-700 border-dashed hover:bg-gray-800">
+          <PlusCircle className="h-4 w-4 mr-2" /> Nova Coluna
+        </Button>
+      </div>
     </div>
   );
 };

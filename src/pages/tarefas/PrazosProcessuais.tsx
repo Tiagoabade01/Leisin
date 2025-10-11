@@ -1,14 +1,21 @@
 import React, { useState, FormEvent } from 'react';
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Filter } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { PlusCircle, Filter, LayoutGrid, List, Calendar, Search } from "lucide-react";
 import { DragEndEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { showSuccess } from '@/utils/toast';
 
-import PrazosKPIs from '@/components/tasks/PrazosKPIs';
+import PrazosDashboard from '@/components/tasks/PrazosDashboard';
 import PrazosKanbanBoard from '@/components/tasks/PrazosKanbanBoard';
 import PrazoDetalheDrawer from '@/components/tasks/PrazoDetalheDrawer';
+import PrazosList from '@/components/tasks/PrazosList';
+import TarefasCalendario from '@/components/tasks/TarefasCalendario';
 
 export interface Subtarefa {
   id: string;
@@ -49,6 +56,11 @@ const PrazosProcessuais = () => {
   const [columns, setColumns] = useState(initialColumns);
   const [selectedPrazo, setSelectedPrazo] = useState<PrazoProcessual | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<'kanban' | 'list' | 'calendar'>('kanban');
+  
+  const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
+  const [editingColumn, setEditingColumn] = useState<Partial<typeof initialColumns[0]> | null>(null);
+  const [columnToDelete, setColumnToDelete] = useState<string | null>(null);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -87,26 +99,90 @@ const PrazosProcessuais = () => {
     setSelectedPrazo(updatedPrazo);
   };
 
+  const handleOpenColumnModal = (col?: typeof initialColumns[0]) => {
+    setEditingColumn(col || {});
+    setIsColumnModalOpen(true);
+  };
+
+  const handleSaveColumn = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const title = formData.get('title') as string;
+
+    if (editingColumn?.id) {
+      setColumns(prev => prev.map(c => c.id === editingColumn.id ? { ...c, title } : c));
+      showSuccess("Coluna renomeada!");
+    } else {
+      const newId = title.toLowerCase().replace(/\s+/g, '-');
+      setColumns(prev => [...prev, { id: newId, title }]);
+      showSuccess("Coluna criada!");
+    }
+    setIsColumnModalOpen(false);
+  };
+
+  const confirmDeleteColumn = () => {
+    if (columnToDelete) {
+      setColumns(prev => prev.filter(c => c.id !== columnToDelete));
+      setColumnToDelete(null);
+      showSuccess("Coluna excluída!");
+    }
+  };
+
+  const renderView = () => {
+    switch (viewMode) {
+      case 'list':
+        return <PrazosList prazos={prazos} onPrazoClick={handlePrazoClick} />;
+      case 'calendar':
+        return <TarefasCalendario />;
+      case 'kanban':
+      default:
+        return (
+          <PrazosKanbanBoard 
+            prazos={prazos} 
+            columns={columns} 
+            onDragEnd={handleDragEnd} 
+            onPrazoClick={handlePrazoClick}
+            onEditColumn={handleOpenColumnModal}
+            onDeleteColumn={setColumnToDelete}
+            onAddColumn={() => handleOpenColumnModal()}
+          />
+        );
+    }
+  };
+
   return (
     <Layout>
       <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8 flex flex-col">
-        <header className="flex justify-between items-center mb-6 flex-shrink-0">
-          <div>
-            <h1 className="text-3xl font-bold text-white font-serif">Prazos Processuais</h1>
-            <p className="text-gray-400">Controle visual de todos os prazos e audiências da sua carteira de processos.</p>
+        <header className="flex-shrink-0">
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <h1 className="text-3xl font-bold text-white font-serif">Prazos Processuais</h1>
+              <p className="text-gray-400">Controle visual de todos os prazos e audiências da sua carteira de processos.</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button><PlusCircle className="h-4 w-4 mr-2" /> Novo Prazo</Button>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Filter className="h-4 w-4 mr-2" /> Filtrar</Button>
-            <Button><PlusCircle className="h-4 w-4 mr-2" /> Novo Prazo</Button>
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div className="flex items-center gap-2 p-1 bg-petroleum-blue rounded-lg">
+              <Button variant={viewMode === 'kanban' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('kanban')}><LayoutGrid className="h-4 w-4 mr-2" /> Kanban</Button>
+              <Button variant={viewMode === 'list' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('list')}><List className="h-4 w-4 mr-2" /> Lista</Button>
+              <Button variant={viewMode === 'calendar' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('calendar')}><Calendar className="h-4 w-4 mr-2" /> Calendário</Button>
+            </div>
+            <div className="flex items-center gap-2 flex-grow sm:flex-grow-0">
+              <div className="relative w-full sm:w-64"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" /><Input placeholder="Buscar prazos..." className="bg-petroleum-blue border-gray-700 pl-9" /></div>
+              <Select><SelectTrigger className="w-[180px] bg-petroleum-blue border-gray-700"><SelectValue placeholder="Responsável" /></SelectTrigger></Select>
+              <Select><SelectTrigger className="w-[180px] bg-petroleum-blue border-gray-700"><SelectValue placeholder="Urgência" /></SelectTrigger></Select>
+            </div>
           </div>
         </header>
         
         <div className="flex-shrink-0 mb-6">
-          <PrazosKPIs prazos={prazos} />
+          <PrazosDashboard prazos={prazos} />
         </div>
 
         <div className="flex-grow min-h-0">
-          <PrazosKanbanBoard prazos={prazos} columns={columns} onDragEnd={handleDragEnd} onPrazoClick={handlePrazoClick} />
+          {renderView()}
         </div>
       </div>
       
@@ -118,6 +194,23 @@ const PrazosProcessuais = () => {
           onUpdate={handleUpdatePrazo}
         />
       )}
+
+      <Dialog open={isColumnModalOpen} onOpenChange={setIsColumnModalOpen}>
+        <DialogContent className="bg-gray-900 text-white border-gray-700">
+          <DialogHeader><DialogTitle>{editingColumn?.id ? 'Renomear' : 'Criar Nova'} Coluna</DialogTitle></DialogHeader>
+          <form onSubmit={handleSaveColumn}>
+            <div className="py-4"><Label htmlFor="title">Título da Coluna</Label><Input id="title" name="title" defaultValue={editingColumn?.title} className="bg-gray-800 border-gray-600 mt-2" required /></div>
+            <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsColumnModalOpen(false)}>Cancelar</Button><Button type="submit">Salvar</Button></DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <AlertDialog open={!!columnToDelete} onOpenChange={() => setColumnToDelete(null)}>
+        <AlertDialogContent className="bg-gray-900 text-white border-gray-700">
+          <AlertDialogHeader><AlertDialogTitle>Excluir Coluna?</AlertDialogTitle><AlertDialogDescription className="text-gray-300">As tarefas nesta coluna não serão excluídas, mas ficarão sem status. Esta ação não pode ser desfeita.</AlertDialogDescription></AlertDialogHeader>
+          <AlertDialogFooter><AlertDialogCancel asChild><Button variant="ghost">Cancelar</Button></AlertDialogCancel><AlertDialogAction onClick={confirmDeleteColumn} asChild><Button variant="destructive">Excluir</Button></AlertDialogAction></AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Layout>
   );
 };
