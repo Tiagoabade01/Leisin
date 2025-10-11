@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { PrazoProcessual, Subtarefa } from '@/pages/tarefas/PrazosProcessuais';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 
 interface PrazoDetalheDrawerProps {
   prazo: PrazoProcessual;
