@@ -29,6 +29,8 @@ export default {
         'legal-purple': '#6A5ACD',
         'risk-gold': '#C6A695',
         'alert-orange': '#F5A623',
+        'azul-fiscal': '#1E90FF',
+        'dourado-tributario': '#CBB26A',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -48,7 +50,7 @@ export default {
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
