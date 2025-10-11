@@ -146,6 +146,55 @@ const App = () => (
           <Route path="/compliance/risk-mapper" element={<RiskMapper />} />
           <Route path="/compliance/conformidade-auditoria" element={<ConformidadeAuditoria />} />
 
+          {/* Imobiliário Integrado */}
+          <Route path="/imobiliario/cadastro-imoveis" element={<CadastroImoveis />} />
+          <Route path="/imobiliario/analise-juridico-urbanistica" element={<AnaliseJuridicoUrbanistica />} />
+          <Route path="/imobiliario/dossies-propriedade" element={<DossiesPropriedade />} />
+          <Route path="/imobiliario/integracoes-cartoriais" element={<IntegracoesCartoriais />} />
+          <Route path="/imobiliario/relatorios-imovel" element={<RelatoriosImovel />} />
+
+          {/* Financeiro */}
+          <Route path="/financeiro/contas-pagar" element={<ContasPagar />} />
+          <Route path="/financeiro/contas-receber" element={<ContasReceber />} />
+          <Route path="/financeiro/fluxo-caixa" element={<FluxoCaixa />} />
+          <Route path="/financeiro/gestao-orcamento" element={<GestaoOrcamento />} />
+          <Route path="/financeiro/relatorios-financeiros" element={<RelatoriosFinanceiros />} />
+
+          {/* Contábil */}
+          <Route path="/contabil/centro-custos" element={<CentroCustos />} />
+          <Route path="/contabil/lancamentos-contabeis" element={<LancamentosContabeis />} />
+          <Route path="/contabil/dre-balancetes" element={<DREBalancetes />} />
+          <Route path="/contabil/relatorios-fiscais" element={<RelatoriosFiscais />} />
+          <Route path="/contabil/integracoes-contabeis" element={<IntegracoesContabeis />} />
+
+          {/* Comunicação */}
+          <Route path="/comunicacao/inbox-unificada" element={<InboxUnificada />} />
+          <Route path="/comunicacao/conversas-historicos" element={<ConversasHistoricos />} />
+          <Route path="/comunicacao/notificacoes-agendamentos" element={<NotificacoesAgendamentos />} />
+          <Route path="/comunicacao/mensagens-oficiais" element={<MensagensOficiais />} />
+          <Route path="/comunicacao/chat-copilot" element={<ChatCopilot />} />
+
+          {/* CRM Jurídico */}
+          <Route path="/crm/pipeline-oportunidades" element={<PipelineOportunidades />} />
+          <Route path="/crm/clientes" element={<Clientes />} />
+          <Route path="/crm/parceiros-comerciais" element={<ParceirosComerciais />} />
+          <Route path="/crm/tarefas-followups" element={<TarefasFollowups />} />
+          <Route path="/crm/propostas-negociacoes" element={<PropostasNegociacoes />} />
+
+          {/* IA e Automação */}
+          <Route path="/ia/central" element={<IACentral />} />
+          <Route path="/ia/clausula-copilot" element={<ClausulaCopilot />} />
+          <Route path="/ia/matricula-lens" element={<MatriculaLens />} />
+          <Route path="/ia/playbooks-operacoes" element={<PlaybooksOperacoes />} />
+          <Route path="/ia/dossies-automaticos" element={<DossiesAutomaticos />} />
+
+          {/* Filiais */}
+          <Route path="/filiais/cadastro-dados-gerais" element={<CadastroDadosGerais />} />
+          <Route path="/filiais/equipes-responsaveis" element={<EquipesResponsaveis />} />
+          <Route path="/filiais/faturamento-custos" element={<FaturamentoCustos />} />
+          <Route path="/filiais/indicadores-performance" element={<IndicadoresPerformance />} />
+          <Route path="/filiais/relatorios-consolidados" element={<RelatoriosConsolidados />} />
+
           {/* Rotas da Área Master (com layout próprio) */}
           <Route path="/master" element={<MasterLayout />}>
             <Route path="visao-geral" element={<VisaoGeral />} />
