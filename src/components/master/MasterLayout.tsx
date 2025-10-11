@@ -60,14 +60,14 @@ const MasterLayout = () => {
                     end={item.end}
                     className={({ isActive }) =>
                       cn(
-                        "flex items-center justify-center h-12 w-full rounded-md text-sm font-medium transition-colors",
+                        "grid h-12 w-full place-items-center rounded-md text-sm font-medium transition-colors",
                         isActive
                           ? "bg-gray-800 text-white"
                           : "text-gray-400 hover:bg-gray-800/50 hover:text-white"
                       )
                     }
                   >
-                    <item.icon className="h-5 w-5 flex-shrink-0" />
+                    <item.icon className="h-5 w-5" />
                   </NavLink>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">
