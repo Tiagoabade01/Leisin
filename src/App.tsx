@@ -140,6 +140,12 @@ const App = () => (
           <Route path="/tarefas/agenda-calendario" element={<AgendaCalendario />} />
           <Route path="/tarefas/slas-automacao" element={<SLAsAutomacao />} />
 
+          <Route path="/compliance/due-diligence-corporativa" element={<DueDiligenceCorporativa />} />
+          <Route path="/compliance/analises-risco" element={<AnalisesRisco />} />
+          <Route path="/compliance/certidoes-documentos-oficiais" element={<CertidoesDocumentosOficiais />} />
+          <Route path="/compliance/risk-mapper" element={<RiskMapper />} />
+          <Route path="/compliance/conformidade-auditoria" element={<ConformidadeAuditoria />} />
+
           {/* Rotas da Área Master (com layout próprio) */}
           <Route path="/master" element={<MasterLayout />}>
             <Route path="visao-geral" element={<VisaoGeral />} />
