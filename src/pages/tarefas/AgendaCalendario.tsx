@@ -15,3 +15,6 @@ const AgendaCalendario = () => {
       </div>
     </Layout>
   );
+};
+
+export default AgendaCalendario;
