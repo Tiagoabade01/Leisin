@@ -11,11 +11,12 @@ import { DragEndEvent } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
 import { showSuccess } from '@/utils/toast';
 
-import PrazosDashboard from '@/components/tasks/PrazosDashboard';
+import PrazosKPIs from '@/components/tasks/PrazosKPIs';
 import PrazosKanbanBoard from '@/components/tasks/PrazosKanbanBoard';
 import PrazoDetalheDrawer from '@/components/tasks/PrazoDetalheDrawer';
 import PrazosList from '@/components/tasks/PrazosList';
 import TarefasCalendario from '@/components/tasks/TarefasCalendario';
+import PrazosAIInsights from '@/components/tasks/PrazosAIInsights';
 
 export interface Subtarefa {
   id: string;
@@ -177,12 +178,18 @@ const PrazosProcessuais = () => {
           </div>
         </header>
         
-        <div className="flex-shrink-0 mb-6">
-          <PrazosDashboard prazos={prazos} />
-        </div>
-
-        <div className="flex-grow min-h-0">
-          {renderView()}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-grow min-h-0">
+          <div className="lg:col-span-3 flex flex-col gap-6">
+            <div className="flex-shrink-0">
+              <PrazosKPIs prazos={prazos} />
+            </div>
+            <div className="flex-grow min-h-0">
+              {renderView()}
+            </div>
+          </div>
+          <div className="lg:col-span-1">
+            <PrazosAIInsights />
+          </div>
         </div>
       </div>
       
