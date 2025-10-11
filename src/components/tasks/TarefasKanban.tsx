@@ -5,47 +5,88 @@ import { CSS } from '@dnd-kit/utilities';
 import { Badge } from "@/components/ui/badge";
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, PlusCircle, Signature, Briefcase, DollarSign, FileText, ChevronLeft, ChevronRight, MessageSquare, Paperclip, CheckSquare } from "lucide-react";
+import { MoreHorizontal, PlusCircle, Signature, Briefcase, DollarSign, FileText, ChevronLeft, ChevronRight, MessageSquare, Paperclip, CheckSquare, Calendar } from "lucide-react";
 import { Task } from '@/pages/tarefas/MinhaCaixa';
+import { Progress } from "@/components/ui/progress";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export interface Column {
   id: string;
   title: string;
 }
 
-const getIconForType = (type: Task['type']) => {
-  switch(type) {
-    case 'Contrato': return <Signature className="h-4 w-4 text-gray-400" />;
-    case 'Processo': return <Briefcase className="h-4 w-4 text-gray-400" />;
-    case 'Financeiro': return <DollarSign className="h-4 w-4 text-gray-400" />;
-    default: return <FileText className="h-4 w-4 text-gray-400" />;
-  }
-};
-
-const getPriorityColor = (priority: Task['priority']) => {
-  if (priority === 'Alta') return 'border-red-500';
-  if (priority === 'Média') return 'border-yellow-500';
-  return 'border-gray-600';
-};
+const getInitials = (name: string = '') => name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
 
 const TaskCard = ({ task, isOverlay, onClick }: { task: Task, isOverlay?: boolean, onClick?: (task: Task) => void }) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: task.id, data: { type: 'Task', task } });
   const style = { transition, transform: CSS.Transform.toString(transform), opacity: isDragging ? 0.5 : 1 };
 
+  const progress = task.checklist.length > 0 
+    ? (task.checklist.filter(item => item.done).length / task.checklist.length) * 100 
+    : task.status === 'Concluída' ? 100 : 0;
+
+  const commentsCount = task.comments.length;
+  const attachmentsCount = task.attachmentsCount || 0;
+
+  const progressColor = () => {
+    if (progress === 100) return "[&>*]:bg-green-500";
+    if (progress > 50) return "[&>*]:bg-blue-500";
+    return "[&>*]:bg-yellow-500";
+  }
+
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} onClick={() => onClick && onClick(task)} className={`p-3 bg-gray-800 rounded-lg mb-3 shadow-md border-l-4 space-y-2 touch-none cursor-pointer hover:bg-gray-700/50 ${getPriorityColor(task.priority)} ${isOverlay ? 'ring-2 ring-primary' : ''}`}>
-      <p className="font-semibold text-sm text-white leading-tight">{task.title}</p>
-      <div className="flex justify-between items-center text-xs text-gray-400">
-        <div className="flex items-center gap-2">
-          {getIconForType(task.type)}
-          <span>{task.client}</span>
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners} onClick={() => onClick && onClick(task)} className={`p-4 bg-gray-800 rounded-lg mb-3 shadow-lg border border-gray-700 space-y-4 touch-none cursor-pointer hover:bg-gray-700/50 ${isOverlay ? 'ring-2 ring-primary' : ''}`}>
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-2 text-xs text-gray-400">
+          <Calendar className="h-4 w-4" />
+          <span>{task.deadline}</span>
         </div>
-        <span className="font-mono">{task.deadline}</span>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-6 w-6 text-gray-400 hover:text-white">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-gray-900 text-white border-gray-700">
+            <DropdownMenuItem>Editar</DropdownMenuItem>
+            <DropdownMenuItem>Excluir</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      <div className="flex items-center gap-2 text-gray-500">
-        {task.badges.includes('comentarios') && <MessageSquare className="h-3 w-3" />}
-        {task.badges.includes('anexos') && <Paperclip className="h-3 w-3" />}
-        {task.checklist.length > 0 && <CheckSquare className="h-3 w-3" />}
+
+      {/* Title */}
+      <p className="font-semibold text-base text-white leading-tight">{task.title}</p>
+
+      {/* Progress Bar */}
+      <div>
+        <div className="flex justify-between items-center text-xs mb-1">
+          <span className="text-gray-400">Progresso</span>
+          <span className={`font-semibold ${progress === 100 ? 'text-green-400' : 'text-blue-400'}`}>{Math.round(progress)}%</span>
+        </div>
+        <Progress value={progress} className={`h-2 ${progressColor()}`} />
+      </div>
+
+      {/* Footer */}
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-3 text-sm text-gray-400">
+          <div className="flex items-center gap-1">
+            <MessageSquare className="h-4 w-4" />
+            <span>{commentsCount}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Paperclip className="h-4 w-4" />
+            <span>{attachmentsCount}</span>
+          </div>
+        </div>
+        <div className="flex -space-x-2">
+          {task.responsible.map((user, index) => (
+            <Avatar key={index} className="h-7 w-7 border-2 border-gray-800">
+              <AvatarImage src={user.avatar} />
+              <AvatarFallback className="text-xs bg-gray-600 text-gray-300">{getInitials(user.name)}</AvatarFallback>
+            </Avatar>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -54,7 +95,7 @@ const TaskCard = ({ task, isOverlay, onClick }: { task: Task, isOverlay?: boolea
 const TaskColumn = ({ column, tasks, onTaskClick, onEditColumn, onDeleteColumn }: { column: Column, tasks: Task[], onTaskClick: (task: Task) => void, onEditColumn: (col: Column) => void, onDeleteColumn: (id: string) => void }) => {
   const { setNodeRef } = useSortable({ id: column.id, data: { type: 'Column', column } });
   return (
-    <div ref={setNodeRef} className="w-72 flex-shrink-0">
+    <div ref={setNodeRef} className="w-80 flex-shrink-0">
       <div className="p-2 bg-petroleum-blue rounded-lg h-full flex flex-col">
         <div className="flex justify-between items-center px-2 py-1">
           <h3 className="font-semibold text-gray-200">{column.title} <Badge variant="secondary">{tasks.length}</Badge></h3>
@@ -67,7 +108,7 @@ const TaskColumn = ({ column, tasks, onTaskClick, onEditColumn, onDeleteColumn }
           </DropdownMenu>
         </div>
         <SortableContext items={tasks.map(t => t.id)}>
-          <div className="flex-1 overflow-y-auto min-h-[100px] max-h-[calc(100vh-550px)] no-scrollbar p-2">
+          <div className="flex-1 overflow-y-auto min-h-[100px] max-h-[calc(100vh-450px)] no-scrollbar p-2">
             {tasks.map(task => <TaskCard key={task.id} task={task} onClick={onTaskClick} />)}
           </div>
         </SortableContext>
