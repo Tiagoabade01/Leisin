@@ -2,6 +2,7 @@ import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -35,6 +36,7 @@ const CasosProcessos = () => {
   const [processes, setProcesses] = useState<Process[]>(initialProcesses);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProcess, setEditingProcess] = useState<Partial<Process> | null>(null);
+  const [processToDelete, setProcessToDelete] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleOpenModal = (process?: Process) => {
@@ -68,8 +70,23 @@ const CasosProcessos = () => {
   };
   
   const handleDeleteProcess = (id: string) => {
-    setProcesses(processes.filter(p => p.id !== id));
-    showSuccess("Processo excluído com sucesso!");
+    setProcessToDelete(id);
+  };
+
+  const confirmDelete = () => {
+    if (processToDelete) {
+      setProcesses(processes.filter(p => p.id !== processToDelete));
+      showSuccess("Processo excluído com sucesso!");
+      setProcessToDelete(null);
+    }
+  };
+
+  const handleImportUpdates = () => {
+    showSuccess("Importação de andamentos processuais iniciada...");
+  };
+
+  const handleGenerateAIReport = () => {
+    showSuccess("Relatório de IA gerado com sucesso!");
   };
 
   return (
@@ -83,8 +100,8 @@ const CasosProcessos = () => {
         </div>
         <div className="flex items-center gap-2">
           <Button onClick={() => handleOpenModal()}><PlusCircle className="h-4 w-4 mr-2" /> Novo Processo</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Iniciando importação de andamentos...")}><Download className="h-4 w-4 mr-2" /> Importar Andamentos</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Relatório de IA gerado com sucesso!")}><Brain className="h-4 w-4 mr-2" /> Gerar Relatório IA</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={handleImportUpdates}><Download className="h-4 w-4 mr-2" /> Importar Andamentos</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={handleGenerateAIReport}><Brain className="h-4 w-4 mr-2" /> Gerar Relatório IA</Button>
           <Button variant="secondary" onClick={() => navigate('/tarefas/agenda-calendario')}><Calendar className="h-4 w-4 mr-2" /> Visualizar Calendário</Button>
         </div>
       </header>
@@ -100,9 +117,10 @@ const CasosProcessos = () => {
         </div>
       </div>
 
+      {/* Modal Criar/Editar Processo */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="bg-gray-900 text-white border-gray-700 max-w-2xl">
-          <DialogHeader><DialogTitle>{editingProcess?.id ? 'Editar' : 'Novo'} Processo</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{editingProcess?.id && processes.some(p => p.id === editingProcess.id) ? 'Editar' : 'Novo'} Processo</DialogTitle></DialogHeader>
           <form onSubmit={handleSaveProcess}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 max-h-[70vh] overflow-y-auto pr-4">
               <div className="space-y-2 md:col-span-2"><Label htmlFor="id">Nº Processo</Label><Input id="id" name="id" defaultValue={editingProcess?.id} className="bg-gray-800 border-gray-600" required /></div>
@@ -123,6 +141,22 @@ const CasosProcessos = () => {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Modal Confirmar Exclusão */}
+      <AlertDialog open={!!processToDelete} onOpenChange={() => setProcessToDelete(null)}>
+        <AlertDialogContent className="bg-gray-900 text-white border-gray-700">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-300">
+              Tem certeza que deseja excluir este processo? Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel asChild><Button variant="ghost">Cancelar</Button></AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} asChild><Button variant="destructive">Excluir</Button></AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

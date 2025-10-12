@@ -1,6 +1,7 @@
 import React, { useState, FormEvent } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from '@/components/ui/textarea';
@@ -30,6 +31,7 @@ const initialDocuments: Document[] = [
 const DocumentosRelatorios = () => {
   const [documents, setDocuments] = useState<Document[]>(initialDocuments);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [documentToDelete, setDocumentToDelete] = useState<string | null>(null);
 
   const handleSaveDocument = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,8 +50,20 @@ const DocumentosRelatorios = () => {
     showSuccess("Documento adicionado com sucesso!");
   };
 
+  const handleDeleteDocument = (id: string) => {
+    setDocumentToDelete(id);
+  };
+
+  const confirmDelete = () => {
+    if (documentToDelete) {
+      setDocuments(documents.filter(d => d.id !== documentToDelete));
+      showSuccess("Documento excluído com sucesso!");
+      setDocumentToDelete(null);
+    }
+  };
+
   return (
-    <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
+    <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-white font-serif">Documentos & Relatórios</h1>
@@ -78,6 +92,7 @@ const DocumentosRelatorios = () => {
         </div>
       </div>
 
+      {/* Modal Novo Documento */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="bg-gray-900 text-white border-gray-700">
           <DialogHeader><DialogTitle>Adicionar Novo Documento</DialogTitle></DialogHeader>
@@ -94,6 +109,22 @@ const DocumentosRelatorios = () => {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Modal Confirmar Exclusão */}
+      <AlertDialog open={!!documentToDelete} onOpenChange={() => setDocumentToDelete(null)}>
+        <AlertDialogContent className="bg-gray-900 text-white border-gray-700">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-300">
+              Tem certeza que deseja excluir este documento? Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel asChild><Button variant="ghost">Cancelar</Button></AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} asChild><Button variant="destructive">Excluir</Button></AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

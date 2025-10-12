@@ -1,9 +1,11 @@
 import React, { useState, FormEvent } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PlusCircle, Download, Brain, ListChecks } from "lucide-react";
 import ContractKPIs from "@/components/contratos/ContractKPIs";
 import ContractList from "@/components/contratos/ContractList";
@@ -33,29 +35,34 @@ const ContratosObrigacoes = () => {
   const [contracts, setContracts] = useState<Contract[]>(initialContracts);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingContract, setEditingContract] = useState<Partial<Contract> | null>(null);
+  const [contractToDelete, setContractToDelete] = useState<string | null>(null);
 
-  const handleOpenModal = (contract?: Partial<Contract>) => {
+  const handleOpenModal = (contract?: Contract) => {
     setEditingContract(contract || {});
     setIsModalOpen(true);
   };
 
   const handleGenerateWithAI = () => {
-    handleOpenModal({
+    const newContract: Contract = {
       id: `CT-${Math.floor(Math.random() * 100) + 220}`,
       type: "Prestação de Serviços (Gerado por IA)",
       client: "Novo Cliente",
       lawyer: "IA Copilot",
       status: "Rascunho",
       risk: "Médio",
-      expiry: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      expiry: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR'),
+      value: 0,
       object: "Minuta inicial gerada pela IA para assessoria jurídica."
-    });
+    };
+    setEditingContract(newContract);
+    setIsModalOpen(true);
     showSuccess("Minuta de contrato gerada com IA!");
   };
 
   const handleSaveContract = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const expiryDate = formData.get('expiry') as string;
     const contractData = {
       id: formData.get('id') as string,
       type: formData.get('type') as string,
@@ -63,7 +70,7 @@ const ContratosObrigacoes = () => {
       lawyer: formData.get('lawyer') as string,
       status: formData.get('status') as string,
       risk: (formData.get('risk') as 'Baixo' | 'Médio' | 'Alto') || 'Baixo',
-      expiry: new Date(formData.get('expiry') as string).toLocaleDateString('pt-BR'),
+      expiry: new Date(expiryDate).toLocaleDateString('pt-BR'),
       value: parseFloat(formData.get('value') as string),
       object: formData.get('object') as string,
     };
@@ -79,8 +86,15 @@ const ContratosObrigacoes = () => {
   };
 
   const handleDeleteContract = (id: string) => {
-    setContracts(contracts.filter(c => c.id !== id));
-    showSuccess("Contrato excluído com sucesso!");
+    setContractToDelete(id);
+  };
+
+  const confirmDelete = () => {
+    if (contractToDelete) {
+      setContracts(contracts.filter(c => c.id !== contractToDelete));
+      showSuccess("Contrato excluído com sucesso!");
+      setContractToDelete(null);
+    }
   };
 
   return (
@@ -111,6 +125,7 @@ const ContratosObrigacoes = () => {
         </div>
       </div>
 
+      {/* Modal Criar/Editar Contrato */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="bg-gray-900 text-white border-gray-700 max-w-2xl">
           <DialogHeader><DialogTitle>{editingContract?.id && contracts.some(c => c.id === editingContract.id) ? 'Editar' : 'Novo'} Contrato</DialogTitle></DialogHeader>
@@ -123,12 +138,34 @@ const ContratosObrigacoes = () => {
               <div className="space-y-2"><Label htmlFor="status">Status</Label><Input id="status" name="status" defaultValue={editingContract?.status} className="bg-gray-800 border-gray-600" required /></div>
               <div className="space-y-2"><Label htmlFor="value">Valor (R$)</Label><Input id="value" name="value" type="number" step="0.01" defaultValue={editingContract?.value} className="bg-gray-800 border-gray-600" /></div>
               <div className="space-y-2"><Label htmlFor="expiry">Vencimento</Label><Input id="expiry" name="expiry" type="date" defaultValue={editingContract?.expiry ? new Date(editingContract.expiry.split('/').reverse().join('-')).toISOString().split('T')[0] : ''} className="bg-gray-800 border-gray-600" required /></div>
+              <div className="space-y-2"><Label htmlFor="risk">Risco</Label>
+                <Select name="risk" defaultValue={editingContract?.risk || 'Baixo'}>
+                  <SelectTrigger className="bg-gray-800 border-gray-600"><SelectValue /></SelectTrigger>
+                  <SelectContent className="bg-gray-800 text-white border-gray-700"><SelectItem value="Baixo">Baixo</SelectItem><SelectItem value="Médio">Médio</SelectItem><SelectItem value="Alto">Alto</SelectItem></SelectContent>
+                </Select>
+              </div>
               <div className="space-y-2 md:col-span-2"><Label htmlFor="object">Objeto do Contrato</Label><Textarea id="object" name="object" defaultValue={editingContract?.object} className="bg-gray-800 border-gray-600" /></div>
             </div>
             <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>Cancelar</Button><Button type="submit">Salvar</Button></DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Modal Confirmar Exclusão */}
+      <AlertDialog open={!!contractToDelete} onOpenChange={() => setContractToDelete(null)}>
+        <AlertDialogContent className="bg-gray-900 text-white border-gray-700">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar Exclusão</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-300">
+              Tem certeza que deseja excluir este contrato? Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel asChild><Button variant="ghost">Cancelar</Button></AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} asChild><Button variant="destructive">Excluir</Button></AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
