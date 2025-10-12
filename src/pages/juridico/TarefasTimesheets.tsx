@@ -10,10 +10,18 @@ import TaskList from "@/components/tasks/TaskList";
 import Timesheet from "@/components/tasks/Timesheet";
 import TaskAIHelper from "@/components/tasks/TaskAIHelper";
 import { showSuccess } from '@/utils/toast';
+import { Task } from '@/pages/tarefas/MinhaCaixa';
+
+const initialTasks: Task[] = [
+  { id: 't1', title: "Revisar cláusulas do CT-219", type: 'Contrato', client: "Nivem Construtora", deadline: "12/10/25", priority: 'Alta', slaHours: 8, estimatedHours: 2, status: 'Em andamento', responsible: [{ name: 'Ana Faria' }, { name: 'João Lima' }], badges: ['anexos', 'comentarios'], checklist: [{id: 'c1', text: 'Verificar cláusula de multa', done: true}, {id: 'c2', text: 'Validar assinaturas', done: false}, {id: 'c3', text: 'Anexar certidões', done: false}], comments: [{user: 'Gestor', text: 'Prioridade máxima!'}], attachmentsCount: 2 },
+  { id: 't2', title: "Petição inicial 1012456", type: 'Processo', client: "Mettri Arquitetura", deadline: "13/10/25", priority: 'Média', slaHours: 12, estimatedHours: 3, status: 'Em revisão', responsible: [{ name: 'Maria Souza' }], badges: ['ia'], checklist: [{id: 'c1', text: 'Coletar provas', done: true}, {id: 'c2', text: 'Redigir petição', done: true}, {id: 'c3', text: 'Protocolar', done: false}], comments: [], attachmentsCount: 1 },
+  { id: 't3', title: "Emitir NFe honorários", type: 'Financeiro', client: "Terlla Incorporadora", deadline: "15/10/25", priority: 'Baixa', slaHours: 48, estimatedHours: 0.5, status: 'A fazer', responsible: [{ name: 'Sistema' }, { name: 'Carlos Dias' }], badges: ['recorrente'], checklist: [], comments: [], attachmentsCount: 0 },
+];
 
 const TarefasTimesheets = () => {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isTimeModalOpen, setIsTimeModalOpen] = useState(false);
+  const [tasks, setTasks] = useState(initialTasks);
 
   const handleSaveTask = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,6 +33,11 @@ const TarefasTimesheets = () => {
     e.preventDefault();
     setIsTimeModalOpen(false);
     showSuccess("Horas registradas com sucesso!");
+  };
+
+  const handleTaskClick = (task: Task) => {
+    console.log("Task clicked:", task);
+    // In a future implementation, this could open a detail view.
   };
 
   return (
@@ -47,7 +60,7 @@ const TarefasTimesheets = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <div className="lg:col-span-3 space-y-6">
           <ProductivityDashboard />
-          <TaskList />
+          <TaskList tasks={tasks} onTaskClick={handleTaskClick} />
           <Timesheet />
         </div>
         <div className="lg:col-span-1">

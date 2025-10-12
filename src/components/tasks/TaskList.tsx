@@ -29,7 +29,7 @@ const TaskList = ({ tasks, onTaskClick }: TaskListProps) => {
         <Table>
             <TableHeader><TableRow className="border-gray-700 hover:bg-transparent"><TableHead>Tarefa</TableHead><TableHead>Cliente/Objeto</TableHead><TableHead>Prazo</TableHead><TableHead>Prioridade</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
             <TableBody>
-                {tasks.map(task => (
+                {Array.isArray(tasks) && tasks.map(task => (
                     <TableRow key={task.id} onClick={() => onTaskClick(task)} className="cursor-pointer border-gray-700 hover:bg-gray-800/50">
                         <TableCell className="font-medium flex items-center gap-2">{getIconForType(task.type)} {task.title}</TableCell>
                         <TableCell>{task.client}</TableCell>
