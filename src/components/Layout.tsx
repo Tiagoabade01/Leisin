@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, useLocation, Link } from 'react-router-dom';
+import { NavLink, useLocation, Link, Outlet } from 'react-router-dom';
 import {
   Home, BarChart2, Activity, AlertTriangle, FileText, Download,
   Briefcase, FolderKanban, Signature, ListTodo, Users,
@@ -376,12 +376,12 @@ const Sidebar = () => {
   );
 };
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = () => {
   return (
     <div className="flex h-screen bg-white dark:bg-black">
       <Sidebar />
       <main className="flex-1 overflow-y-auto">
-        {children}
+        <Outlet />
       </main>
     </div>
   );
