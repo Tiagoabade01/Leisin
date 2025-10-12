@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
+import UpdatePassword from "./pages/UpdatePassword";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Layouts
@@ -119,6 +120,7 @@ const App = () => (
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/update-password" element={<UpdatePassword />} />
 
           {/* Protected App Routes */}
           <Route element={<ProtectedRoute allowedRoles={['master', 'admin']} />}>
