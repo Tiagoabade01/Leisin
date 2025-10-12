@@ -15,7 +15,7 @@ const IntegracoesApi = () => {
   const [activeTab, setActiveTab] = useState('visao_geral');
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Integrações & API Comercial</h1>

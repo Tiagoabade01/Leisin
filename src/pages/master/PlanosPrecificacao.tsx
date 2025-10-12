@@ -2,8 +2,8 @@ import React, { useState, FormEvent } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { PlusCircle, Tag, BarChart3, BrainCircuit } from "lucide-react";
@@ -90,7 +90,7 @@ const PlanosPrecificacao = () => {
   };
 
   return (
-    <div>
+    <div className="p-6 md:p-8">
       <header className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Planos & Precificação</h1>

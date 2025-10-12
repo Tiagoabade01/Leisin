@@ -8,7 +8,7 @@ import InteligenciaClientes from "@/components/master/clientes/InteligenciaClien
 
 const GestaoClientes = () => {
   return (
-    <div>
+    <div className="p-6 md:p-8">
       <h1 className="text-3xl font-bold text-white mb-2">Gestão de Clientes</h1>
       <p className="text-gray-300 mb-8">Central de inteligência e relacionamento com todos os clientes ativos, inativos e potenciais do ecossistema.</p>
       

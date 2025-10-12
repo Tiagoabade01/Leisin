@@ -2,8 +2,8 @@ import React, { useState, FormEvent } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { FileText, BarChart2, Link, PlusCircle } from "lucide-react";
 import { showSuccess, showLoading, dismissToast } from '@/utils/toast';
@@ -54,7 +54,7 @@ const FinanceiroCobrancas = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6 md:p-8">
       <header className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Financeiro & Cobranças</h1>

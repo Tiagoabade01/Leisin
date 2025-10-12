@@ -26,6 +26,24 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 
 const navItems = [
   {
+    title: "Painel Master",
+    icon: Shield,
+    isGroup: true,
+    subItems: [
+      { to: "/painel-master", label: "Visão Geral", icon: Home, end: true },
+      { to: "/painel-master/vendas-assinaturas", label: "Vendas & Assinaturas", icon: ShoppingCart },
+      { to: "/painel-master/gestao-clientes", label: "Gestão de Clientes", icon: Users },
+      { to: "/painel-master/gestao-modulos", label: "Gestão de Módulos", icon: Package },
+      { to: "/painel-master/gestao-tarefas", label: "Gestão de Tarefas", icon: ListChecks },
+      { to: "/painel-master/financeiro-cobrancas", label: "Financeiro", icon: Banknote },
+      { to: "/painel-master/planos-precificacao", label: "Planos & Precificação", icon: Tag },
+      { to: "/painel-master/relatorios-metricas", label: "Relatórios & Métricas", icon: BarChart3 },
+      { to: "/painel-master/gestao-site", label: "Gestão do Site", icon: LayoutTemplate },
+      { to: "/painel-master/equipes-usuarios", label: "Equipes & Usuários", icon: Users2 },
+      { to: "/painel-master/integracoes-api", label: "Integrações & API", icon: PlugZap },
+    ]
+  },
+  {
     title: "Dashboard",
     icon: Home,
     isGroup: true,
@@ -200,24 +218,6 @@ const navItems = [
       { to: "/governanca/auditoria-acessos", label: "Auditoria de Acessos", icon: ShieldAlert },
       { to: "/governanca/relatorios-conformidade", label: "Relatórios de Conformidade", icon: FileBadge },
       { to: "/governanca/incident-response", label: "Incident Response", icon: Siren },
-    ]
-  },
-  {
-    title: "Painel Master",
-    icon: Shield,
-    isGroup: true,
-    subItems: [
-      { to: "/painel-master", label: "Visão Geral", icon: Home, end: true },
-      { to: "/painel-master/vendas-assinaturas", label: "Vendas & Assinaturas", icon: ShoppingCart },
-      { to: "/painel-master/gestao-clientes", label: "Gestão de Clientes", icon: Users },
-      { to: "/painel-master/gestao-modulos", label: "Gestão de Módulos", icon: Package },
-      { to: "/painel-master/gestao-tarefas", label: "Gestão de Tarefas", icon: ListChecks },
-      { to: "/painel-master/financeiro-cobrancas", label: "Financeiro", icon: Banknote },
-      { to: "/painel-master/planos-precificacao", label: "Planos & Precificação", icon: Tag },
-      { to: "/painel-master/relatorios-metricas", label: "Relatórios & Métricas", icon: BarChart3 },
-      { to: "/painel-master/gestao-site", label: "Gestão do Site", icon: LayoutTemplate },
-      { to: "/painel-master/equipes-usuarios", label: "Equipes & Usuários", icon: Users2 },
-      { to: "/painel-master/integracoes-api", label: "Integrações & API", icon: PlugZap },
     ]
   },
 ];

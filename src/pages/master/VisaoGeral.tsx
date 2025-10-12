@@ -11,7 +11,7 @@ import { HealthMap } from "@/components/master/HealthMap";
 
 const VisaoGeral = () => {
   return (
-    <div>
+    <div className="p-6 md:p-8">
       <h1 className="text-3xl font-bold text-white mb-2">Painel de Controle Master</h1>
       <p className="text-gray-300 mb-8">Visão geral da saúde, performance e status operacional de toda a plataforma T3.</p>
 

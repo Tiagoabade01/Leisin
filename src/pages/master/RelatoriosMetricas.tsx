@@ -14,7 +14,7 @@ import InteligenciaAnalitica from '@/components/master/relatorios/InteligenciaAn
 
 const RelatoriosMetricas = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6 md:p-8">
       <header className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Relatórios & Métricas</h1>

@@ -2,8 +2,8 @@ import React, { useState, FormEvent } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PlusCircle, Zap, BarChart2, Settings } from "lucide-react";
 import VisaoGeralTarefas from "@/components/master/tarefas/VisaoGeralTarefas";
@@ -42,7 +42,7 @@ const GestaoTarefas = () => {
   };
 
   return (
-    <div>
+    <div className="p-6 md:p-8">
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-white mb-2">Gestão de Tarefas</h1>
