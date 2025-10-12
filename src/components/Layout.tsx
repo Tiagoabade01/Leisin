@@ -211,12 +211,9 @@ const Sidebar = () => {
   const { profile } = useAuth();
 
   const findOpenSection = () => {
-    if (location.pathname === "/app/inicio") {
-      return "Dashboard";
-    }
     return navItems.filter(item => item.isGroup).find(section => 
       section.subItems.some(item => location.pathname.startsWith(item.to))
-    )?.title || null;
+    )?.title || "Dashboard";
   };
 
   const [openSection, setOpenSection] = useState<string | null>(findOpenSection());
@@ -334,7 +331,7 @@ const Sidebar = () => {
                     <NavLink
                       key={subItem.to}
                       to={subItem.to}
-                      end={subItem.to === "/app/inicio"}
+                      end
                       className={({ isActive }) =>
                         cn(
                           "flex items-center px-3 py-2 text-sm font-medium rounded-md",

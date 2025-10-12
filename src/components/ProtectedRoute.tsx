@@ -18,8 +18,8 @@ const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
   }
 
   if (!profile || !allowedRoles.includes(profile.role)) {
-    // Redirect to a "not authorized" page or the main app page
-    return <Navigate to="/app" replace />;
+    // If profile is missing or role is not allowed, redirect to login to prevent loops
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;
