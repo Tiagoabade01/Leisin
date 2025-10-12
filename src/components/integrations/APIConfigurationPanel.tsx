@@ -29,24 +29,27 @@ const APIConfigurationPanel = () => {
   const handleSaveConfig = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const certificateFile = formData.get('certificate') as File | null;
+
+    const configData = {
+      provider: formData.get('provider') as string,
+      api_key: formData.get('api_key') as string,
+      api_secret: formData.get('api_secret') as string || undefined,
+      phone_number_id: formData.get('phone_number_id') as string || undefined,
+      business_account_id: formData.get('business_account_id') as string || undefined,
+      publishable_key: formData.get('publishable_key') as string || undefined,
+      model: formData.get('model') as string || undefined,
+      is_active: true,
+    };
     
     try {
-      await addConfiguration({
-        provider: formData.get('provider') as string,
-        api_key: formData.get('api_key') as string,
-        api_secret: formData.get('api_secret') as string || undefined,
-        certificate: formData.get('certificate') as string || undefined,
-        phone_number_id: formData.get('phone_number_id') as string || undefined,
-        business_account_id: formData.get('business_account_id') as string || undefined,
-        publishable_key: formData.get('publishable_key') as string || undefined,
-        model: formData.get('model') as string || undefined,
-        is_active: true,
-      });
+      await addConfiguration(configData, certificateFile ?? undefined);
       
       setIsModalOpen(false);
+      setSelectedProvider('');
       showSuccess('Configuração salva com sucesso!');
     } catch (err) {
-      showError('Erro ao salvar configuração');
+      showError(`Erro ao salvar configuração: ${err instanceof Error ? err.message : String(err)}`);
     }
   };
 
@@ -55,7 +58,7 @@ const APIConfigurationPanel = () => {
       await testConnection(provider);
       showSuccess(`Conexão com ${provider} testada com sucesso!`);
     } catch (err) {
-      showError(`Erro ao testar conexão com ${provider}`);
+      showError(`Erro ao testar conexão com ${provider}: ${err instanceof Error ? err.message : String(err)}`);
     }
   };
 
@@ -79,7 +82,7 @@ const APIConfigurationPanel = () => {
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle className="text-white">Configurações de APIs</CardTitle>
-          <Button onClick={() => setIsModalOpen(true)}>
+          <Button onClick={() => { setSelectedProvider(''); setIsModalOpen(true); }}>
             <PlusCircle className="h-4 w-4 mr-2" /> Nova Integração
           </Button>
         </div>
@@ -100,7 +103,7 @@ const APIConfigurationPanel = () => {
             <TableBody>
               {configurations.map(config => (
                 <TableRow key={config.id} className="border-gray-700">
-                  <TableCell className="font-medium">{config.provider}</TableCell>
+                  <TableCell className="font-medium capitalize">{config.provider.replace('_', ' ')}</TableCell>
                   <TableCell>{getStatusBadge(config.is_active)}</TableCell>
                   <TableCell>{new Date(config.updated_at).toLocaleDateString('pt-BR')}</TableCell>
                   <TableCell className="text-right">

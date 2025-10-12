@@ -17,7 +17,9 @@ export const useAPIIntegrations = () => {
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
-        throw new Error('Usuário não autenticado');
+        // Silently fail if no user, maybe they are not logged in
+        setLoading(false);
+        return;
       }
 
       const { data, error } = await supabase
@@ -36,16 +38,32 @@ export const useAPIIntegrations = () => {
     }
   };
 
-  const addConfiguration = async (config: Partial<APIConfiguration>) => {
+  const addConfiguration = async (config: Partial<APIConfiguration>, certificateFile?: File) => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Usuário não autenticado');
+
+      let certificatePath: string | undefined = undefined;
+
+      // Handle certificate upload
+      if (certificateFile && certificateFile.size > 0) {
+        const filePath = `${user.id}/${Date.now()}-${certificateFile.name}`;
+        const { error: uploadError } = await supabase.storage
+          .from('certificates')
+          .upload(filePath, certificateFile);
+
+        if (uploadError) {
+          throw new Error(`Erro no upload do certificado: ${uploadError.message}`);
+        }
+        certificatePath = filePath;
+      }
 
       const { data, error } = await supabase
         .from('api_configurations')
         .insert({
           ...config,
           user_id: user.id,
+          certificate: certificatePath, // Save the path
         })
         .select()
         .single();
