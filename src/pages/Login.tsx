@@ -30,27 +30,16 @@ const Login = () => {
           appearance={{ theme: ThemeSupa }}
           providers={[]}
           theme="dark"
+          view="magic_link"
+          showLinks={false}
           localization={{
             variables: {
-              sign_in: {
+              magic_link: {
                 email_label: 'Seu e-mail',
-                password_label: 'Sua senha',
-                button_label: 'Entrar',
-                social_provider_text: 'Entrar com {{provider}}',
-                link_text: 'Já tem uma conta? Entre',
+                button_label: 'Enviar link de acesso',
+                loading_button_label: 'Enviando...',
+                link_text: 'Use um link mágico para entrar sem senha',
               },
-              sign_up: {
-                email_label: 'Seu e-mail',
-                password_label: 'Sua senha',
-                button_label: 'Cadastrar',
-                social_provider_text: 'Cadastrar com {{provider}}',
-                link_text: 'Não tem uma conta? Cadastre-se',
-              },
-              forgotten_password: {
-                email_label: 'Seu e-mail',
-                button_label: 'Enviar instruções',
-                link_text: 'Esqueceu sua senha?',
-              }
             },
           }}
         />
