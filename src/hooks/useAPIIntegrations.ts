@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { APIConfiguration } from '@/integrations/apis';
+import { testApiConnection } from '@/integrations/api-tester';
 
 export const useAPIIntegrations = () => {
   const [configurations, setConfigurations] = useState<APIConfiguration[]>([]);
@@ -17,7 +18,6 @@ export const useAPIIntegrations = () => {
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
-        // Silently fail if no user, maybe they are not logged in
         setLoading(false);
         return;
       }
@@ -45,7 +45,6 @@ export const useAPIIntegrations = () => {
 
       let certificatePath: string | undefined = undefined;
 
-      // Handle certificate upload
       if (certificateFile && certificateFile.size > 0) {
         const filePath = `${user.id}/${Date.now()}-${certificateFile.name}`;
         const { error: uploadError } = await supabase.storage
@@ -63,7 +62,7 @@ export const useAPIIntegrations = () => {
         .insert({
           ...config,
           user_id: user.id,
-          certificate: certificatePath, // Save the path
+          certificate: certificatePath,
         })
         .select()
         .single();
@@ -114,20 +113,11 @@ export const useAPIIntegrations = () => {
   };
 
   const testConnection = async (provider: string) => {
-    try {
-      // Aqui você implementaria a lógica de teste específica para cada provider
-      // Por exemplo, fazer uma chamada simples à API para verificar se está funcionando
-      
-      const config = configurations.find(c => c.provider === provider && c.is_active);
-      if (!config) {
-        throw new Error('Configuração não encontrada ou inativa');
-      }
-
-      // Implementar teste específico por provider
-      return { success: true, message: 'Conexão testada com sucesso' };
-    } catch (err) {
-      throw err;
+    const config = configurations.find(c => c.provider === provider && c.is_active);
+    if (!config) {
+      throw new Error('Configuração não encontrada ou inativa');
     }
+    return await testApiConnection(config);
   };
 
   return {
