@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, Link } from 'react-router-dom';
 import {
   Home, BarChart2, Activity, AlertTriangle, FileText, Download,
   Briefcase, FolderKanban, Signature, ListTodo, Users,
   Shield, SearchCheck, BarChart, FileBadge, Share2, CheckSquare,
   Building, ScanSearch, BookCopy, Plug, FileOutput,
   ArrowLeftRight, TrendingUp, Wallet, PieChart,
-  Calculator, Landmark, FileSpreadsheet, FileClock, Link,
+  Calculator, Landmark, FileSpreadsheet, FileClock, Link as LinkIcon,
   MessageSquare, Inbox, History, Bell, Bot,
   Handshake, Filter, Contact, CalendarCheck, FilePenLine,
   BrainCircuit, ScanText, Microscope, BookOpen, FileCog,
@@ -23,9 +23,9 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 
 const navItems = [
-  { to: "/painel-master", label: "Painel Master", icon: Shield, isGroup: false },
   {
     title: "Dashboard",
     icon: Home,
@@ -107,7 +107,7 @@ const navItems = [
       { to: "/contabil/lancamentos-contabeis", label: "Lançamentos Contábeis", icon: FileSpreadsheet },
       { to: "/contabil/dre-balancetes", label: "DRE e Balancetes", icon: BarChart },
       { to: "/contabil/relatorios-fiscais", label: "Relatórios Fiscais", icon: FileClock },
-      { to: "/contabil/integracoes-contabeis", label: "Integrações Contábeis", icon: Link },
+      { to: "/contabil/integracoes-contabeis", label: "Integrações Contábeis", icon: LinkIcon },
     ]
   },
   {
@@ -208,6 +208,7 @@ const navItems = [
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
+  const { profile } = useAuth();
 
   const findOpenSection = () => {
     if (location.pathname === "/app") {
@@ -352,6 +353,23 @@ const Sidebar = () => {
         })}
       </nav>
       <div className="p-4 border-t border-gray-700">
+        {profile?.role === 'master' && (
+          isCollapsed ? (
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
+                <Link to="/painel-master" className="grid h-12 w-full place-items-center rounded-md text-sm font-medium transition-colors text-gray-400 hover:bg-gray-800/50 hover:text-white">
+                  <Shield className="w-5 h-5" />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">Painel Master</TooltipContent>
+            </Tooltip>
+          ) : (
+            <Link to="/painel-master" className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors text-gray-400 hover:bg-gray-800/50 hover:text-white mb-2">
+              <Shield className="w-5 h-5 mr-3" />
+              <span>Painel Master</span>
+            </Link>
+          )
+        )}
         <div className="flex items-center">
           <Avatar className="h-9 w-9">
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />

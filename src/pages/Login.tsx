@@ -11,17 +11,9 @@ const Login = () => {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', session.user.id)
-          .single();
-
-        if (profile?.role === 'master') {
-          navigate('/painel-master');
-        } else {
-          navigate('/app');
-        }
+        // Redirect ALL users to the main app page after login.
+        // The layout will handle showing master-specific links.
+        navigate('/app');
       }
     });
 
