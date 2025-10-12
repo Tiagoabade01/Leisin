@@ -14,9 +14,6 @@ const LandingPage = React.lazy(() => import("./pages/LandingPage"));
 const Login = React.lazy(() => import("./pages/Login"));
 const UpdatePassword = React.lazy(() => import("./pages/UpdatePassword"));
 
-// Layouts
-const MasterLayout = React.lazy(() => import("./components/master/MasterLayout"));
-
 // Dashboard
 const VisaoExecutiva = React.lazy(() => import("./pages/dashboard/VisaoExecutiva"));
 const PerformanceJuridica = React.lazy(() => import("./pages/dashboard/PerformanceJuridica"));
@@ -226,24 +223,20 @@ const App = () => (
                 <Route path="/governanca/incident-response" element={<IncidentResponse />} />
                 <Route path="/insights/marketplace" element={<MarketplaceExtensoes />} />
                 <Route path="/insights/portais-externos" element={<PortaisExternos />} />
-              </Route>
-            </Route>
-
-            {/* Protected Master Routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/painel-master" element={<MasterLayout />}>
-                <Route index element={<VisaoGeral />} />
-                <Route path="vendas-assinaturas" element={<VendasAssinaturas />} />
-                <Route path="gestao-clientes" element={<GestaoClientes />} />
-                <Route path="clientes/:clienteId" element={<ClienteDetalhe />} />
-                <Route path="gestao-modulos" element={<GestaoModulos />} />
-                <Route path="gestao-tarefas" element={<GestaoTarefas />} />
-                <Route path="financeiro-cobrancas" element={<FinanceiroCobrancas />} />
-                <Route path="planos-precificacao" element={<PlanosPrecificacao />} />
-                <Route path="relatorios-metricas" element={<RelatoriosMetricas />} />
-                <Route path="gestao-site" element={<GestaoSite />} />
-                <Route path="equipes-usuarios" element={<EquipesUsuarios />} />
-                <Route path="integracoes-api" element={<IntegracoesApi />} />
+                
+                {/* Master Routes now inside main layout */}
+                <Route path="/painel-master" element={<VisaoGeral />} />
+                <Route path="/painel-master/vendas-assinaturas" element={<VendasAssinaturas />} />
+                <Route path="/painel-master/gestao-clientes" element={<GestaoClientes />} />
+                <Route path="/painel-master/clientes/:clienteId" element={<ClienteDetalhe />} />
+                <Route path="/painel-master/gestao-modulos" element={<GestaoModulos />} />
+                <Route path="/painel-master/gestao-tarefas" element={<GestaoTarefas />} />
+                <Route path="/painel-master/financeiro-cobrancas" element={<FinanceiroCobrancas />} />
+                <Route path="/painel-master/planos-precificacao" element={<PlanosPrecificacao />} />
+                <Route path="/painel-master/relatorios-metricas" element={<RelatoriosMetricas />} />
+                <Route path="/painel-master/gestao-site" element={<GestaoSite />} />
+                <Route path="/painel-master/equipes-usuarios" element={<EquipesUsuarios />} />
+                <Route path="/painel-master/integracoes-api" element={<IntegracoesApi />} />
               </Route>
             </Route>
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation, Link, Outlet } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 import {
   Home, BarChart2, Activity, AlertTriangle, FileText, Download,
   Briefcase, FolderKanban, Signature, ListTodo, Users,
@@ -15,17 +16,15 @@ import {
   Wrench, Palette, Cog, ShieldCheck, Receipt,
   Book, Scale, Files, Search, HistoryIcon,
   Lock, DatabaseZap, ShieldAlert, FileLock, Siren,
-  ChevronDown, ChevronsLeft, ChevronsRight, ListChecks, KanbanSquare, Calendar, Zap
+  ChevronDown, ChevronsLeft, ChevronsRight, ListChecks, KanbanSquare, Calendar, Zap, ShoppingCart, Package, Banknote, Tag, LayoutTemplate
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
 
 const navItems = [
-  { to: "/painel-master", label: "Painel Master", icon: Shield, isGroup: false },
   {
     title: "Dashboard",
     icon: Home,
@@ -203,6 +202,24 @@ const navItems = [
       { to: "/governanca/incident-response", label: "Incident Response", icon: Siren },
     ]
   },
+  {
+    title: "Painel Master",
+    icon: Shield,
+    isGroup: true,
+    subItems: [
+      { to: "/painel-master", label: "Visão Geral", icon: Home, end: true },
+      { to: "/painel-master/vendas-assinaturas", label: "Vendas & Assinaturas", icon: ShoppingCart },
+      { to: "/painel-master/gestao-clientes", label: "Gestão de Clientes", icon: Users },
+      { to: "/painel-master/gestao-modulos", label: "Gestão de Módulos", icon: Package },
+      { to: "/painel-master/gestao-tarefas", label: "Gestão de Tarefas", icon: ListChecks },
+      { to: "/painel-master/financeiro-cobrancas", label: "Financeiro", icon: Banknote },
+      { to: "/painel-master/planos-precificacao", label: "Planos & Precificação", icon: Tag },
+      { to: "/painel-master/relatorios-metricas", label: "Relatórios & Métricas", icon: BarChart3 },
+      { to: "/painel-master/gestao-site", label: "Gestão do Site", icon: LayoutTemplate },
+      { to: "/painel-master/equipes-usuarios", label: "Equipes & Usuários", icon: Users2 },
+      { to: "/painel-master/integracoes-api", label: "Integrações & API", icon: PlugZap },
+    ]
+  },
 ];
 
 const Sidebar = () => {
@@ -315,34 +332,7 @@ const Sidebar = () => {
               </Collapsible>
             );
           } else {
-            return isCollapsed ? (
-              <Tooltip key={item.to} delayDuration={0}>
-                <TooltipTrigger asChild>
-                  <NavLink
-                    to={item.to}
-                    className={({ isActive }) => cn(
-                      "grid h-12 w-full place-items-center rounded-md text-sm font-medium transition-colors",
-                      isActive ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800/50 hover:text-white"
-                    )}
-                  >
-                    <item.icon className="w-5 h-5" />
-                  </NavLink>
-                </TooltipTrigger>
-                <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">{item.label}</TooltipContent>
-              </Tooltip>
-            ) : (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) => cn(
-                  "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
-                  isActive ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800/50 hover:text-white"
-                )}
-              >
-                <item.icon className="w-5 h-5 mr-3" />
-                <span>{item.label}</span>
-              </NavLink>
-            );
+            return null; // Rota única do painel master foi removida
           }
         })}
       </nav>

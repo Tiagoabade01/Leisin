@@ -73,7 +73,7 @@ export const Footer = () => {
             <a href="#" className="hover:text-white">Termos de Uso</a>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to="/master/visao-geral" className="hover:text-white">
+                <Link to="/painel-master" className="hover:text-white">
                   <Settings className="w-5 h-5" />
                 </Link>
               </TooltipTrigger>

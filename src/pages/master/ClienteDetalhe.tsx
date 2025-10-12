@@ -143,7 +143,7 @@ const ClienteDetalhe = () => {
     <div className="p-4 md:p-6 lg:p-8">
       {/* Header Fixo */}
       <header className="mb-6">
-        <Link to="/master/vendas-assinaturas" className="flex items-center text-sm text-blue-400 hover:underline mb-4">
+        <Link to="/painel-master/vendas-assinaturas" className="flex items-center text-sm text-blue-400 hover:underline mb-4">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Voltar para Gestão de Assinaturas
         </Link>
