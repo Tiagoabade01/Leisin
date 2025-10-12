@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Filter, Download, Brain, Map } from "lucide-react";
 import ActivityFilters from "@/components/activity/ActivityFilters";
@@ -7,7 +6,7 @@ import ActivityTimeline from "@/components/activity/ActivityTimeline";
 import MonitoringAI from "@/components/activity/MonitoringAI";
 import GlobalActivityMetrics from "@/components/activity/GlobalActivityMetrics";
 
-const AtividadesRecentesPage = () => {
+const AtividadesRecentes = () => {
   return (
     <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8 flex flex-col">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-6">
@@ -45,11 +44,5 @@ const AtividadesRecentesPage = () => {
     </div>
   );
 };
-
-const AtividadesRecentes = () => (
-  <Layout>
-    <AtividadesRecentesPage />
-  </Layout>
-);
 
 export default AtividadesRecentes;

@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import Layout from "@/components/Layout";
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -77,31 +76,29 @@ const Clientes = () => {
   };
 
   return (
-    <Layout>
-      <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
-        <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-white font-serif">Clientes</h1>
-            <p className="text-gray-400 max-w-3xl">
-              Gestão completa de clientes jurídicos, com histórico, contratos, comunicações, dados financeiros e análise inteligente de relacionamento.
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button onClick={() => handleOpenModal()}><PlusCircle className="h-4 w-4 mr-2" /> Novo Cliente</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Upload className="h-4 w-4 mr-2" /> Importar Base</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BarChart2 className="h-4 w-4 mr-2" /> Exportar</Button>
-            <Button variant="secondary"><Brain className="h-4 w-4 mr-2" /> Analisar IA</Button>
-          </div>
-        </header>
+    <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
+      <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-white font-serif">Clientes</h1>
+          <p className="text-gray-400 max-w-3xl">
+            Gestão completa de clientes jurídicos, com histórico, contratos, comunicações, dados financeiros e análise inteligente de relacionamento.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button onClick={() => handleOpenModal()}><PlusCircle className="h-4 w-4 mr-2" /> Novo Cliente</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Upload className="h-4 w-4 mr-2" /> Importar Base</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BarChart2 className="h-4 w-4 mr-2" /> Exportar</Button>
+          <Button variant="secondary"><Brain className="h-4 w-4 mr-2" /> Analisar IA</Button>
+        </div>
+      </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3 space-y-6">
-            <ClientDashboard />
-            <ClientList clients={clients} onEdit={handleOpenModal} onDelete={handleDeleteClient} />
-          </div>
-          <div className="lg:col-span-1">
-            <ClientAIInsights />
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-3 space-y-6">
+          <ClientDashboard />
+          <ClientList clients={clients} onEdit={handleOpenModal} onDelete={handleDeleteClient} />
+        </div>
+        <div className="lg:col-span-1">
+          <ClientAIInsights />
         </div>
       </div>
 
@@ -120,7 +117,7 @@ const Clientes = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </Layout>
+    </div>
   );
 };
 

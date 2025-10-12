@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Brain, Upload } from "lucide-react";
 import CertificatesKPIs from "@/components/certificates/CertificatesKPIs";
@@ -6,7 +5,7 @@ import CertificatesTable from "@/components/certificates/CertificatesTable";
 import CertificatesAIInsights from "@/components/certificates/CertificatesAIInsights";
 import CertificatesCharts from "@/components/certificates/CertificatesCharts";
 
-const CertidoesDocumentosOficiaisPage = () => {
+const CertidoesDocumentosOficiais = () => {
   return (
     <div className="bg-[#0C1117] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -37,11 +36,5 @@ const CertidoesDocumentosOficiaisPage = () => {
     </div>
   );
 };
-
-const CertidoesDocumentosOficiais = () => (
-  <Layout>
-    <CertidoesDocumentosOficiaisPage />
-  </Layout>
-);
 
 export default CertidoesDocumentosOficiais;

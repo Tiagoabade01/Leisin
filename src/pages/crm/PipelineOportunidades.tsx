@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -92,44 +91,42 @@ const PipelineOportunidades = () => {
   };
 
   return (
-    <Layout>
-      <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
-        <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-white font-serif">Pipeline de Oportunidades</h1>
-            <p className="text-gray-400 max-w-3xl">Organize, acompanhe e converta clientes e casos jurídicos com o funil mais inteligente do mercado.</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button onClick={() => handleOpenModal()}><PlusCircle className="h-4 w-4 mr-2" /> Nova Oportunidade</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BarChart2 className="h-4 w-4 mr-2" /> Gerar Relatório</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BrainCircuit className="h-4 w-4 mr-2" /> IA Analisar</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Download className="h-4 w-4 mr-2" /> Exportar</Button>
-          </div>
-        </header>
+    <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
+      <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-white font-serif">Pipeline de Oportunidades</h1>
+          <p className="text-gray-400 max-w-3xl">Organize, acompanhe e converta clientes e casos jurídicos com o funil mais inteligente do mercado.</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button onClick={() => handleOpenModal()}><PlusCircle className="h-4 w-4 mr-2" /> Nova Oportunidade</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BarChart2 className="h-4 w-4 mr-2" /> Gerar Relatório</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BrainCircuit className="h-4 w-4 mr-2" /> IA Analisar</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Download className="h-4 w-4 mr-2" /> Exportar</Button>
+        </div>
+      </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3 space-y-6">
-            <CrmDashboard />
-            <Card className="bg-petroleum-blue border-gray-700 text-white">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-white">Funil de Oportunidades</CardTitle>
-                <div className="flex items-center gap-2">
-                  <Button variant={viewMode === 'kanban' ? 'secondary' : 'ghost'} size="icon" onClick={() => setViewMode('kanban')}><LayoutGrid className="h-4 w-4" /></Button>
-                  <Button variant={viewMode === 'list' ? 'secondary' : 'ghost'} size="icon" onClick={() => setViewMode('list')}><List className="h-4 w-4" /></Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                {viewMode === 'kanban' ? (
-                  <SalesPipelineKanban stages={stages} opportunities={opportunities} onDragEnd={handleDragEnd} onEditOpportunity={handleOpenModal} onAddStage={() => {}} onEditStage={() => {}} onAddOpportunity={() => handleOpenModal()} />
-                ) : (
-                  <SalesPipelineList stages={stages.map(s => ({...s, opportunities: opportunities.filter(o => o.stageId === s.id)}))} onEdit={handleOpenModal} onDelete={setOppToDelete} />
-                )}
-              </CardContent>
-            </Card>
-          </div>
-          <div className="lg:col-span-1">
-            <CrmAIInsights />
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-3 space-y-6">
+          <CrmDashboard />
+          <Card className="bg-petroleum-blue border-gray-700 text-white">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-white">Funil de Oportunidades</CardTitle>
+              <div className="flex items-center gap-2">
+                <Button variant={viewMode === 'kanban' ? 'secondary' : 'ghost'} size="icon" onClick={() => setViewMode('kanban')}><LayoutGrid className="h-4 w-4" /></Button>
+                <Button variant={viewMode === 'list' ? 'secondary' : 'ghost'} size="icon" onClick={() => setViewMode('list')}><List className="h-4 w-4" /></Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {viewMode === 'kanban' ? (
+                <SalesPipelineKanban stages={stages} opportunities={opportunities} onDragEnd={handleDragEnd} onEditOpportunity={handleOpenModal} onAddStage={() => {}} onEditStage={() => {}} onAddOpportunity={() => handleOpenModal()} />
+              ) : (
+                <SalesPipelineList stages={stages.map(s => ({...s, opportunities: opportunities.filter(o => o.stageId === s.id)}))} onEdit={handleOpenModal} onDelete={setOppToDelete} />
+              )}
+            </CardContent>
+          </Card>
+        </div>
+        <div className="lg:col-span-1">
+          <CrmAIInsights />
         </div>
       </div>
 
@@ -154,7 +151,7 @@ const PipelineOportunidades = () => {
           <AlertDialogFooter><AlertDialogCancel asChild><Button variant="ghost">Cancelar</Button></AlertDialogCancel><AlertDialogAction onClick={confirmDelete} asChild><Button variant="destructive">Excluir</Button></AlertDialogAction></AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </Layout>
+    </div>
   );
 };
 

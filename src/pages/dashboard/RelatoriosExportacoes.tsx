@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Brain, History } from "lucide-react";
 import IaReportGenerator from "@/components/reports/IaReportGenerator";
@@ -35,7 +34,7 @@ const riskReports = {
   reports: ["Mapa de Risco", "Radar de Compliance", "Auditorias Críticas", "Análise de Cláusulas"],
 };
 
-const RelatoriosExportacoesPage = () => {
+const RelatoriosExportacoes = () => {
   return (
     <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -73,11 +72,5 @@ const RelatoriosExportacoesPage = () => {
     </div>
   );
 };
-
-const RelatoriosExportacoes = () => (
-  <Layout>
-    <RelatoriosExportacoesPage />
-  </Layout>
-);
 
 export default RelatoriosExportacoes;

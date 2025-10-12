@@ -1,5 +1,4 @@
 import React from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -40,7 +39,7 @@ const balanceteData = [
 
 const formatCurrency = (value: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 
-const DREBalancetesPage = () => {
+const DREBalancetes = () => {
   const totalDebito = balanceteData.reduce((sum, item) => sum + item.debito, 0);
   const totalCredito = balanceteData.reduce((sum, item) => sum + item.credito, 0);
 
@@ -127,7 +126,7 @@ const DREBalancetesPage = () => {
           <Card className="bg-petroleum-blue border-gray-700 text-white sticky top-8">
             <CardHeader className="flex flex-row items-center gap-2"><BrainCircuit className="h-5 w-5 text-tech-green" /><CardTitle className="text-white">IA Accounting</CardTitle></CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-sm text-gray-300 p-2 bg-gray-800/50 rounded-md">“Margem líquida subiu 3,8% no trimestre — principal fator: redução de custos fixos e renegociação de contratos SaaS.”</p>
+              <p className="text-sm text-gray-300 p-2 bg-gray-800/50 rounded-md">“A margem líquida consolidada subiu 3,8% no trimestre — principal fator: redução de custos fixos e renegociação de contratos SaaS.”</p>
               <p className="text-sm text-gray-300 p-2 bg-gray-800/50 rounded-md">“O custo operacional do centro ‘Financeiro’ inclui despesas administrativas duplicadas. Reclassificar pode aumentar o lucro líquido em 2,4%.”</p>
               <p className="text-sm text-gray-300 p-2 bg-gray-800/50 rounded-md">“Projeção indica lucro líquido anual de R$ 1,9M (+12%) caso despesas administrativas permaneçam sob 25% da receita.”</p>
             </CardContent>
@@ -137,11 +136,5 @@ const DREBalancetesPage = () => {
     </div>
   );
 };
-
-const DREBalancetes = () => (
-  <Layout>
-    <DREBalancetesPage />
-  </Layout>
-);
 
 export default DREBalancetes;

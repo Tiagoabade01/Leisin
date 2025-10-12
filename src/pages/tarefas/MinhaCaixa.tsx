@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -68,32 +67,30 @@ const MinhaCaixa = () => {
   };
 
   return (
-    <Layout>
-      <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
-        <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-white font-serif">Dashboard de Tarefas</h1>
-            <p className="text-gray-400 max-w-3xl">Visão geral da produtividade, status e prioridades de todas as equipes.</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button onClick={() => setIsTaskModalOpen(true)}><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BarChart2 className="h-4 w-4 mr-2" /> Relatórios</Button>
-            <Button variant="secondary"><Brain className="h-4 w-4 mr-2" /> Insights da IA</Button>
-          </div>
-        </header>
+    <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
+      <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-white font-serif">Dashboard de Tarefas</h1>
+          <p className="text-gray-400 max-w-3xl">Visão geral da produtividade, status e prioridades de todas as equipes.</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button onClick={() => setIsTaskModalOpen(true)}><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BarChart2 className="h-4 w-4 mr-2" /> Relatórios</Button>
+          <Button variant="secondary"><Brain className="h-4 w-4 mr-2" /> Insights da IA</Button>
+        </div>
+      </header>
 
-        <div className="space-y-6">
-          <TaskDashboardKPIs />
-          <TaskCharts />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <UrgentTasksList tasks={tasks} />
-            <Card className="bg-petroleum-blue border-gray-700 text-white">
-              <CardHeader><CardTitle className="text-white text-base">Minhas Tarefas</CardTitle></CardHeader>
-              <CardContent>
-                <TaskList tasks={tasks.slice(0, 3)} onTaskClick={handleSelectTask} />
-              </CardContent>
-            </Card>
-          </div>
+      <div className="space-y-6">
+        <TaskDashboardKPIs />
+        <TaskCharts />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <UrgentTasksList tasks={tasks} />
+          <Card className="bg-petroleum-blue border-gray-700 text-white">
+            <CardHeader><CardTitle className="text-white text-base">Minhas Tarefas</CardTitle></CardHeader>
+            <CardContent>
+              <TaskList tasks={tasks.slice(0, 3)} onTaskClick={handleSelectTask} />
+            </CardContent>
+          </Card>
         </div>
       </div>
 
@@ -140,7 +137,7 @@ const MinhaCaixa = () => {
       </Drawer>
 
       <Dialog open={isTaskModalOpen} onOpenChange={setIsTaskModalOpen}><DialogContent className="bg-gray-900 text-white border-gray-700"><DialogHeader><DialogTitle>Nova Tarefa</DialogTitle></DialogHeader><form onSubmit={handleSaveTask}><div className="py-4 space-y-3"><div className="space-y-1"><Label>Título</Label><Input name="title" required /></div><div className="space-y-1"><Label>Cliente</Label><Input name="client" /></div><div className="space-y-1"><Label>Prazo</Label><Input name="deadline" type="date" /></div></div><DialogFooter><Button type="button" variant="ghost" onClick={() => setIsTaskModalOpen(false)}>Cancelar</Button><Button type="submit">Criar</Button></DialogFooter></form></DialogContent></Dialog>
-    </Layout>
+    </div>
   );
 };
 

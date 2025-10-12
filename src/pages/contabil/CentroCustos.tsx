@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -31,7 +30,14 @@ const getStatusColor = (value: number) => {
   return "text-gray-400";
 };
 
-const CentroCustosPage = () => {
+const getStatusSymbol = (gasto: number, limite: number) => {
+    const percent = (gasto / limite) * 100;
+    if (percent > 100) return "🔴";
+    if (percent > 90) return "🟠";
+    return "🟢";
+};
+
+const CentroCustos = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
@@ -132,11 +138,5 @@ const CentroCustosPage = () => {
     </div>
   );
 };
-
-const CentroCustos = () => (
-  <Layout>
-    <CentroCustosPage />
-  </Layout>
-);
 
 export default CentroCustos;

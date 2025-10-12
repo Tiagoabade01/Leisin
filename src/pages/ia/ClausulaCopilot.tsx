@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -43,7 +42,7 @@ const getStatusBadge = (status: string, color: string) => {
     return <Badge className={colorClasses[color]}>{status}</Badge>;
 };
 
-const CláusulaCopilotPage = () => {
+const ClausulaCopilot = () => {
   const [prompt, setPrompt] = useState("Gerar cláusula de confidencialidade para parceria tecnológica de 24 meses.");
   const [generatedClause, setGeneratedClause] = useState("");
   const [legalBasis, setLegalBasis] = useState("");
@@ -166,11 +165,5 @@ const CláusulaCopilotPage = () => {
     </div>
   );
 };
-
-const ClausulaCopilot = () => (
-  <Layout>
-    <CláusulaCopilotPage />
-  </Layout>
-);
 
 export default ClausulaCopilot;

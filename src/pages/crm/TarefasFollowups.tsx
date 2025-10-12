@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -37,50 +36,48 @@ const TarefasFollowups = () => {
   };
 
   return (
-    <Layout>
-      <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
-        <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-white font-serif">Tarefas e Follow-ups</h1>
-            <p className="text-gray-400 max-w-3xl">
-              Gerencie compromissos, prazos e atividades de relacionamento jurídico com automação, integração e inteligência de execução.
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button onClick={() => setIsModalOpen(true)}><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700">Gerar Follow-up</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BrainCircuit className="h-4 w-4 mr-2" /> IA Analisar</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BarChart2 className="h-4 w-4 mr-2" /> Exportar</Button>
-          </div>
-        </header>
+    <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
+      <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-white font-serif">Tarefas e Follow-ups</h1>
+          <p className="text-gray-400 max-w-3xl">
+            Gerencie compromissos, prazos e atividades de relacionamento jurídico com automação, integração e inteligência de execução.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button onClick={() => setIsModalOpen(true)}><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700">Gerar Follow-up</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BrainCircuit className="h-4 w-4 mr-2" /> IA Analisar</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BarChart2 className="h-4 w-4 mr-2" /> Exportar</Button>
+        </div>
+      </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3 space-y-6">
-            <TaskDashboard />
-            <Card className="bg-petroleum-blue border-gray-700 text-white">
-              <CardHeader><CardTitle className="text-white">Lista de Tarefas</CardTitle></CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader><TableRow className="border-gray-700 hover:bg-transparent"><TableHead>Descrição</TableHead><TableHead>Tipo</TableHead><TableHead>Responsável</TableHead><TableHead>Cliente</TableHead><TableHead>Vencimento</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
-                  <TableBody>
-                    {initialTasks.map(task => (
-                      <TableRow key={task.id} className="border-gray-700">
-                        <TableCell>{task.desc}</TableCell>
-                        <TableCell>{task.type}</TableCell>
-                        <TableCell>{task.resp}</TableCell>
-                        <TableCell>{task.client}</TableCell>
-                        <TableCell>{task.venc}</TableCell>
-                        <TableCell>{getStatusBadge(task.status)}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </div>
-          <div className="lg:col-span-1">
-            <TaskAIInsights />
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-3 space-y-6">
+          <TaskDashboard />
+          <Card className="bg-petroleum-blue border-gray-700 text-white">
+            <CardHeader><CardTitle className="text-white">Lista de Tarefas</CardTitle></CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader><TableRow className="border-gray-700 hover:bg-transparent"><TableHead>Descrição</TableHead><TableHead>Tipo</TableHead><TableHead>Responsável</TableHead><TableHead>Cliente</TableHead><TableHead>Vencimento</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
+                <TableBody>
+                  {initialTasks.map(task => (
+                    <TableRow key={task.id} className="border-gray-700">
+                      <TableCell>{task.desc}</TableCell>
+                      <TableCell>{task.type}</TableCell>
+                      <TableCell>{task.resp}</TableCell>
+                      <TableCell>{task.client}</TableCell>
+                      <TableCell>{task.venc}</TableCell>
+                      <TableCell>{getStatusBadge(task.status)}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
+        <div className="lg:col-span-1">
+          <TaskAIInsights />
         </div>
       </div>
 
@@ -98,7 +95,7 @@ const TarefasFollowups = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </Layout>
+    </div>
   );
 };
 

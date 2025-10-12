@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Brain, FileText } from "lucide-react";
 import DossiesKPIs from "@/components/dossies/DossiesKPIs";
@@ -6,7 +5,7 @@ import DossiesTable from "@/components/dossies/DossiesTable";
 import DossieTimeline from "@/components/dossies/DossieTimeline";
 import DossiesAIInsights from "@/components/dossies/DossiesAIInsights";
 
-const DossiesPropriedadePage = () => {
+const DossiesPropriedade = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -37,11 +36,5 @@ const DossiesPropriedadePage = () => {
     </div>
   );
 };
-
-const DossiesPropriedade = () => (
-  <Layout>
-    <DossiesPropriedadePage />
-  </Layout>
-);
 
 export default DossiesPropriedade;

@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
@@ -123,39 +122,37 @@ const FluxoDeTarefas = () => {
   };
 
   return (
-    <Layout>
-      <div className="bg-[#0A0F14] text-gray-100 h-full p-6 md:p-8 flex flex-col">
-        <header className="flex-shrink-0">
-          <div className="flex justify-between items-center mb-4">
-            <div>
-              <h1 className="text-3xl font-bold text-white font-serif">Fluxo de Tarefas</h1>
-              <p className="text-gray-400">Visualize e gerencie o fluxo de trabalho de forma ágil.</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
-            </div>
+    <div className="bg-[#0A0F14] text-gray-100 h-full p-6 md:p-8 flex flex-col">
+      <header className="flex-shrink-0">
+        <div className="flex justify-between items-center mb-4">
+          <div>
+            <h1 className="text-3xl font-bold text-white font-serif">Fluxo de Tarefas</h1>
+            <p className="text-gray-400">Visualize e gerencie o fluxo de trabalho de forma ágil.</p>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-            <div className="flex items-center gap-2 p-1 bg-petroleum-blue rounded-lg">
-              <Button variant={viewMode === 'kanban' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('kanban')}><LayoutGrid className="h-4 w-4 mr-2" /> Kanban</Button>
-              <Button variant={viewMode === 'list' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('list')}><List className="h-4 w-4 mr-2" /> Lista</Button>
-              <Button variant={viewMode === 'calendar' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('calendar')}><Calendar className="h-4 w-4 mr-2" /> Calendário</Button>
-            </div>
-            <div className="flex items-center gap-2 flex-grow sm:flex-grow-0">
-              <div className="relative w-full sm:w-64"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" /><Input placeholder="Buscar tarefas..." className="bg-petroleum-blue border-gray-700 pl-9" /></div>
-              <Select><SelectTrigger className="w-[180px] bg-petroleum-blue border-gray-700"><SelectValue placeholder="Responsável" /></SelectTrigger></Select>
-              <Select><SelectTrigger className="w-[180px] bg-petroleum-blue border-gray-700"><SelectValue placeholder="Prioridade" /></SelectTrigger></Select>
-            </div>
+          <div className="flex items-center gap-2">
+            <Button><PlusCircle className="h-4 w-4 mr-2" /> Nova Tarefa</Button>
           </div>
-        </header>
-        
-        <div className="space-y-6 flex-shrink-0">
-          <TaskDashboardKPIs />
         </div>
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-2 p-1 bg-petroleum-blue rounded-lg">
+            <Button variant={viewMode === 'kanban' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('kanban')}><LayoutGrid className="h-4 w-4 mr-2" /> Kanban</Button>
+            <Button variant={viewMode === 'list' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('list')}><List className="h-4 w-4 mr-2" /> Lista</Button>
+            <Button variant={viewMode === 'calendar' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('calendar')}><Calendar className="h-4 w-4 mr-2" /> Calendário</Button>
+          </div>
+          <div className="flex items-center gap-2 flex-grow sm:flex-grow-0">
+            <div className="relative w-full sm:w-64"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" /><Input placeholder="Buscar tarefas..." className="bg-petroleum-blue border-gray-700 pl-9" /></div>
+            <Select><SelectTrigger className="w-[180px] bg-petroleum-blue border-gray-700"><SelectValue placeholder="Responsável" /></SelectTrigger></Select>
+            <Select><SelectTrigger className="w-[180px] bg-petroleum-blue border-gray-700"><SelectValue placeholder="Prioridade" /></SelectTrigger></Select>
+          </div>
+        </div>
+      </header>
+      
+      <div className="space-y-6 flex-shrink-0">
+        <TaskDashboardKPIs />
+      </div>
 
-        <div className="flex-grow min-h-0 mt-6">
-          {renderView()}
-        </div>
+      <div className="flex-grow min-h-0 mt-6">
+        {renderView()}
       </div>
 
       <Dialog open={isColumnModalOpen} onOpenChange={setIsColumnModalOpen}>
@@ -174,7 +171,7 @@ const FluxoDeTarefas = () => {
           <AlertDialogFooter><AlertDialogCancel asChild><Button variant="ghost">Cancelar</Button></AlertDialogCancel><AlertDialogAction onClick={confirmDeleteColumn} asChild><Button variant="destructive">Excluir</Button></AlertDialogAction></AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </Layout>
+    </div>
   );
 };
 

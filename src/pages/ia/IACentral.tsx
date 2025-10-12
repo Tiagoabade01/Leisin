@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,7 +57,7 @@ const getRiskBadge = (level: string) => {
     return <Badge variant="secondary">🟡 Baixo</Badge>;
 };
 
-const IACentralPage = () => {
+const IACentral = () => {
   const [messages, setMessages] = useState(initialMessages);
   const [input, setInput] = useState('');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -230,11 +229,5 @@ const IACentralPage = () => {
     </div>
   );
 };
-
-const IACentral = () => (
-  <Layout>
-    <IACentralPage />
-  </Layout>
-);
 
 export default IACentral;

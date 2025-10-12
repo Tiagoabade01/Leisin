@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusCircle, BookOpen, BarChart2, Brain } from "lucide-react";
@@ -9,7 +8,7 @@ import ExecutionsLogs from "@/components/slas/ExecutionsLogs";
 import IntelligentPlaybooks from "@/components/slas/IntelligentPlaybooks";
 import PredictiveAI from "@/components/slas/PredictiveAI";
 
-const SLAsAutomacaoPage = () => {
+const SLAsAutomacao = () => {
   return (
     <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -55,11 +54,5 @@ const SLAsAutomacaoPage = () => {
     </div>
   );
 };
-
-const SLAsAutomacao = () => (
-    <Layout>
-        <SLAsAutomacaoPage />
-    </Layout>
-);
 
 export default SLAsAutomacao;

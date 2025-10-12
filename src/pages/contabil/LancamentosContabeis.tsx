@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -27,7 +26,7 @@ const initialLancamentos = [
 
 const formatCurrency = (value: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 
-const LancamentosContabeisPage = () => {
+const LancamentosContabeis = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
@@ -125,11 +124,5 @@ const LancamentosContabeisPage = () => {
     </div>
   );
 };
-
-const LancamentosContabeis = () => (
-  <Layout>
-    <LancamentosContabeisPage />
-  </Layout>
-);
 
 export default LancamentosContabeis;

@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { FileText, Brain, Map, PlusCircle } from "lucide-react";
 import RiskKPIs from "@/components/compliance/RiskKPIs";
@@ -8,7 +7,7 @@ import AuditCompliance from "@/components/compliance/AuditCompliance";
 import ContractReputationalRisk from "@/components/compliance/ContractReputationalRisk";
 import ComplianceCopilot from "@/components/compliance/ComplianceCopilot";
 
-const RiscosCompliancePage = () => {
+const RiscosCompliance = () => {
   return (
     <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -43,11 +42,5 @@ const RiscosCompliancePage = () => {
     </div>
   );
 };
-
-const RiscosCompliance = () => (
-  <Layout>
-    <RiscosCompliancePage />
-  </Layout>
-);
 
 export default RiscosCompliance;

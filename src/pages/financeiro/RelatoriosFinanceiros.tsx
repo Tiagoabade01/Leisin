@@ -1,10 +1,10 @@
 import React from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Download, BarChart2, BrainCircuit } from "lucide-react";
+import { Download, BarChart2, BrainCircuit, GitCompare } from "lucide-react";
 import { ResponsiveContainer, LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
+import { showSuccess } from '@/utils/toast';
 
 const kpis = [
   { title: "Receita Bruta (mês)", value: "R$ 276.800", status: "green" },
@@ -34,7 +34,7 @@ const dreData = [
 
 const formatCurrency = (value: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 
-const RelatoriosFinanceirosPage = () => {
+const RelatoriosFinanceiros = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -100,7 +100,7 @@ const RelatoriosFinanceirosPage = () => {
             <CardHeader><CardTitle className="text-white">Demonstração de Resultados (DRE)</CardTitle></CardHeader>
             <CardContent>
               <Table>
-                <TableHeader><TableRow className="border-gray-700 hover:bg-transparent"><TableHead>Conta</TableHead><TableHead>Valor</TableHead><TableHead>% Receita</TableHead></TableRow></TableHeader>
+                <TableHeader><TableRow className="border-gray-700 hover:bg-transparent"><TableHead>Conta</TableHead><TableHead>Valor (R$)</TableHead><TableHead>% Receita</TableHead></TableRow></TableHeader>
                 <TableBody>
                   {dreData.map(item => (
                     <TableRow key={item.conta} className={`border-gray-700 ${item.isBold ? 'font-bold' : ''}`}>
@@ -121,8 +121,8 @@ const RelatoriosFinanceirosPage = () => {
             <CardHeader className="flex flex-row items-center gap-2"><BrainCircuit className="h-5 w-5 text-tech-green" /><CardTitle className="text-white">IA Analytics</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-gray-300 p-2 bg-gray-800/50 rounded-md">“A margem líquida consolidada subiu 5,4% em relação a setembro — reflexo da redução de despesas operacionais e renegociação de SaaS.”</p>
-              <p className="text-sm text-gray-300 p-2 bg-gray-800/50 rounded-md">“A proporção de custo fixo caiu para 47%, o que melhora o ponto de equilíbrio e reforça a liquidez do período.”</p>
-              <p className="text-sm text-gray-300 p-2 bg-gray-800/50 rounded-md">“A Filial SP foi responsável por 58% do resultado positivo do mês — recomendada expansão de contratos similares em outras unidades.”</p>
+              <p className="text-sm text-gray-300 p-2 bg-gray-800/50 rounded-md">“O custo operacional do centro ‘Financeiro’ inclui despesas administrativas duplicadas. Reclassificar pode aumentar o lucro líquido em 2,4%.”</p>
+              <p className="text-sm text-gray-300 p-2 bg-gray-800/50 rounded-md">“Projeção indica lucro líquido anual de R$ 1,9M (+12%) caso despesas administrativas permaneçam sob 25% da receita.”</p>
             </CardContent>
           </Card>
         </div>
@@ -130,11 +130,5 @@ const RelatoriosFinanceirosPage = () => {
     </div>
   );
 };
-
-const RelatoriosFinanceiros = () => (
-  <Layout>
-    <RelatoriosFinanceirosPage />
-  </Layout>
-);
 
 export default RelatoriosFinanceiros;

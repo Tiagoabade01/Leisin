@@ -25,6 +25,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils';
 
 const navItems = [
+  { to: "/painel-master", label: "Painel Master", icon: Shield, isGroup: false },
   {
     title: "Dashboard",
     icon: Home,
@@ -245,7 +246,75 @@ const Sidebar = () => {
 
       <nav className="flex-1 p-2 space-y-1 overflow-y-auto no-scrollbar">
         {navItems.map((item) => {
-          if (!item.isGroup) {
+          if (item.isGroup) {
+            return isCollapsed ? (
+              <Popover key={item.title}>
+                <Tooltip delayDuration={0}>
+                  <TooltipTrigger asChild>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" className="w-full justify-center h-12 text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <item.icon className="w-5 h-5" />
+                      </Button>
+                    </PopoverTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">
+                    {item.title}
+                  </TooltipContent>
+                </Tooltip>
+                <PopoverContent side="right" align="start" className="ml-2 w-auto bg-gray-900 border-gray-700 text-white p-1">
+                  <div className="flex flex-col space-y-1">
+                    {item.subItems.map((subItem) => (
+                      <NavLink
+                        key={subItem.to}
+                        to={subItem.to}
+                        className={({ isActive }) =>
+                          cn(
+                            "flex items-center px-3 py-2 text-sm font-medium rounded-md whitespace-nowrap",
+                            isActive ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white"
+                          )
+                        }
+                      >
+                        <subItem.icon className="w-5 h-5 mr-3" />
+                        {subItem.label}
+                      </NavLink>
+                    ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
+            ) : (
+              <Collapsible key={item.title} open={openSection === item.title} onOpenChange={() => setOpenSection(openSection === item.title ? null : item.title)}>
+                <CollapsibleTrigger className="w-full">
+                  <div className="flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md text-gray-400 hover:bg-gray-800 hover:text-white">
+                    <div className="flex items-center">
+                      <item.icon className="w-5 h-5 mr-3" />
+                      <span>{item.title}</span>
+                    </div>
+                    <ChevronDown className={cn("w-4 h-4 transition-transform", openSection === item.title && "rotate-180")} />
+                  </div>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="pl-6">
+                  <div className="space-y-1 py-1">
+                    {item.subItems.map((subItem) => (
+                      <NavLink
+                        key={subItem.to}
+                        to={subItem.to}
+                        end
+                        className={({ isActive }) =>
+                          cn(
+                            "flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                            isActive ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white"
+                          )
+                        }
+                      >
+                        <subItem.icon className="w-5 h-5 mr-3" />
+                        <span>{subItem.label}</span>
+                      </NavLink>
+                    ))}
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            );
+          } else {
             return isCollapsed ? (
               <Tooltip key={item.to} delayDuration={0}>
                 <TooltipTrigger asChild>
@@ -275,92 +344,9 @@ const Sidebar = () => {
               </NavLink>
             );
           }
-
-          return isCollapsed ? (
-            <Popover key={item.title}>
-              <Tooltip delayDuration={0}>
-                <TooltipTrigger asChild>
-                  <PopoverTrigger asChild>
-                    <Button variant="ghost" className="w-full justify-center h-12 text-gray-400 hover:bg-gray-800 hover:text-white">
-                      <item.icon className="w-5 h-5" />
-                    </Button>
-                  </PopoverTrigger>
-                </TooltipTrigger>
-                <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">
-                  {item.title}
-                </TooltipContent>
-              </Tooltip>
-              <PopoverContent side="right" align="start" className="ml-2 w-auto bg-gray-900 border-gray-700 text-white p-1">
-                <div className="flex flex-col space-y-1">
-                  {item.subItems.map((subItem) => (
-                    <NavLink
-                      key={subItem.to}
-                      to={subItem.to}
-                      className={({ isActive }) =>
-                        cn(
-                          "flex items-center px-3 py-2 text-sm font-medium rounded-md whitespace-nowrap",
-                          isActive ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white"
-                        )
-                      }
-                    >
-                      <subItem.icon className="w-5 h-5 mr-3" />
-                      {subItem.label}
-                    </NavLink>
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
-          ) : (
-            <Collapsible key={item.title} open={openSection === item.title} onOpenChange={() => setOpenSection(openSection === item.title ? null : item.title)}>
-              <CollapsibleTrigger className="w-full">
-                <div className="flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md text-gray-400 hover:bg-gray-800 hover:text-white">
-                  <div className="flex items-center">
-                    <item.icon className="w-5 h-5 mr-3" />
-                    <span>{item.title}</span>
-                  </div>
-                  <ChevronDown className={cn("w-4 h-4 transition-transform", openSection === item.title && "rotate-180")} />
-                </div>
-              </CollapsibleTrigger>
-              <CollapsibleContent className="pl-6">
-                <div className="space-y-1 py-1">
-                  {item.subItems.map((subItem) => (
-                    <NavLink
-                      key={subItem.to}
-                      to={subItem.to}
-                      end
-                      className={({ isActive }) =>
-                        cn(
-                          "flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                          isActive ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white"
-                        )
-                      }
-                    >
-                      <subItem.icon className="w-5 h-5 mr-3" />
-                      <span>{subItem.label}</span>
-                    </NavLink>
-                  ))}
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-          );
         })}
       </nav>
       <div className="p-4 border-t border-gray-700">
-        {isCollapsed ? (
-            <Tooltip delayDuration={0}>
-              <TooltipTrigger asChild>
-                <Link to="/painel-master" className="grid h-12 w-full place-items-center rounded-md text-sm font-medium transition-colors text-gray-400 hover:bg-gray-800/50 hover:text-white">
-                  <Shield className="w-5 h-5" />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right" className="bg-gray-800 text-white border-gray-700">Painel Master</TooltipContent>
-            </Tooltip>
-          ) : (
-            <Link to="/painel-master" className="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors text-gray-400 hover:bg-gray-800/50 hover:text-white mb-2">
-              <Shield className="w-5 h-5 mr-3" />
-              <span>Painel Master</span>
-            </Link>
-          )}
         <div className="flex items-center">
           <Avatar className="h-9 w-9">
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />

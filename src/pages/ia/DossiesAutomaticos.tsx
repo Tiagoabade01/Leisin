@@ -1,5 +1,4 @@
 import React from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -43,7 +42,7 @@ const getRiskBadge = (risco: string) => {
     return <Badge variant="secondary">🟡 Baixo</Badge>;
 };
 
-const DossiesAutomaticosPage = () => {
+const DossiesAutomaticos = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -181,11 +180,5 @@ const DossiesAutomaticosPage = () => {
     </div>
   );
 };
-
-const DossiesAutomaticos = () => (
-  <Layout>
-    <DossiesAutomaticosPage />
-  </Layout>
-);
 
 export default DossiesAutomaticos;

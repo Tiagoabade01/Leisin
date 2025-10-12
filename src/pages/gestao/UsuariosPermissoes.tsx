@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Input } from "@/components/ui/input";
@@ -14,7 +13,7 @@ import ControlePermissoes from '@/components/gestao/usuarios/ControlePermissoes'
 import LogsAuditoria from '@/components/gestao/usuarios/LogsAuditoria';
 import AutomacaoAcessos from '@/components/gestao/usuarios/AutomacaoAcessos';
 
-const UsuariosPermissoesPage = () => {
+const UsuariosPermissoes = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSaveUser = (e: FormEvent<HTMLFormElement>) => {
@@ -86,11 +85,5 @@ const UsuariosPermissoesPage = () => {
     </div>
   );
 };
-
-const UsuariosPermissoes = () => (
-  <Layout>
-    <UsuariosPermissoesPage />
-  </Layout>
-);
 
 export default UsuariosPermissoes;

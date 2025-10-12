@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusCircle, Download, Brain } from "lucide-react";
@@ -10,7 +9,7 @@ import RelatoriosDossies from "@/components/diligence/RelatoriosDossies";
 import MonitoramentoContinuo from "@/components/diligence/MonitoramentoContinuo";
 import IAPreditiva from "@/components/diligence/IAPreditiva";
 
-const DueDiligenceCorporativaPage = () => {
+const DueDiligenceCorporativa = () => {
   return (
     <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -59,11 +58,5 @@ const DueDiligenceCorporativaPage = () => {
     </div>
   );
 };
-
-const DueDiligenceCorporativa = () => (
-  <Layout>
-    <DueDiligenceCorporativaPage />
-  </Layout>
-);
 
 export default DueDiligenceCorporativa;

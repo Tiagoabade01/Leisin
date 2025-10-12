@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { BarChart, Brain } from "lucide-react";
 import PerformanceKPIs from "@/components/performance/PerformanceKPIs";
@@ -8,7 +7,7 @@ import OperationalEfficiency from "@/components/performance/OperationalEfficienc
 import TeamPerformance from "@/components/performance/TeamPerformance";
 import LegalCopilot from "@/components/performance/LegalCopilot";
 
-const PerformanceJuridicaPage = () => {
+const PerformanceJuridica = () => {
   return (
     <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -42,12 +41,5 @@ const PerformanceJuridicaPage = () => {
     </div>
   );
 };
-
-const PerformanceJuridica = () => (
-  <Layout>
-    <PerformanceJuridicaPage />
-  </Layout>
-);
-
 
 export default PerformanceJuridica;

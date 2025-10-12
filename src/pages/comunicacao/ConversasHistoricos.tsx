@@ -1,5 +1,4 @@
 import React from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -54,7 +53,7 @@ const getChannelIcon = (channel: string) => {
   return <BrainCircuit className="h-4 w-4 text-gray-400" />;
 };
 
-const ConversasHistoricosPage = () => {
+const ConversasHistoricos = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -163,11 +162,5 @@ const ConversasHistoricosPage = () => {
     </div>
   );
 };
-
-const ConversasHistoricos = () => (
-  <Layout>
-    <ConversasHistoricosPage />
-  </Layout>
-);
 
 export default ConversasHistoricos;

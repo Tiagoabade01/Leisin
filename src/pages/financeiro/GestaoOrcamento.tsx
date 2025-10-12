@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -49,7 +48,7 @@ const getStatusSymbol = (gasto: number, limite: number) => {
 
 const formatCurrency = (value: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 
-const GestaoOrcamentoPage = () => {
+const GestaoOrcamento = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
@@ -169,11 +168,5 @@ const GestaoOrcamentoPage = () => {
     </div>
   );
 };
-
-const GestaoOrcamento = () => (
-  <Layout>
-    <GestaoOrcamentoPage />
-  </Layout>
-);
 
 export default GestaoOrcamento;

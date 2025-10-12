@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -38,7 +37,7 @@ const getStatusBadge = (status: string) => {
   return <Badge variant="secondary">{status}</Badge>;
 };
 
-const ContasPagarPage = () => {
+const ContasPagar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
@@ -149,11 +148,5 @@ const ContasPagarPage = () => {
     </div>
   );
 };
-
-const ContasPagar = () => (
-  <Layout>
-    <ContasPagarPage />
-  </Layout>
-);
 
 export default ContasPagar;

@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusCircle, BarChart2, GitCompare, Download } from "lucide-react";
@@ -9,7 +8,7 @@ import CustosDespesas from "@/components/filiais/faturamento/CustosDespesas";
 import MargensRentabilidade from "@/components/filiais/faturamento/MargensRentabilidade";
 import RelatoriosProjecaoIA from "@/components/filiais/faturamento/RelatoriosProjecaoIA";
 
-const FaturamentoCustosPage = () => {
+const FaturamentoCustos = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -55,11 +54,5 @@ const FaturamentoCustosPage = () => {
     </div>
   );
 };
-
-const FaturamentoCustos = () => (
-  <Layout>
-    <FaturamentoCustosPage />
-  </Layout>
-);
 
 export default FaturamentoCustos;

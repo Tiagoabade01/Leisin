@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusCircle, GitMerge, UserCheck, BarChart2 } from "lucide-react";
@@ -9,7 +8,7 @@ import Responsabilidades from "@/components/filiais/equipes/Responsabilidades";
 import MetasDesempenho from "@/components/filiais/equipes/MetasDesempenho";
 import IntegracaoIA from "@/components/filiais/equipes/IntegracaoIA";
 
-const EquipesResponsaveisPage = () => {
+const EquipesResponsaveis = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -55,11 +54,5 @@ const EquipesResponsaveisPage = () => {
     </div>
   );
 };
-
-const EquipesResponsaveis = () => (
-  <Layout>
-    <EquipesResponsaveisPage />
-  </Layout>
-);
 
 export default EquipesResponsaveis;

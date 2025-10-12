@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Brain, Map } from "lucide-react";
 import DashboardAnalises from "@/components/urbanistico/DashboardAnalises";
@@ -8,7 +7,7 @@ import ViabilidadeConstrutiva from "@/components/urbanistico/ViabilidadeConstrut
 import RelatoriosPareceres from "@/components/urbanistico/RelatoriosPareceres";
 import AnaliseAIInsights from "@/components/urbanistico/AnaliseAIInsights";
 
-const AnaliseJuridicoUrbanisticaPage = () => {
+const AnaliseJuridicoUrbanistica = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -41,11 +40,5 @@ const AnaliseJuridicoUrbanisticaPage = () => {
     </div>
   );
 };
-
-const AnaliseJuridicoUrbanistica = () => (
-  <Layout>
-    <AnaliseJuridicoUrbanisticaPage />
-  </Layout>
-);
 
 export default AnaliseJuridicoUrbanistica;

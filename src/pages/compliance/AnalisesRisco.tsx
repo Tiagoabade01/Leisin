@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Brain, Map } from "lucide-react";
 import RiskDashboardKPIs from "@/components/risks/RiskDashboardKPIs";
@@ -8,7 +7,7 @@ import ActiveAlerts from "@/components/risks/ActiveAlerts";
 import RiskReports from "@/components/risks/RiskReports";
 import RiskAIInsights from "@/components/risks/RiskAIInsights";
 
-const AnalisesRiscoPage = () => {
+const AnalisesRisco = () => {
   return (
     <div className="bg-[#0B0F14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -40,11 +39,5 @@ const AnalisesRiscoPage = () => {
     </div>
   );
 };
-
-const AnalisesRisco = () => (
-  <Layout>
-    <AnalisesRiscoPage />
-  </Layout>
-);
 
 export default AnalisesRisco;

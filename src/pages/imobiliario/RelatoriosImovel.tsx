@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Brain, BarChart2 } from "lucide-react";
 import PainelRelatorios from "@/components/relatorios/PainelRelatorios";
@@ -8,7 +7,7 @@ import ComparativosIndicadores from "@/components/relatorios/ComparativosIndicad
 import ExportacoesIntegracoes from "@/components/relatorios/ExportacoesIntegracoes";
 import RelatoriosAIInsights from "@/components/relatorios/RelatoriosAIInsights";
 
-const RelatoriosImovelPage = () => {
+const RelatoriosImovel = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -41,11 +40,5 @@ const RelatoriosImovelPage = () => {
     </div>
   );
 };
-
-const RelatoriosImovel = () => (
-  <Layout>
-    <RelatoriosImovelPage />
-  </Layout>
-);
 
 export default RelatoriosImovel;

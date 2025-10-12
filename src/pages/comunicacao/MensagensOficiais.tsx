@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,7 +43,7 @@ const getSignatureBadge = (signature: string) => {
   return <Badge variant="secondary">{signature}</Badge>;
 };
 
-const MensagensOficiaisPage = () => {
+const MensagensOficiais = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -147,11 +146,5 @@ const MensagensOficiaisPage = () => {
     </div>
   );
 };
-
-const MensagensOficiais = () => (
-  <Layout>
-    <MensagensOficiaisPage />
-  </Layout>
-);
 
 export default MensagensOficiais;

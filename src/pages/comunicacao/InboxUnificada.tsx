@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -150,7 +149,7 @@ const AiCopilotPanel = () => (
   </aside>
 );
 
-const InboxUnificadaPage = () => {
+const InboxUnificada = () => {
   const [selectedConvo, setSelectedConvo] = useState(selectedConversationDetails);
 
   return (
@@ -192,11 +191,5 @@ const InboxUnificadaPage = () => {
     </div>
   );
 };
-
-const InboxUnificada = () => (
-  <Layout>
-    <InboxUnificadaPage />
-  </Layout>
-);
 
 export default InboxUnificada;

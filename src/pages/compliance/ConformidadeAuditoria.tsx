@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Brain, FileText } from "lucide-react";
 import ComplianceDashboard from "@/components/audit/ComplianceDashboard";
@@ -6,7 +5,7 @@ import AutomatedAudits from "@/components/audit/AutomatedAudits";
 import AuditTable from "@/components/audit/AuditTable";
 import AuditAIInsights from "@/components/audit/AuditAIInsights";
 
-const ConformidadeAuditoriaPage = () => {
+const ConformidadeAuditoria = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -37,11 +36,5 @@ const ConformidadeAuditoriaPage = () => {
     </div>
   );
 };
-
-const ConformidadeAuditoria = () => (
-  <Layout>
-    <ConformidadeAuditoriaPage />
-  </Layout>
-);
 
 export default ConformidadeAuditoria;

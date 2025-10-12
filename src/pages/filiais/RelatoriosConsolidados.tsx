@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart2, GitCompare, Download, BrainCircuit } from "lucide-react";
@@ -9,7 +8,7 @@ import ComparativosInterfiliais from "@/components/filiais/relatorios/Comparativ
 import IaAnaliticaProjecao from "@/components/filiais/relatorios/IaAnaliticaProjecao";
 import ExportacoesIntegracoes from "@/components/filiais/relatorios/ExportacoesIntegracoes";
 
-const RelatoriosConsolidadosPage = () => {
+const RelatoriosConsolidados = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -55,11 +54,5 @@ const RelatoriosConsolidadosPage = () => {
     </div>
   );
 };
-
-const RelatoriosConsolidados = () => (
-  <Layout>
-    <RelatoriosConsolidadosPage />
-  </Layout>
-);
 
 export default RelatoriosConsolidados;

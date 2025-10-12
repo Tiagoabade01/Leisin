@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Brain, Share2 } from "lucide-react";
 import InteractiveRiskMap from "@/components/risk-mapper/InteractiveRiskMap";
@@ -6,7 +5,7 @@ import RelationshipGraph from "@/components/risk-mapper/RelationshipGraph";
 import PredictiveAnalysis from "@/components/risk-mapper/PredictiveAnalysis";
 import GeoReports from "@/components/risk-mapper/GeoReports";
 
-const RiskMapperPage = () => {
+const RiskMapper = () => {
   return (
     <div className="bg-[#081018] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -37,11 +36,5 @@ const RiskMapperPage = () => {
     </div>
   );
 };
-
-const RiskMapper = () => (
-  <Layout>
-    <RiskMapperPage />
-  </Layout>
-);
 
 export default RiskMapper;

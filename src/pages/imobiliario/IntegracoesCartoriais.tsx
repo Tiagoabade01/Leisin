@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, RefreshCw, FileText, Download } from "lucide-react";
 import PainelConexoes from "@/components/cartorios/PainelConexoes";
@@ -8,7 +7,7 @@ import HistoricoAtos from "@/components/cartorios/HistoricoAtos";
 import RelatoriosLogs from "@/components/cartorios/RelatoriosLogs";
 import CartoriosAIInsights from "@/components/cartorios/CartoriosAIInsights";
 
-const IntegracoesCartoriaisPage = () => {
+const IntegracoesCartoriais = () => {
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -41,11 +40,5 @@ const IntegracoesCartoriaisPage = () => {
     </div>
   );
 };
-
-const IntegracoesCartoriais = () => (
-  <Layout>
-    <IntegracoesCartoriaisPage />
-  </Layout>
-);
 
 export default IntegracoesCartoriais;

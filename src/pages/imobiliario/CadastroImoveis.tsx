@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Upload, BarChart2, Map } from "lucide-react";
 import ImoveisKPIs from "@/components/imobiliario/ImoveisKPIs";
@@ -24,7 +23,7 @@ const initialImoveis: Imovel[] = [
   { id: '3', nome: "Fazenda Boa Esperança", tipo: 'Rural', status: 'Crítico', localizacao: "Mato Grosso, MT", matricula: "11.223", area: "1.500 ha" },
 ];
 
-const CadastroImoveisPage = () => {
+const CadastroImoveis = () => {
   const [imoveis, setImoveis] = useState<Imovel[]>(initialImoveis);
   const [selectedImovel, setSelectedImovel] = useState<Imovel | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -72,11 +71,5 @@ const CadastroImoveisPage = () => {
     </div>
   );
 };
-
-const CadastroImoveis = () => (
-  <Layout>
-    <CadastroImoveisPage />
-  </Layout>
-);
 
 export default CadastroImoveis;

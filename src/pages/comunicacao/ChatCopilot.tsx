@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -77,7 +76,7 @@ const RightSidebar = () => (
   </aside>
 );
 
-const ChatCopilotPage = () => {
+const ChatCopilot = () => {
   const [messages, setMessages] = useState(initialMessages);
   const [input, setInput] = useState('');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -141,11 +140,5 @@ const ChatCopilotPage = () => {
     </div>
   );
 };
-
-const ChatCopilot = () => (
-  <Layout>
-    <ChatCopilotPage />
-  </Layout>
-);
 
 export default ChatCopilot;
