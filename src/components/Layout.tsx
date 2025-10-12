@@ -23,7 +23,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { useAuth } from '@/contexts/AuthContext';
 
 const navItems = [
   {
@@ -208,7 +207,6 @@ const navItems = [
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
-  const { profile } = useAuth();
 
   const findOpenSection = () => {
     return navItems.filter(item => item.isGroup).find(section => 
@@ -248,7 +246,6 @@ const Sidebar = () => {
       <nav className="flex-1 p-2 space-y-1 overflow-y-auto no-scrollbar">
         {navItems.map((item) => {
           if (!item.isGroup) {
-            // Render single NavLink
             return isCollapsed ? (
               <Tooltip key={item.to} delayDuration={0}>
                 <TooltipTrigger asChild>
@@ -279,7 +276,6 @@ const Sidebar = () => {
             );
           }
 
-          // Render Collapsible Group
           return isCollapsed ? (
             <Popover key={item.title}>
               <Tooltip delayDuration={0}>
@@ -350,8 +346,7 @@ const Sidebar = () => {
         })}
       </nav>
       <div className="p-4 border-t border-gray-700">
-        {profile?.role === 'master' && (
-          isCollapsed ? (
+        {isCollapsed ? (
             <Tooltip delayDuration={0}>
               <TooltipTrigger asChild>
                 <Link to="/painel-master" className="grid h-12 w-full place-items-center rounded-md text-sm font-medium transition-colors text-gray-400 hover:bg-gray-800/50 hover:text-white">
@@ -365,8 +360,7 @@ const Sidebar = () => {
               <Shield className="w-5 h-5 mr-3" />
               <span>Painel Master</span>
             </Link>
-          )
-        )}
+          )}
         <div className="flex items-center">
           <Avatar className="h-9 w-9">
             <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
