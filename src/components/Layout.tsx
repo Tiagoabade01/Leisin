@@ -31,7 +31,7 @@ const navItems = [
     icon: Home,
     isGroup: true,
     subItems: [
-      { to: "/app", label: "Visão Executiva", icon: BarChart2 },
+      { to: "/dashboard/visao-executiva", label: "Visão Executiva", icon: BarChart2 },
       { to: "/dashboard/performance-juridica", label: "Performance Jurídica", icon: Activity },
       { to: "/dashboard/riscos-compliance", label: "Riscos e Compliance", icon: AlertTriangle },
       { to: "/dashboard/atividades-recentes", label: "Atividades Recentes", icon: FileText },
@@ -211,11 +211,11 @@ const Sidebar = () => {
   const { profile } = useAuth();
 
   const findOpenSection = () => {
-    if (location.pathname === "/app") {
+    if (location.pathname === "/app/inicio") {
       return "Dashboard";
     }
     return navItems.filter(item => item.isGroup).find(section => 
-      section.subItems.some(item => location.pathname.startsWith(item.to) && item.to !== "/app")
+      section.subItems.some(item => location.pathname.startsWith(item.to))
     )?.title || null;
   };
 
@@ -334,7 +334,7 @@ const Sidebar = () => {
                     <NavLink
                       key={subItem.to}
                       to={subItem.to}
-                      end={subItem.to === "/app"}
+                      end={subItem.to === "/app/inicio"}
                       className={({ isActive }) =>
                         cn(
                           "flex items-center px-3 py-2 text-sm font-medium rounded-md",

@@ -12,6 +12,7 @@ const NotFound = React.lazy(() => import("./pages/NotFound"));
 const LandingPage = React.lazy(() => import("./pages/LandingPage"));
 const Login = React.lazy(() => import("./pages/Login"));
 const UpdatePassword = React.lazy(() => import("./pages/UpdatePassword"));
+const AppHome = React.lazy(() => import("./pages/AppHome"));
 
 // Layouts
 const MasterLayout = React.lazy(() => import("./components/master/MasterLayout"));
@@ -151,7 +152,8 @@ const App = () => (
 
             {/* Protected App Routes */}
             <Route element={<ProtectedRoute allowedRoles={['master', 'admin']} />}>
-              <Route path="/app" element={<Navigate to="/dashboard/visao-executiva" />} />
+              <Route path="/app" element={<Navigate to="/app/inicio" />} />
+              <Route path="/app/inicio" element={<AppHome />} />
               <Route path="/dashboard/visao-executiva" element={<VisaoExecutiva />} />
               <Route path="/dashboard/performance-juridica" element={<PerformanceJuridica />} />
               <Route path="/dashboard/riscos-compliance" element={<RiscosCompliance />} />
