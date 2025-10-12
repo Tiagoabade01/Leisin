@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Input } from "@/components/ui/input";
@@ -50,34 +49,32 @@ const DocumentosRelatorios = () => {
   };
 
   return (
-    <Layout>
-      <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
-        <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-white font-serif">Documentos & Relatórios</h1>
-            <p className="text-gray-400 max-w-3xl">
-              Central de automação e controle documental jurídico — inteligência, auditoria e relatórios integrados.
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button onClick={() => setIsModalOpen(true)}><PlusCircle className="h-4 w-4 mr-2" /> Novo Documento</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Gerando relatório com IA...")}><Brain className="h-4 w-4 mr-2" /> Gerar Relatório IA</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Certidão importada.")}><FileText className="h-4 w-4 mr-2" /> Importar Certidão</Button>
-            <Button variant="secondary" onClick={() => showSuccess("Exportação de dados iniciada.")}><Download className="h-4 w-4 mr-2" /> Exportar Dados</Button>
-          </div>
-        </header>
+    <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
+      <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-white font-serif">Documentos & Relatórios</h1>
+          <p className="text-gray-400 max-w-3xl">
+            Central de automação e controle documental jurídico — inteligência, auditoria e relatórios integrados.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button onClick={() => setIsModalOpen(true)}><PlusCircle className="h-4 w-4 mr-2" /> Novo Documento</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Gerando relatório com IA...")}><Brain className="h-4 w-4 mr-2" /> Gerar Relatório IA</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Certidão importada.")}><FileText className="h-4 w-4 mr-2" /> Importar Certidão</Button>
+          <Button variant="secondary" onClick={() => showSuccess("Exportação de dados iniciada.")}><Download className="h-4 w-4 mr-2" /> Exportar Dados</Button>
+        </div>
+      </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-6">
-            <DocumentCenter documents={documents} />
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <TemplateLibrary />
-              <ReportGenerator />
-            </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          <DocumentCenter documents={documents} />
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <TemplateLibrary />
+            <ReportGenerator />
           </div>
-          <div className="lg:col-span-1">
-            <DocumentAI />
-          </div>
+        </div>
+        <div className="lg:col-span-1">
+          <DocumentAI />
         </div>
       </div>
 
@@ -97,7 +94,7 @@ const DocumentosRelatorios = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </Layout>
+    </div>
   );
 };
 
