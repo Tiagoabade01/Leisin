@@ -1,7 +1,6 @@
 import { Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { cn } from '@/lib/utils';
 
 export const Header = () => {
   return (
@@ -16,12 +15,12 @@ export const Header = () => {
           <a href="#plans" className="text-sm text-muted-foreground hover:text-primary">Planos</a>
           <a href="#contact" className="text-sm text-muted-foreground hover:text-primary">Contato</a>
         </nav>
-        <div className="flex items-center gap-4">
-          <Link to="/login">
-            <Button variant="ghost" className="text-foreground hover:text-primary">Login</Button>
-          </Link>
-          <Link to="/login">
-            <Button>Agendar demonstração</Button>
+        <div className="flex items-center gap-3">
+          <a href="#contact">
+            <Button variant="ghost" className="text-foreground hover:text-primary">Fale com a gente</Button>
+          </a>
+          <Link to="/app">
+            <Button>Acessar App</Button>
           </Link>
         </div>
       </div>

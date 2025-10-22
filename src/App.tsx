@@ -8,69 +8,58 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
-// Lazy load all page components
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const LandingPage = React.lazy(() => import("./pages/LandingPage"));
-const Login = React.lazy(() => import("./pages/Login"));
 const UpdatePassword = React.lazy(() => import("./pages/UpdatePassword"));
 
-// Dashboard
 const VisaoExecutiva = React.lazy(() => import("./pages/dashboard/VisaoExecutiva"));
 const PerformanceJuridica = React.lazy(() => import("./pages/dashboard/PerformanceJuridica"));
 const RiscosCompliance = React.lazy(() => import("./pages/dashboard/RiscosCompliance"));
 const AtividadesRecentes = React.lazy(() => import("./pages/dashboard/AtividadesRecentes"));
 const RelatoriosExportacoes = React.lazy(() => import("./pages/dashboard/RelatoriosExportacoes"));
 
-// Jurídico Operacional
 const CasosProcessos = React.lazy(() => import("./pages/juridico/CasosProcessos"));
 const ContratosObrigacoes = React.lazy(() => import("./pages/juridico/ContratosObrigacoes"));
 const TarefasTimesheets = React.lazy(() => import("./pages/juridico/TarefasTimesheets"));
 const DocumentosRelatorios = React.lazy(() => import("./pages/juridico/DocumentosRelatorios"));
 const ClientesJuridicos = React.lazy(() => import("./pages/juridico/ClientesJuridicos"));
 
-// Tarefas
 const MinhaCaixa = React.lazy(() => import("./pages/tarefas/MinhaCaixa"));
 const FluxoDeTarefas = React.lazy(() => import("./pages/tarefas/FluxoDeTarefas"));
 const PrazosProcessuais = React.lazy(() => import("./pages/tarefas/PrazosProcessuais"));
 const AgendaCalendario = React.lazy(() => import("./pages/tarefas/AgendaCalendario"));
 const SLAsAutomacao = React.lazy(() => import("./pages/tarefas/SLAsAutomacao"));
 
-// Compliance
 const DueDiligenceCorporativa = React.lazy(() => import("./pages/compliance/DueDiligenceCorporativa"));
 const AnalisesRisco = React.lazy(() => import("./pages/compliance/AnalisesRisco"));
 const CertidoesDocumentosOficiais = React.lazy(() => import("./pages/compliance/CertidoesDocumentosOficiais"));
 const RiskMapper = React.lazy(() => import("./pages/compliance/RiskMapper"));
 const ConformidadeAuditoria = React.lazy(() => import("./pages/compliance/ConformidadeAuditoria"));
 
-// Imobiliário
 const CadastroImoveis = React.lazy(() => import("./pages/imobiliario/CadastroImoveis"));
 const AnaliseJuridicoUrbanistica = React.lazy(() => import("./pages/imobiliario/AnaliseJuridicoUrbanistica"));
 const DossiesPropriedade = React.lazy(() => import("./pages/imobiliario/DossiesPropriedade"));
 const IntegracoesCartoriais = React.lazy(() => import("./pages/imobiliario/IntegracoesCartoriais"));
 const RelatoriosImovel = React.lazy(() => import("./pages/imobiliario/RelatoriosImovel"));
 
-// Financeiro
 const ContasPagar = React.lazy(() => import("./pages/financeiro/ContasPagar"));
 const ContasReceber = React.lazy(() => import("./pages/financeiro/ContasReceber"));
 const FluxoCaixa = React.lazy(() => import("./pages/financeiro/FluxoCaixa"));
 const GestaoOrcamento = React.lazy(() => import("./pages/financeiro/GestaoOrcamento"));
 const RelatoriosFinanceiros = React.lazy(() => import("./pages/financeiro/RelatoriosFinanceiros"));
 
-// Contábil
 const CentroCustos = React.lazy(() => import("./pages/contabil/CentroCustos"));
 const LancamentosContabeis = React.lazy(() => import("./pages/contabil/LancamentosContabeis"));
 const DREBalancetes = React.lazy(() => import("./pages/contabil/DREBalancetes"));
 const RelatoriosFiscais = React.lazy(() => import("./pages/contabil/RelatoriosFiscais"));
 const IntegracoesContabeis = React.lazy(() => import("./pages/contabil/IntegracoesContabeis"));
 
-// Comunicação
 const InboxUnificada = React.lazy(() => import("./pages/comunicacao/InboxUnificada"));
 const ConversasHistoricos = React.lazy(() => import("./pages/comunicacao/ConversasHistoricos"));
 const NotificacoesAgendamentos = React.lazy(() => import("./pages/comunicacao/NotificacoesAgendamentos"));
 const MensagensOficiais = React.lazy(() => import("./pages/comunicacao/MensagensOficiais"));
 const ChatCopilot = React.lazy(() => import("./pages/comunicacao/ChatCopilot"));
 
-// CRM
 const PipelineOportunidades = React.lazy(() => import("./pages/crm/PipelineOportunidades"));
 const Clientes = React.lazy(() => import("./pages/crm/Clientes"));
 const ClienteDetalheApp = React.lazy(() => import("./pages/clientes/ClienteDetalhe"));
@@ -78,46 +67,39 @@ const ParceirosComerciais = React.lazy(() => import("./pages/crm/ParceirosComerc
 const TarefasFollowups = React.lazy(() => import("./pages/crm/TarefasFollowups"));
 const PropostasNegociacoes = React.lazy(() => import("./pages/crm/PropostasNegociacoes"));
 
-// IA
 const IACentral = React.lazy(() => import("./pages/ia/IACentral"));
 const ClausulaCopilot = React.lazy(() => import("./pages/ia/ClausulaCopilot"));
 const MatriculaLens = React.lazy(() => import("./pages/ia/MatriculaLens"));
 const PlaybooksOperacoes = React.lazy(() => import("./pages/ia/PlaybooksOperacoes"));
 const DossiesAutomaticos = React.lazy(() => import("./pages/ia/DossiesAutomaticos"));
 
-// Filiais
 const CadastroDadosGerais = React.lazy(() => import("./pages/filiais/CadastroDadosGerais"));
 const EquipesResponsaveis = React.lazy(() => import("./pages/filiais/EquipesResponsaveis"));
 const FaturamentoCustos = React.lazy(() => import("./pages/filiais/FaturamentoCustos"));
 const IndicadoresPerformance = React.lazy(() => import("./pages/filiais/IndicadoresPerformance"));
 const RelatoriosConsolidados = React.lazy(() => import("./pages/filiais/RelatoriosConsolidados"));
 
-// Gestão
 const UsuariosPermissoes = React.lazy(() => import("./pages/gestao/UsuariosPermissoes"));
 const PersonalizacaoPlataforma = React.lazy(() => import("./pages/gestao/PersonalizacaoPlataforma"));
 const ConfiguracoesGerais = React.lazy(() => import("./pages/gestao/ConfiguracoesGerais"));
 const AuditoriaSeguranca = React.lazy(() => import("./pages/gestao/AuditoriaSeguranca"));
 const LicencasBilling = React.lazy(() => import("./pages/gestao/LicencasBilling"));
 
-// Biblioteca
 const LeisDecretos = React.lazy(() => import("./pages/biblioteca/LeisDecretos"));
 const JurisprudenciaPareceres = React.lazy(() => import("./pages/biblioteca/JurisprudenciaPareceres"));
 const ModelosInternos = React.lazy(() => import("./pages/biblioteca/ModelosInternos"));
 const PesquisaIA = React.lazy(() => import("./pages/biblioteca/PesquisaIA"));
 const HistoricoRevisoes = React.lazy(() => import("./pages/biblioteca/HistoricoRevisoes"));
 
-// Governança
 const PoliticasTermos = React.lazy(() => import("./pages/governanca/PoliticasTermos"));
 const ControleDadosSensiveis = React.lazy(() => import("./pages/governanca/ControleDadosSensiveis"));
 const AuditoriaAcessos = React.lazy(() => import("./pages/governanca/AuditoriaAcessos"));
 const RelatoriosConformidade = React.lazy(() => import("./pages/governanca/RelatoriosConformidade"));
 const IncidentResponse = React.lazy(() => import("./pages/governanca/IncidentResponse"));
 
-// Insights
 const MarketplaceExtensoes = React.lazy(() => import("./pages/master/MarketplaceExtensoes"));
 const PortaisExternos = React.lazy(() => import("./pages/master/PortaisExternos"));
 
-// Área Master (Páginas)
 const VisaoGeral = React.lazy(() => import("./pages/master/VisaoGeral"));
 const VendasAssinaturas = React.lazy(() => import("./pages/master/VendasAssinaturas"));
 const GestaoClientes = React.lazy(() => import("./pages/master/GestaoClientes"));
@@ -141,12 +123,10 @@ const App = () => (
       <BrowserRouter>
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
-            {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
+            {/* Removido: /login */}
             <Route path="/update-password" element={<UpdatePassword />} />
 
-            {/* Protected App Routes */}
             <Route element={<ProtectedRoute />}>
               <Route element={<Layout />}>
                 <Route path="/app" element={<Navigate to="/dashboard/visao-executiva" />} />
@@ -224,7 +204,6 @@ const App = () => (
                 <Route path="/insights/marketplace" element={<MarketplaceExtensoes />} />
                 <Route path="/insights/portais-externos" element={<PortaisExternos />} />
                 
-                {/* Master Routes now inside main layout */}
                 <Route path="/painel-master" element={<VisaoGeral />} />
                 <Route path="/painel-master/vendas-assinaturas" element={<VendasAssinaturas />} />
                 <Route path="/painel-master/gestao-clientes" element={<GestaoClientes />} />

@@ -92,33 +92,32 @@ const comparisonFeatures = [
 
 export const PricingSection = () => {
   return (
-    <section id="plans" className="py-20 bg-white">
+    <section id="plans" className="py-20 bg-gray-900">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold">Planos transparentes para cada fase do seu negócio</h2>
-          <p className="text-lg text-muted-foreground mt-2">Escolha o plano que se adapta perfeitamente à sua necessidade.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-white">Planos transparentes para cada fase do seu negócio</h2>
+          <p className="text-lg text-gray-300 mt-2">Escolha o plano que se adapta perfeitamente à sua necessidade.</p>
           <p className="text-sm text-primary font-semibold mt-4">Todos os planos pagos incluem um teste gratuito de 14 dias com acesso a todas as funcionalidades. Sem necessidade de cartão de crédito.</p>
         </div>
         
-        {/* Cards de Planos */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-16 items-stretch">
           {plans.map(plan => (
-            <Card key={plan.name} className={cn("flex flex-col shadow-lg border-2 transition-all", plan.popular ? "border-primary" : "border-transparent")}>
+            <Card key={plan.name} className={cn("flex flex-col shadow-lg border border-gray-700 bg-gray-800 text-white transition-all", plan.popular ? "ring-2 ring-primary" : "")}>
               <CardHeader>
                 <div className="flex justify-between items-center">
-                  <CardTitle>{plan.name}</CardTitle>
+                  <CardTitle className="text-white">{plan.name}</CardTitle>
                   {plan.popular && <Badge>Mais Popular</Badge>}
                 </div>
-                <CardDescription>{plan.description}</CardDescription>
+                <CardDescription className="text-gray-300">{plan.description}</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
                 <div className="mb-4">
-                  <span className="text-4xl font-bold">R$ {plan.price}</span>
-                  {plan.price !== 'Sob Consulta' && plan.price !== '0' && <span className="text-muted-foreground">/mês</span>}
+                  <span className="text-4xl font-bold text-white">R$ {plan.price}</span>
+                  {plan.price !== 'Sob Consulta' && plan.price !== '0' && <span className="text-gray-400">/mês</span>}
                 </div>
                 <ul className="space-y-2 text-sm">
                   {plan.features.map(feature => (
-                    <li key={feature} className="flex items-start">
+                    <li key={feature} className="flex items-start text-gray-200">
                       <Check className="w-4 h-4 text-primary mr-2 mt-1 flex-shrink-0" />
                       <span>{feature}</span>
                     </li>
@@ -126,41 +125,42 @@ export const PricingSection = () => {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" variant={plan.popular ? 'default' : 'outline'}>{plan.cta}</Button>
+                <a href="#contact" className="w-full">
+                  <Button className="w-full" variant={plan.popular ? 'default' : 'outline'}>{plan.cta}</Button>
+                </a>
               </CardFooter>
             </Card>
           ))}
         </div>
 
-        {/* Tabela Comparativa */}
-        <div className="text-center mb-12">
-            <h3 className="text-2xl font-bold">Compare as Funcionalidades</h3>
+        <div className="text-center mb-6">
+          <h3 className="text-2xl font-bold text-white">Compare as Funcionalidades</h3>
         </div>
         <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-                <thead>
-                    <tr>
-                        <th className="py-4 pr-4 font-semibold">Funcionalidade</th>
-                        {plans.map(p => <th key={p.name} className="w-1/5 py-4 px-2 text-center font-semibold">{p.name}</th>)}
-                    </tr>
-                </thead>
-                <tbody>
-                    {comparisonFeatures.map(feature => (
-                        <tr key={feature.name} className="border-b">
-                            <td className="py-3 pr-4 text-sm font-medium">{feature.name}</td>
-                            {plans.map(plan => (
-                                <td key={plan.name} className="py-3 px-2 text-center">
-                                    {typeof feature.plans === 'object' && !Array.isArray(feature.plans) ? 
-                                        <span className="text-xs font-medium bg-secondary text-secondary-foreground px-2 py-1 rounded-full">{feature.plans[plan.name]}</span> :
-                                    Array.isArray(feature.plans) && feature.plans.includes(plan.name) ? 
-                                        <Check className="w-5 h-5 text-primary mx-auto" /> : 
-                                        <Minus className="w-5 h-5 text-muted-foreground mx-auto" />}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="text-white">
+                <th className="py-4 pr-4 font-semibold">Funcionalidade</th>
+                {plans.map(p => <th key={p.name} className="w-1/5 py-4 px-2 text-center font-semibold">{p.name}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {comparisonFeatures.map(feature => (
+                <tr key={feature.name} className="border-b border-gray-700 text-gray-200">
+                  <td className="py-3 pr-4 text-sm font-medium">{feature.name}</td>
+                  {plans.map(plan => (
+                    <td key={plan.name} className="py-3 px-2 text-center">
+                      {typeof feature.plans === 'object' && !Array.isArray(feature.plans) ? 
+                        <span className="text-xs font-medium bg-secondary text-secondary-foreground px-2 py-1 rounded-full">{feature.plans[plan.name as keyof typeof feature.plans]}</span> :
+                      Array.isArray(feature.plans) && feature.plans.includes(plan.name) ? 
+                        <Check className="w-5 h-5 text-primary mx-auto" /> : 
+                        <Minus className="w-5 h-5 text-gray-500 mx-auto" />}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
