@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusCircle, Download, Brain } from "lucide-react";
+import NewAnalysisModal from "@/components/modals/NewAnalysisModal";
+import React from "react";
 
 import DashboardAnalises from "@/components/diligence/DashboardAnalises";
 import PesquisaColeta from "@/components/diligence/PesquisaColeta";
@@ -10,6 +12,8 @@ import MonitoramentoContinuo from "@/components/diligence/MonitoramentoContinuo"
 import IAPreditiva from "@/components/diligence/IAPreditiva";
 
 const DueDiligenceCorporativa = () => {
+  const [openModal, setOpenModal] = React.useState(false);
+
   return (
     <div className="bg-[#0A0F14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -20,7 +24,7 @@ const DueDiligenceCorporativa = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary"><PlusCircle className="h-4 w-4 mr-2" /> Nova Análise</Button>
+          <Button variant="secondary" onClick={() => setOpenModal(true)}><PlusCircle className="h-4 w-4 mr-2" /> Nova Análise</Button>
           <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Download className="h-4 w-4 mr-2" /> Relatórios</Button>
           <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Brain className="h-4 w-4 mr-2" /> Ver Risco IA</Button>
         </div>
@@ -55,6 +59,7 @@ const DueDiligenceCorporativa = () => {
           <IAPreditiva />
         </TabsContent>
       </Tabs>
+      <NewAnalysisModal open={openModal} onOpenChange={setOpenModal} context="Due Diligence Corporativa" defaultType="pj" />
     </div>
   );
 };

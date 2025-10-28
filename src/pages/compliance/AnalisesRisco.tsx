@@ -1,3 +1,4 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Brain, Map } from "lucide-react";
 import RiskDashboardKPIs from "@/components/risks/RiskDashboardKPIs";
@@ -6,8 +7,10 @@ import IndividualAnalyses from "@/components/risks/IndividualAnalyses";
 import ActiveAlerts from "@/components/risks/ActiveAlerts";
 import RiskReports from "@/components/risks/RiskReports";
 import RiskAIInsights from "@/components/risks/RiskAIInsights";
+import NewAnalysisModal from "@/components/modals/NewAnalysisModal";
 
 const AnalisesRisco = () => {
+  const [openModal, setOpenModal] = React.useState(false);
   return (
     <div className="bg-[#0B0F14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -18,7 +21,7 @@ const AnalisesRisco = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary"><PlusCircle className="h-4 w-4 mr-2" /> Nova Análise</Button>
+          <Button variant="secondary" onClick={() => setOpenModal(true)}><PlusCircle className="h-4 w-4 mr-2" /> Nova Análise</Button>
           <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Download className="h-4 w-4 mr-2" /> Gerar Relatório</Button>
           <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Map className="h-4 w-4 mr-2" /> Mapa de Risco</Button>
         </div>
@@ -36,6 +39,7 @@ const AnalisesRisco = () => {
           <RiskAIInsights />
         </div>
       </div>
+      <NewAnalysisModal open={openModal} onOpenChange={setOpenModal} context="Análises de Risco" defaultType="pj" />
     </div>
   );
 };

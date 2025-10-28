@@ -1,11 +1,14 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Download, Brain, Share2 } from "lucide-react";
 import InteractiveRiskMap from "@/components/risk-mapper/InteractiveRiskMap";
 import RelationshipGraph from "@/components/risk-mapper/RelationshipGraph";
 import PredictiveAnalysis from "@/components/risk-mapper/PredictiveAnalysis";
 import GeoReports from "@/components/risk-mapper/GeoReports";
+import NewAnalysisModal from "@/components/modals/NewAnalysisModal";
 
 const RiskMapper = () => {
+  const [openModal, setOpenModal] = React.useState(false);
   return (
     <div className="bg-[#081018] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -16,7 +19,7 @@ const RiskMapper = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary"><PlusCircle className="h-4 w-4 mr-2" /> Nova Análise</Button>
+          <Button variant="secondary" onClick={() => setOpenModal(true)}><PlusCircle className="h-4 w-4 mr-2" /> Nova Análise</Button>
           <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Download className="h-4 w-4 mr-2" /> Exportar Mapa</Button>
           <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Share2 className="h-4 w-4 mr-2" /> Ver Rede</Button>
           <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Brain className="h-4 w-4 mr-2" /> IA Insight</Button>
@@ -33,6 +36,7 @@ const RiskMapper = () => {
           <PredictiveAnalysis />
         </div>
       </div>
+      <NewAnalysisModal open={openModal} onOpenChange={setOpenModal} context="Risk Mapper" defaultType="pj" />
     </div>
   );
 };
