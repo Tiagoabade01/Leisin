@@ -17,20 +17,27 @@ class OpenAIClient {
     console.log("OpenAI initialize - sessionError:", sessionError);
     
     if (sessionError) throw new Error(`Erro de sessão: ${sessionError.message}`);
-    if (!session || !session.user) throw new Error('Auth session missing!');
+    if (!session || !session.user) {
+      // Tentar obter o usuário diretamente
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      console.log("OpenAI initialize - direct user check:", user);
+      console.log("OpenAI initialize - direct user error:", userError);
+      
+      if (userError) throw new Error(`Erro de autenticação: ${userError.message}`);
+      if (!user) throw new Error('Usuário não autenticado');
+      
+      // Se o usuário existe mas a sessão não, vamos continuar
+    }
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    console.log("OpenAI initialize - user:", user);
-    console.log("OpenAI initialize - authError:", authError);
-    
-    if (authError) throw new Error(`Erro de autenticação: ${authError.message}`);
-    if (!user) throw new Error('Usuário não autenticado');
+    // Garantir que temos o user_id
+    const userId = session?.user?.id || (await supabase.auth.getUser()).data.user?.id;
+    if (!userId) throw new Error('Não foi possível identificar o usuário');
 
     const { data, error } = await supabase
       .from('api_configurations')
       .select('*')
       .eq('provider', 'openai')
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .eq('is_active', true)
       .single();
 
