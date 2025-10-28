@@ -8,7 +8,6 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
-const Login = React.lazy(() => import("./pages/Login"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const LandingPage = React.lazy(() => import("./pages/LandingPage"));
 const UpdatePassword = React.lazy(() => import("./pages/UpdatePassword"));
@@ -127,7 +126,7 @@ const App = () => (
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<Login />} />
+            {/* Removido: /login */}
             <Route path="/update-password" element={<UpdatePassword />} />
 
             <Route element={<ProtectedRoute />}>
