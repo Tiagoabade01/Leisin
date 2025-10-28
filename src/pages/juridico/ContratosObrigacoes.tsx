@@ -12,6 +12,9 @@ import ContractList from "@/components/contratos/ContractList";
 import ObligationsPanel from "@/components/contratos/ObligationsPanel";
 import ContractAIInsights from "@/components/contratos/ContractAIInsights";
 import { showSuccess } from '@/utils/toast';
+import ContractWizardModal from '@/components/contratos/ContractWizardModal';
+import ExportDataModal from '@/components/common/ExportDataModal';
+import ObligationsAIModal from '@/components/contratos/ObligationsAIModal';
 
 export interface Contract {
   id: string;
@@ -34,6 +37,8 @@ const initialContracts: Contract[] = [
 const ContratosObrigacoes = () => {
   const [contracts, setContracts] = useState<Contract[]>(initialContracts);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
+  const [obligationsOpen, setObligationsOpen] = useState(false);
   const [editingContract, setEditingContract] = useState<Partial<Contract> | null>(null);
   const [contractToDelete, setContractToDelete] = useState<string | null>(null);
 
@@ -43,20 +48,8 @@ const ContratosObrigacoes = () => {
   };
 
   const handleGenerateWithAI = () => {
-    const newContract: Contract = {
-      id: `CT-${Math.floor(Math.random() * 100) + 220}`,
-      type: "Prestação de Serviços (Gerado por IA)",
-      client: "Novo Cliente",
-      lawyer: "IA Copilot",
-      status: "Rascunho",
-      risk: "Médio",
-      expiry: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR'),
-      value: 0,
-      object: "Minuta inicial gerada pela IA para assessoria jurídica."
-    };
-    setEditingContract(newContract);
+    setEditingContract({});
     setIsModalOpen(true);
-    showSuccess("Minuta de contrato gerada com IA!");
   };
 
   const handleSaveContract = (e: FormEvent<HTMLFormElement>) => {
@@ -107,10 +100,10 @@ const ContratosObrigacoes = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button onClick={() => handleOpenModal()}><PlusCircle className="h-4 w-4 mr-2" /> Novo Contrato</Button>
+          <Button onClick={() => handleOpenModal()}><PlusCircle className="h-4 w-4 mr-2" /> Novo Contrato / IA</Button>
           <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={handleGenerateWithAI}><Brain className="h-4 w-4 mr-2" /> Gerar Minuta IA</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Exportação de dados iniciada.")}><Download className="h-4 w-4 mr-2" /> Exportar Dados</Button>
-          <Button variant="secondary" onClick={() => showSuccess("Visualizando painel de obrigações.")}><ListChecks className="h-4 w-4 mr-2" /> Ver Obrigações</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => setExportOpen(true)}><Download className="h-4 w-4 mr-2" /> Exportar Dados</Button>
+          <Button variant="secondary" onClick={() => setObligationsOpen(true)}><ListChecks className="h-4 w-4 mr-2" /> Obrigações (IA)</Button>
         </div>
       </header>
 
@@ -125,31 +118,14 @@ const ContratosObrigacoes = () => {
         </div>
       </div>
 
-      {/* Modal Criar/Editar Contrato */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="bg-gray-900 text-white border-gray-700 max-w-2xl">
-          <DialogHeader><DialogTitle>{editingContract?.id && contracts.some(c => c.id === editingContract.id) ? 'Editar' : 'Novo'} Contrato</DialogTitle></DialogHeader>
-          <form onSubmit={handleSaveContract}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 max-h-[70vh] overflow-y-auto pr-4">
-              <div className="space-y-2"><Label htmlFor="id">Nº / Nome</Label><Input id="id" name="id" defaultValue={editingContract?.id} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="type">Tipo</Label><Input id="type" name="type" defaultValue={editingContract?.type} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="client">Cliente/Fornecedor</Label><Input id="client" name="client" defaultValue={editingContract?.client} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="lawyer">Responsável</Label><Input id="lawyer" name="lawyer" defaultValue={editingContract?.lawyer} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="status">Status</Label><Input id="status" name="status" defaultValue={editingContract?.status} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="value">Valor (R$)</Label><Input id="value" name="value" type="number" step="0.01" defaultValue={editingContract?.value} className="bg-gray-800 border-gray-600" /></div>
-              <div className="space-y-2"><Label htmlFor="expiry">Vencimento</Label><Input id="expiry" name="expiry" type="date" defaultValue={editingContract?.expiry ? new Date(editingContract.expiry.split('/').reverse().join('-')).toISOString().split('T')[0] : ''} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="risk">Risco</Label>
-                <Select name="risk" defaultValue={editingContract?.risk || 'Baixo'}>
-                  <SelectTrigger className="bg-gray-800 border-gray-600"><SelectValue /></SelectTrigger>
-                  <SelectContent className="bg-gray-800 text-white border-gray-700"><SelectItem value="Baixo">Baixo</SelectItem><SelectItem value="Médio">Médio</SelectItem><SelectItem value="Alto">Alto</SelectItem></SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2 md:col-span-2"><Label htmlFor="object">Objeto do Contrato</Label><Textarea id="object" name="object" defaultValue={editingContract?.object} className="bg-gray-800 border-gray-600" /></div>
-            </div>
-            <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>Cancelar</Button><Button type="submit">Salvar</Button></DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      {/* Modal Wizard Contrato / IA */}
+      <ContractWizardModal open={isModalOpen} onOpenChange={setIsModalOpen} initial={editingContract || {}} onSave={handleSaveContract} />
+
+      {/* Modal Exportar Dados */}
+      <ExportDataModal open={exportOpen} onOpenChange={setExportOpen} title="Exportar Dados Contratuais" datasetName="contratos" />
+
+      {/* Obrigações IA */}
+      <ObligationsAIModal open={obligationsOpen} onOpenChange={setObligationsOpen} context="Contratos atuais e pendências" />
 
       {/* Modal Confirmar Exclusão */}
       <AlertDialog open={!!contractToDelete} onOpenChange={() => setContractToDelete(null)}>

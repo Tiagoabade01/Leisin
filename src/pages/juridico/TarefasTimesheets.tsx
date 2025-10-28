@@ -11,6 +11,8 @@ import Timesheet from "@/components/tasks/Timesheet";
 import TaskAIHelper from "@/components/tasks/TaskAIHelper";
 import { showSuccess } from '@/utils/toast';
 import { Task } from '@/pages/tarefas/MinhaCaixa';
+import EnhancedTaskModal from '@/components/tasks/EnhancedTaskModal';
+import EnhancedTimeModal from '@/components/tasks/EnhancedTimeModal';
 
 const initialTasks: Task[] = [
   { id: 't1', title: "Revisar cláusulas do CT-219", type: 'Contrato', client: "Nivem Construtora", deadline: "12/10/25", priority: 'Alta', slaHours: 8, estimatedHours: 2, status: 'Em andamento', responsible: [{ name: 'Ana Faria' }, { name: 'João Lima' }], badges: ['anexos', 'comentarios'], checklist: [{id: 'c1', text: 'Verificar cláusula de multa', done: true}, {id: 'c2', text: 'Validar assinaturas', done: false}, {id: 'c3', text: 'Anexar certidões', done: false}], comments: [{user: 'Gestor', text: 'Prioridade máxima!'}], attachmentsCount: 2 },
@@ -68,39 +70,11 @@ const TarefasTimesheets = () => {
         </div>
       </div>
 
-      {/* Modal Nova Tarefa */}
-      <Dialog open={isTaskModalOpen} onOpenChange={setIsTaskModalOpen}>
-        <DialogContent className="bg-gray-900 text-white border-gray-700">
-          <DialogHeader><DialogTitle>Criar Nova Tarefa</DialogTitle></DialogHeader>
-          <form onSubmit={handleSaveTask}>
-            <div className="grid gap-4 py-4">
-              <div className="space-y-2"><Label htmlFor="task-title">Título da Tarefa</Label><Input id="task-title" name="title" className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="task-desc">Descrição</Label><Textarea id="task-desc" name="description" className="bg-gray-800 border-gray-600" /></div>
-              <div className="space-y-2"><Label htmlFor="task-responsible">Responsável</Label><Input id="task-responsible" name="responsible" className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="task-deadline">Prazo</Label><Input id="task-deadline" name="deadline" type="date" className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="task-link">Vincular a (Caso/Contrato)</Label><Input id="task-link" name="link" className="bg-gray-800 border-gray-600" /></div>
-              <div className="space-y-2"><Label htmlFor="task-hours">Horas Estimadas</Label><Input id="task-hours" name="hours" type="number" className="bg-gray-800 border-gray-600" /></div>
-            </div>
-            <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsTaskModalOpen(false)}>Cancelar</Button><Button type="submit">Criar Tarefa</Button></DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      {/* Modal Nova Tarefa (Robusto) */}
+      <EnhancedTaskModal open={isTaskModalOpen} onOpenChange={setIsTaskModalOpen} onSave={() => { setIsTaskModalOpen(false); showSuccess("Tarefa criada com sucesso!"); }} />
 
-      {/* Modal Registrar Hora */}
-      <Dialog open={isTimeModalOpen} onOpenChange={setIsTimeModalOpen}>
-        <DialogContent className="bg-gray-900 text-white border-gray-700">
-          <DialogHeader><DialogTitle>Registrar Horas</DialogTitle></DialogHeader>
-          <form onSubmit={handleSaveTime}>
-            <div className="grid gap-4 py-4">
-              <div className="space-y-2"><Label htmlFor="time-activity">Atividade</Label><Input id="time-activity" name="activity" className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="time-link">Caso/Contrato</Label><Input id="time-link" name="link" className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="time-hours">Horas Gastas</Label><Input id="time-hours" name="hours" type="number" step="0.1" className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="time-date">Data</Label><Input id="time-date" name="date" type="date" className="bg-gray-800 border-gray-600" required /></div>
-            </div>
-            <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsTimeModalOpen(false)}>Cancelar</Button><Button type="submit">Registrar</Button></DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      {/* Modal Registrar Hora (Robusto) */}
+      <EnhancedTimeModal open={isTimeModalOpen} onOpenChange={setIsTimeModalOpen} onSave={() => { setIsTimeModalOpen(false); showSuccess("Horas registradas com sucesso!"); }} />
     </div>
   );
 };

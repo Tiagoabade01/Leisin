@@ -11,6 +11,9 @@ import TemplateLibrary from "@/components/docs/TemplateLibrary";
 import ReportGenerator from "@/components/docs/ReportGenerator";
 import DocumentAI from "@/components/docs/DocumentAI";
 import { showSuccess } from '@/utils/toast';
+import EnhancedDocumentModal from '@/components/docs/EnhancedDocumentModal';
+import AIReportModal from '@/components/common/AIReportModal';
+import ExportDataModal from '@/components/common/ExportDataModal';
 
 export interface Document {
   id: string;
@@ -31,6 +34,8 @@ const initialDocuments: Document[] = [
 const DocumentosRelatorios = () => {
   const [documents, setDocuments] = useState<Document[]>(initialDocuments);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [aiModalOpen, setAiModalOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
   const [documentToDelete, setDocumentToDelete] = useState<string | null>(null);
 
   const handleSaveDocument = (e: FormEvent<HTMLFormElement>) => {
@@ -73,9 +78,8 @@ const DocumentosRelatorios = () => {
         </div>
         <div className="flex items-center gap-2">
           <Button onClick={() => setIsModalOpen(true)}><PlusCircle className="h-4 w-4 mr-2" /> Novo Documento</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Gerando relatório com IA...")}><Brain className="h-4 w-4 mr-2" /> Gerar Relatório IA</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Certidão importada.")}><FileText className="h-4 w-4 mr-2" /> Importar Certidão</Button>
-          <Button variant="secondary" onClick={() => showSuccess("Exportação de dados iniciada.")}><Download className="h-4 w-4 mr-2" /> Exportar Dados</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => setAiModalOpen(true)}><Brain className="h-4 w-4 mr-2" /> Gerar Relatório IA</Button>
+          <Button variant="secondary" onClick={() => setExportOpen(true)}><Download className="h-4 w-4 mr-2" /> Exportar Dados</Button>
         </div>
       </header>
 
@@ -92,23 +96,14 @@ const DocumentosRelatorios = () => {
         </div>
       </div>
 
-      {/* Modal Novo Documento */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="bg-gray-900 text-white border-gray-700">
-          <DialogHeader><DialogTitle>Adicionar Novo Documento</DialogTitle></DialogHeader>
-          <form onSubmit={handleSaveDocument}>
-            <div className="grid gap-4 py-4">
-              <div className="space-y-2"><Label htmlFor="doc-file">Arquivo</Label><Input id="doc-file" name="file" type="file" className="bg-gray-800 border-gray-600" /></div>
-              <div className="space-y-2"><Label htmlFor="doc-name">Nome do Documento</Label><Input id="doc-name" name="name" className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="doc-type">Tipo</Label><Input id="doc-type" name="type" className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="doc-module">Módulo</Label><Input id="doc-module" name="module" className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="doc-link">Vincular a (Cliente/Caso)</Label><Input id="doc-link" name="link" className="bg-gray-800 border-gray-600" /></div>
-              <div className="space-y-2"><Label htmlFor="doc-tags">Tags</Label><Input id="doc-tags" name="tags" placeholder="Ex: confidencial, minuta, fiscal" className="bg-gray-800 border-gray-600" /></div>
-            </div>
-            <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>Cancelar</Button><Button type="submit">Salvar Documento</Button></DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      {/* Modal Novo Documento (Anexos) */}
+      <EnhancedDocumentModal open={isModalOpen} onOpenChange={setIsModalOpen} onSave={(data) => { setDocuments([{ id: `${documents.length + 1}`, name: String(data.name), type: String(data.type), module: String(data.module), responsible: "Usuário Atual", date: new Date().toLocaleDateString('pt-BR'), status: "Novo" }, ...documents]); showSuccess("Documento adicionado!"); }} />
+
+      {/* Relatório IA */}
+      <AIReportModal open={aiModalOpen} onOpenChange={setAiModalOpen} title="Relatório IA — Documentos & Relatórios" />
+
+      {/* Exportar */}
+      <ExportDataModal open={exportOpen} onOpenChange={setExportOpen} title="Exportar Documentos" datasetName="documentos" />
 
       {/* Modal Confirmar Exclusão */}
       <AlertDialog open={!!documentToDelete} onOpenChange={() => setDocumentToDelete(null)}>

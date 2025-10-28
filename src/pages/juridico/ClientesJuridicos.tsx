@@ -11,6 +11,8 @@ import ClientDashboard from "@/components/clientes/ClientDashboard";
 import ClientList from "@/components/clientes/ClientList";
 import ClientAIInsights from "@/components/clientes/ClientAIInsights";
 import { showSuccess } from '@/utils/toast';
+import EnhancedClientModal from '@/components/clientes/EnhancedClientModal';
+import ClientReportModal from '@/components/clientes/ClientReportModal';
 
 export interface Client {
   id: string;
@@ -35,6 +37,7 @@ const initialClients: Client[] = [
 const ClientesJuridicos = () => {
   const [clients, setClients] = useState<Client[]>(initialClients);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
   const [editingClient, setEditingClient] = useState<Partial<Client> | null>(null);
   const [clientToDelete, setClientToDelete] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -96,7 +99,7 @@ const ClientesJuridicos = () => {
         </div>
         <div className="flex items-center gap-2">
           <Button onClick={() => handleOpenModal()}><PlusCircle className="h-4 w-4 mr-2" /> Novo Cliente</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Relatório de clientes gerado.")}><BarChart2 className="h-4 w-4 mr-2" /> Relatório de Clientes</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => setReportOpen(true)}><BarChart2 className="h-4 w-4 mr-2" /> Relatório de Clientes</Button>
           <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Painel de IA Insights aberto.")}><Brain className="h-4 w-4 mr-2" /> IA Insights</Button>
           <Button variant="secondary" onClick={() => navigate('/crm/pipeline-oportunidades')}><Users className="h-4 w-4 mr-2" /> Ver CRM</Button>
         </div>
@@ -112,27 +115,20 @@ const ClientesJuridicos = () => {
         </div>
       </div>
 
-      {/* Modal Criar/Editar Cliente */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="bg-gray-900 text-white border-gray-700">
-          <DialogHeader><DialogTitle>{editingClient?.id ? 'Editar' : 'Novo'} Cliente</DialogTitle></DialogHeader>
-          <form onSubmit={handleSaveClient}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
-              <div className="space-y-2 md:col-span-2"><Label htmlFor="name">Nome / Razão Social</Label><Input id="name" name="name" defaultValue={editingClient?.name} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="type">Tipo</Label>
-                <select id="type" name="type" defaultValue={editingClient?.type || 'PJ'} className="flex h-10 w-full rounded-md border border-gray-600 bg-gray-800 px-3 py-2 text-sm" required>
-                  <option value="PJ">Pessoa Jurídica</option>
-                  <option value="PF">Pessoa Física</option>
-                </select>
-              </div>
-              <div className="space-y-2"><Label htmlFor="document">CPF / CNPJ</Label><Input id="document" name="document" defaultValue={editingClient?.document} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="email">E-mail de Contato</Label><Input id="email" name="email" type="email" defaultValue={editingClient?.email} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="responsible">Responsável Interno</Label><Input id="responsible" name="responsible" defaultValue={editingClient?.responsible} className="bg-gray-800 border-gray-600" required /></div>
-            </div>
-            <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>Cancelar</Button><Button type="submit">Salvar</Button></DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      {/* Modal Cliente (Aprimorado) */}
+      <EnhancedClientModal open={isModalOpen} onOpenChange={setIsModalOpen} initial={editingClient || {}} onSave={(data) => {
+        if (editingClient?.id) {
+          setClients(clients.map(c => c.id === editingClient.id ? { ...c, ...data } : c));
+          showSuccess("Cliente atualizado!");
+        } else {
+          const newClient = { id: `${clients.length + 1}`, contracts: 0, processes: 0, status: 'Ativo', ...data };
+          setClients([newClient as any, ...clients]);
+          showSuccess("Cliente criado!");
+        }
+      }} />
+
+      {/* Relatório de Cliente */}
+      <ClientReportModal open={reportOpen} onOpenChange={setReportOpen} clientName={clients[0]?.name} />
 
       {/* Modal Confirmar Exclusão */}
       <AlertDialog open={!!clientToDelete} onOpenChange={() => setClientToDelete(null)}>

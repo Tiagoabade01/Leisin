@@ -13,6 +13,10 @@ import ProcessList from "@/components/casos/ProcessList";
 import DeadlinesPanel from "@/components/casos/DeadlinesPanel";
 import LegalAIInsights from "@/components/casos/LegalAIInsights";
 import { showSuccess } from '@/utils/toast';
+import ProcessModal from '@/components/juridico/ProcessModal';
+import AndamentosImportModal from '@/components/juridico/AndamentosImportModal';
+import AIReportModal from '@/components/common/AIReportModal';
+import TarefasCalendario from '@/components/tasks/TarefasCalendario';
 
 export interface Process {
   id: string;
@@ -37,6 +41,9 @@ const CasosProcessos = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProcess, setEditingProcess] = useState<Partial<Process> | null>(null);
   const [processToDelete, setProcessToDelete] = useState<string | null>(null);
+  const [importModal, setImportModal] = useState(false);
+  const [aiReportModal, setAiReportModal] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const navigate = useNavigate();
 
   const handleOpenModal = (process?: Process) => {
@@ -82,11 +89,11 @@ const CasosProcessos = () => {
   };
 
   const handleImportUpdates = () => {
-    showSuccess("Importação de andamentos processuais iniciada...");
+    setImportModal(true);
   };
 
   const handleGenerateAIReport = () => {
-    showSuccess("Relatório de IA gerado com sucesso!");
+    setAiReportModal(true);
   };
 
   return (
@@ -102,7 +109,7 @@ const CasosProcessos = () => {
           <Button onClick={() => handleOpenModal()}><PlusCircle className="h-4 w-4 mr-2" /> Novo Processo</Button>
           <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={handleImportUpdates}><Download className="h-4 w-4 mr-2" /> Importar Andamentos</Button>
           <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={handleGenerateAIReport}><Brain className="h-4 w-4 mr-2" /> Gerar Relatório IA</Button>
-          <Button variant="secondary" onClick={() => navigate('/tarefas/agenda-calendario')}><Calendar className="h-4 w-4 mr-2" /> Visualizar Calendário</Button>
+          <Button variant="secondary" onClick={() => setShowCalendar((v) => !v)}><Calendar className="h-4 w-4 mr-2" /> {showCalendar ? "Fechar Calendário" : "Visualizar Calendário"}</Button>
         </div>
       </header>
 
@@ -111,6 +118,11 @@ const CasosProcessos = () => {
           <ProcessKPIs />
           <ProcessList processes={processes} onEdit={handleOpenModal} onDelete={handleDeleteProcess} />
           <DeadlinesPanel />
+          {showCalendar && (
+            <div className="mt-6">
+              <TarefasCalendario />
+            </div>
+          )}
         </div>
         <div className="lg:col-span-1">
           <LegalAIInsights />
@@ -118,29 +130,13 @@ const CasosProcessos = () => {
       </div>
 
       {/* Modal Criar/Editar Processo */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="bg-gray-900 text-white border-gray-700 max-w-2xl">
-          <DialogHeader><DialogTitle>{editingProcess?.id && processes.some(p => p.id === editingProcess.id) ? 'Editar' : 'Novo'} Processo</DialogTitle></DialogHeader>
-          <form onSubmit={handleSaveProcess}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4 max-h-[70vh] overflow-y-auto pr-4">
-              <div className="space-y-2 md:col-span-2"><Label htmlFor="id">Nº Processo</Label><Input id="id" name="id" defaultValue={editingProcess?.id} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="type">Tipo/Área</Label><Input id="type" name="type" defaultValue={editingProcess?.type} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="client">Cliente</Label><Input id="client" name="client" defaultValue={editingProcess?.client} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="lawyer">Advogado Responsável</Label><Input id="lawyer" name="lawyer" defaultValue={editingProcess?.lawyer} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="status">Status</Label><Input id="status" name="status" defaultValue={editingProcess?.status} className="bg-gray-800 border-gray-600" required /></div>
-              <div className="space-y-2"><Label htmlFor="value">Valor da Causa (R$)</Label><Input id="value" name="value" type="number" step="0.01" defaultValue={editingProcess?.value} className="bg-gray-800 border-gray-600" /></div>
-              <div className="space-y-2"><Label htmlFor="risk">Risco</Label>
-                <Select name="risk" defaultValue={editingProcess?.risk || 'Baixo'}>
-                  <SelectTrigger className="bg-gray-800 border-gray-600"><SelectValue /></SelectTrigger>
-                  <SelectContent className="bg-gray-800 text-white border-gray-700"><SelectItem value="Baixo">Baixo</SelectItem><SelectItem value="Médio">Médio</SelectItem><SelectItem value="Alto">Alto</SelectItem></SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2 md:col-span-2"><Label htmlFor="description">Descrição/Objeto</Label><Textarea id="description" name="description" defaultValue={editingProcess?.description} className="bg-gray-800 border-gray-600" /></div>
-            </div>
-            <DialogFooter><Button type="button" variant="ghost" onClick={() => setIsModalOpen(false)}>Cancelar</Button><Button type="submit">Salvar</Button></DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <ProcessModal open={isModalOpen} onOpenChange={setIsModalOpen} initial={editingProcess || {}} onSave={handleSaveProcess} />
+
+      {/* Modal Importar Andamentos */}
+      <AndamentosImportModal open={importModal} onOpenChange={setImportModal} onImported={() => showSuccess("Andamentos importados com sucesso!")} />
+
+      {/* Modal Relatório IA */}
+      <AIReportModal open={aiReportModal} onOpenChange={setAiReportModal} title="Relatório IA — Casos & Processos" />
 
       {/* Modal Confirmar Exclusão */}
       <AlertDialog open={!!processToDelete} onOpenChange={() => setProcessToDelete(null)}>
