@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { BarChart2, FolderKanban, ListChecks, Building, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
+import MobileMoreMenu from "@/components/MobileMoreMenu";
 
 type NavItem = {
   to: string;
@@ -41,12 +42,13 @@ const MobileBottomNav: React.FC = () => {
               {({ isActive }) => (
                 <>
                   <Icon className={cn("w-5 h-5", isActive ? "text-white" : "text-gray-400")} />
-                  <span className="truncate max-w-[5.5rem]">{item.label}</span>
+                  <span className="truncate max-w-[5rem]">{item.label}</span>
                 </>
               )}
             </NavLink>
           );
         })}
+        <MobileMoreMenu />
       </div>
     </nav>
   );
