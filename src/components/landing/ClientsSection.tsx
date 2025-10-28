@@ -1,12 +1,12 @@
 const clients = [
-  { name: 'Ipiranga', logo: '/placeholder.svg' },
-  { name: 'Mascarenhas Barbosa', logo: '/placeholder.svg' },
-  { name: 'QCA', logo: '/placeholder.svg' },
-  { name: 'Client 4', logo: '/placeholder.svg' },
-  { name: 'Client 5', logo: '/placeholder.svg' },
-  { name: 'Client 6', logo: '/placeholder.svg' },
-  { name: 'Client 7', logo: '/placeholder.svg' },
-  { name: 'Client 8', logo: '/placeholder.svg' },
+  { name: 'Ipiranga', logo: 'https://tailwindui.com/img/logos/158x48/ipiranga-logo-gray-400.svg' },
+  { name: 'Mascarenhas Barbosa', logo: 'https://tailwindui.com/img/logos/158x48/statickit-logo-gray-400.svg' },
+  { name: 'QCA', logo: 'https://tailwindui.com/img/logos/158x48/transistor-logo-gray-400.svg' },
+  { name: 'Tuple', logo: 'https://tailwindui.com/img/logos/158x48/tuple-logo-gray-400.svg' },
+  { name: 'SavvyCal', logo: 'https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-400.svg' },
+  { name: 'Reform', logo: 'https://tailwindui.com/img/logos/158x48/reform-logo-gray-400.svg' },
+  { name: 'Statamic', logo: 'https://tailwindui.com/img/logos/158x48/statamic-logo-gray-400.svg' },
+  { name: 'Mirage', logo: 'https://tailwindui.com/img/logos/158x48/mirage-logo-gray-400.svg' },
 ];
 
 export const ClientsSection = () => {
@@ -22,7 +22,7 @@ export const ClientsSection = () => {
             <div className="flex animate-marquee whitespace-nowrap items-center">
               {clients.concat(clients).map((client, index) => (
                 <div key={index} className="flex-shrink-0 w-48 h-16 mx-8 flex items-center justify-center">
-                  <span className="text-lg font-semibold text-muted-foreground">{client.name}</span>
+                  <img src={client.logo} alt={client.name} className="max-h-10 w-auto" />
                 </div>
               ))}
             </div>

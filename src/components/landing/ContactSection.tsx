@@ -36,7 +36,7 @@ export const ContactSection = () => {
             </div>
           </div>
           <div className="hidden lg:block">
-            <img src="/placeholder.svg" alt="Advogado sorrindo" className="rounded-lg w-full h-auto" />
+            <img src="https://images.unsplash.com/photo-1589216532372-1c2a36790049?q=80&w=1887&auto=format&fit=crop" alt="Profissional do direito sorrindo" className="rounded-lg w-full h-full object-cover aspect-[4/5]" />
           </div>
         </div>
       </div>
