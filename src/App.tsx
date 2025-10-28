@@ -113,6 +113,8 @@ const EquipesUsuarios = React.lazy(() => import("./pages/master/EquipesUsuarios"
 const IntegracoesApi = React.lazy(() => import("./pages/master/IntegracoesApi"));
 const GestaoSite = React.lazy(() => import("./pages/master/GestaoSite"));
 
+const OpenAIConfig = React.lazy(() => import("./pages/OpenAIConfig"));
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -137,6 +139,7 @@ const App = () => (
                 <Route path="/dashboard/relatorios-exportacoes" element={<RelatoriosExportacoes />} />
                 <Route path="/juridico/casos-processos" element={<CasosProcessos />} />
                 <Route path="/juridico/contratos-obrigacoes" element={<ContratosObrigacoes />} />
+                <Route path="/openai-config" element={<OpenAIConfig />} />
                 <Route path="/juridico/tarefas-timesheets" element={<TarefasTimesheets />} />
                 <Route path="/juridico/documentos-relatorios" element={<DocumentosRelatorios />} />
                 <Route path="/juridico/clientes-juridicos" element={<ClientesJuridicos />} />
