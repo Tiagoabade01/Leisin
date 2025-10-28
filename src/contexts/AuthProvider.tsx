@@ -17,18 +17,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setSession(session);
-      setLoading(false);
-    };
-
-    getSession();
-
+    setLoading(true);
+    
+    // onAuthStateChange is called immediately with the current session
+    // and then listens for future changes.
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      setLoading(false);
     });
 
+    // When the component unmounts, unsubscribe from the listener
     return () => {
       subscription.unsubscribe();
     };
@@ -36,7 +34,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider value={{ session, loading }}>
-      {!loading && children}
+      {/* Only render children when loading is complete */}
+      {loading ? null : children}
     </AuthContext.Provider>
   );
 };

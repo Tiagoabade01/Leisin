@@ -11,27 +11,14 @@ class OpenAIClient {
   private config: OpenAIConfig | null = null;
 
   async initialize() {
-    // Verificar se há uma sessão ativa primeiro
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-    console.log("OpenAI initialize - session:", session);
-    console.log("OpenAI initialize - sessionError:", sessionError);
+    const { data: { session } } = await supabase.auth.getSession();
     
-    if (sessionError) throw new Error(`Erro de sessão: ${sessionError.message}`);
-    if (!session || !session.user) {
-      // Tentar obter o usuário diretamente
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
-      console.log("OpenAI initialize - direct user check:", user);
-      console.log("OpenAI initialize - direct user error:", userError);
-      
-      if (userError) throw new Error(`Erro de autenticação: ${userError.message}`);
-      if (!user) throw new Error('Usuário não autenticado');
-      
-      // Se o usuário existe mas a sessão não, vamos continuar
+    if (!session?.user) {
+      console.error("OpenAIClient: Tentativa de inicialização sem sessão de usuário.");
+      throw new Error('Usuário não autenticado. Faça login para usar este recurso.');
     }
 
-    // Garantir que temos o user_id
-    const userId = session?.user?.id || (await supabase.auth.getUser()).data.user?.id;
-    if (!userId) throw new Error('Não foi possível identificar o usuário');
+    const userId = session.user.id;
 
     const { data, error } = await supabase
       .from('api_configurations')
@@ -41,15 +28,12 @@ class OpenAIClient {
       .eq('is_active', true)
       .single();
 
-    console.log("OpenAI initialize - config data:", data);
-    console.log("OpenAI initialize - config error:", error);
-
     if (error) {
       throw new Error(`Erro ao carregar configuração da OpenAI: ${error.message}`);
     }
     
     if (!data) {
-      throw new Error('Configuração da OpenAI não encontrada');
+      throw new Error('Configuração da OpenAI não encontrada ou inativa para este usuário.');
     }
 
     this.config = {
@@ -57,7 +41,7 @@ class OpenAIClient {
       model: data.model || 'gpt-4o-mini',
     };
     
-    console.log("OpenAI initialized with config:", this.config);
+    console.log("OpenAI initialized with config for user:", userId);
   }
 
   private async request(endpoint: string, body: any) {
