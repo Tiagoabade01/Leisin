@@ -55,7 +55,7 @@ class OpenAIClient {
     const messages = [
       {
         role: 'system',
-        content: 'Você é um assistente jurídico especializado em direito brasileiro. Gere cláusulas contratuais precisas, fundamentadas e em conformidade com a legislação vigente.'
+        content: 'Você é um assistente jurídico especializado em direito brasileiro. Gere cláusulas contratuais precisas, fundamentadas e em conformidade com a legislação vigente. Responda estritamente em JSON com o formato: {"clause": "...", "legal_basis": "..."}'
       },
       {
         role: 'user',
@@ -101,11 +101,11 @@ class OpenAIClient {
       messages: [
         {
           role: 'system',
-          content: 'Você é um especialista em direito imobiliário e registros de imóveis. Extraia e interprete dados de matrículas imobiliárias brasileiras.'
+          content: 'Você é um especialista em direito imobiliário e registros de imóveis. Extraia e interprete dados de matrículas imobiliárias brasileiras. Responda estritamente em JSON com o formato: {"numero_matricula":"...", "cartorio":"...", "proprietario_atual":"...", "area_imovel":"...", "endereco":"...", "onus_gravames":["..."], "averbacoes":["..."]}'
         },
         {
           role: 'user',
-          content: `Extraia as seguintes informações desta matrícula:\n- Número da matrícula\n- Cartório\n- Proprietário atual\n- Área do imóvel\n- Endereço\n- Ônus e gravames\n- Averbações\n\nMatrícula:\n${textoMatricula}`
+          content: `Matrícula:\n${textoMatricula}`
         }
       ],
       temperature: 0.1,
@@ -145,6 +145,23 @@ class OpenAIClient {
         }
       ],
       temperature: 0.4,
+    });
+  }
+
+  async perguntarJuridica(pergunta: string) {
+    return this.request('/chat/completions', {
+      model: this.config!.model,
+      messages: [
+        {
+          role: 'system',
+          content: 'Você é um assistente jurídico brasileiro. Ao responder, produza um resumo, fundamentos legais, jurisprudência relevante e interpretação. Responda estritamente em JSON com o formato: {"summary":"...", "legalBasis":["..."], "jurisprudence":"...", "interpretation":"..."}'
+        },
+        {
+          role: 'user',
+          content: pergunta
+        }
+      ],
+      temperature: 0.2,
     });
   }
 }

@@ -11,6 +11,7 @@ import {
   PlusCircle, BrainCircuit, FileText, Search, Sparkles, Book, GitCompare, ShieldCheck, Save
 } from "lucide-react";
 import { showSuccess } from '@/utils/toast';
+import { openAIClient } from '@/integrations/apis/openai';
 
 // --- MOCK DATA ---
 const reviewData = [
@@ -47,10 +48,13 @@ const ClausulaCopilot = () => {
   const [generatedClause, setGeneratedClause] = useState("");
   const [legalBasis, setLegalBasis] = useState("");
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
+    const result = await openAIClient.gerarClausula(prompt);
+    const content = result.choices?.[0]?.message?.content ?? '';
+    const parsed = JSON.parse(content);
+    setGeneratedClause(parsed.clause || '');
+    setLegalBasis(parsed.legal_basis || '');
     showSuccess("Cláusula gerada com IA!");
-    setGeneratedClause("As partes obrigam-se a manter sigilo absoluto sobre todas as informações técnicas, comerciais e estratégicas trocadas, pelo prazo de 24 (vinte e quatro) meses, sob pena de indenização equivalente a 2 vezes o valor contratual.");
-    setLegalBasis("Art. 421 e 422 do Código Civil – boa-fé objetiva e função social do contrato.");
   };
 
   return (
@@ -103,7 +107,7 @@ const ClausulaCopilot = () => {
                 </Card>
                 <Card className="bg-gray-800/50 border-gray-700">
                   <CardHeader><CardTitle className="text-base">Sugestões da IA</CardTitle></CardHeader>
-                  <CardContent><p className="text-sm text-risk-gold">“Deseja incluir multa rescisória automática em caso de inadimplemento?”</p></CardContent>
+                  <CardContent><p className="text-sm text-risk-gold">"Deseja incluir multa rescisória automática em caso de inadimplemento?"</p></CardContent>
                 </Card>
               </div>
             </CardContent>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,9 +9,10 @@ import {
   PlusCircle, BrainCircuit, FileText, Upload, Download, Map, Clock,
   AlertTriangle, Signature, Banknote, Building, Home
 } from "lucide-react";
+import { openAIClient } from '@/integrations/apis/openai';
 
 // --- MOCK DATA ---
-const extractedData = [
+const initialExtractedData = [
     { field: "Matrícula", value: "35.774" },
     { field: "Cartório", value: "2º RI de São Paulo" },
     { field: "Proprietário Atual", value: "Construtora Vale Verde Ltda" },
@@ -43,6 +45,9 @@ const getRiskBadge = (level: string) => {
 };
 
 const MatriculaLens = () => {
+  const [matriculaTexto, setMatriculaTexto] = React.useState('');
+  const [extractedData, setExtractedData] = React.useState(initialExtractedData);
+  
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -78,8 +83,32 @@ const MatriculaLens = () => {
                   <Upload className="h-10 w-10 text-gray-500 mb-2" />
                   <p className="text-sm text-gray-400">Arraste e solte arquivos (PDF, Imagem, XML) ou clique para enviar.</p>
                 </div>
-                <Button className="w-full"><BrainCircuit className="h-4 w-4 mr-2" /> Interpretar com IA</Button>
-                <p className="text-sm text-risk-gold">💡 “Matrícula nº 35.774 do 2º Cartório de Registro de Imóveis de São Paulo detectada. Titular: Construtora Vale Verde Ltda. Última averbação: 12/09/2023 (Habite-se).”</p>
+                <Textarea
+                  value={matriculaTexto}
+                  onChange={(e) => setMatriculaTexto(e.target.value)}
+                  placeholder="Cole aqui o texto integral da matrícula para interpretação com IA..."
+                  className="bg-gray-800 border-gray-700"
+                  rows={6}
+                />
+                <Button 
+                  className="w-full"
+                  onClick={async () => {
+                    const result = await openAIClient.interpretarMatricula(matriculaTexto);
+                    const content = result.choices?.[0]?.message?.content ?? '';
+                    const data = JSON.parse(content);
+                    const updated = [
+                      { field: "Matrícula", value: data.numero_matricula || "-" },
+                      { field: "Cartório", value: data.cartorio || "-" },
+                      { field: "Proprietário Atual", value: data.proprietario_atual || "-" },
+                      { field: "Área Total", value: data.area_imovel || "-" },
+                      { field: "Endereço", value: data.endereco || "-" },
+                    ];
+                    setExtractedData(updated);
+                  }}
+                >
+                  <BrainCircuit className="h-4 w-4 mr-2" /> Interpretar com IA
+                </Button>
+                <p className="text-sm text-risk-gold">💡 "Matrícula nº 35.774 do 2º Cartório de Registro de Imóveis de São Paulo detectada. Titular: Construtora Vale Verde Ltda. Última averbação: 12/09/2023 (Habite-se)."</p>
               </CardContent>
             </Card>
             <Card className="bg-petroleum-blue border-gray-700 text-white">
@@ -113,7 +142,7 @@ const MatriculaLens = () => {
                   ))}
                 </TableBody>
               </Table>
-              <p className="text-sm text-risk-gold mt-4">💡 “Detectada penhora judicial de 2022 ainda ativa. Recomenda-se atualização de certidão e consulta ao distribuidor cível.”</p>
+              <p className="text-sm text-risk-gold mt-4">💡 "Detectada penhora judicial de 2022 ainda ativa. Recomenda-se atualização de certidão e consulta ao distribuidor cível."</p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -123,7 +152,7 @@ const MatriculaLens = () => {
             <CardHeader><CardTitle>Ficha Técnica do Imóvel</CardTitle></CardHeader>
             <CardContent>
               <p className="text-gray-400">Em construção...</p>
-              <p className="text-sm text-risk-gold mt-4">💡 “Averbação nº 12 – incorporação registrada em 2018. Relacionar com contrato social nº 38.553/18 para análise societária vinculada.”</p>
+              <p className="text-sm text-risk-gold mt-4">💡 "Averbação nº 12 – incorporação registrada em 2018. Relacionar com contrato social nº 38.553/18 para análise societária vinculada."</p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -159,7 +188,7 @@ const MatriculaLens = () => {
               </CardContent>
             </Card>
           </div>
-          <p className="text-sm text-risk-gold mt-4 text-center">💡 “A matrícula passou por 5 transmissões nos últimos 12 anos — padrão de rotatividade elevado. Avaliar possível risco de especulação jurídica.”</p>
+          <p className="text-sm text-risk-gold mt-4 text-center">💡 "A matrícula passou por 5 transmissões nos últimos 12 anos — padrão de rotatividade elevado. Avaliar possível risco de especulação jurídica."</p>
         </TabsContent>
 
         <TabsContent value="integracao" className="mt-6">
@@ -173,7 +202,7 @@ const MatriculaLens = () => {
                 <li><strong>Compliance / Risco:</strong> atualiza o status de certidões e riscos.</li>
                 <li><strong>Financeiro:</strong> insere ônus que impactam em garantias ou ativos.</li>
               </ul>
-              <p className="text-sm text-risk-gold mt-4">💡 “O imóvel analisado está associado ao CNPJ da Construtora Vale Verde, que possui 3 processos cíveis ativos. Integrar análise no módulo Compliance.”</p>
+              <p className="text-sm text-risk-gold mt-4">💡 "O imóvel analisado está associado ao CNPJ da Construtora Vale Verde, que possui 3 processos cíveis ativos. Integrar análise no módulo Compliance."</p>
             </CardContent>
           </Card>
         </TabsContent>

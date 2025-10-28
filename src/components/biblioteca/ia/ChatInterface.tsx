@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { BrainCircuit, Send, Sparkles, Bot, FileText, Scale, Book } from "lucide-react";
 import { cn } from '@/lib/utils';
+import { openAIClient } from '@/integrations/apis/openai';
 
 const initialMessages = [
   { sender: 'user', text: 'Quais são as responsabilidades da construtora por vícios ocultos após a entrega?' },
@@ -14,7 +15,7 @@ const initialMessages = [
     summary: 'A responsabilidade da construtora por vícios ocultos persiste pelo prazo de 5 anos após a entrega, conforme art. 618 do Código Civil.',
     legalBasis: [
         { icon: FileText, text: 'Art. 618, Código Civil' },
-        { icon: Scale, text: 'Súmula 194/STJ: “Prescreve em cinco anos a ação para reparação de vício em construção de imóvel.”' }
+        { icon: Scale, text: 'Súmula 194/STJ: "Prescreve em cinco anos a ação para reparação de vício em construção de imóvel." ' }
     ],
     jurisprudence: 'STJ – REsp 1.321.327/SP (Rel. Min. Nancy Andrighi, julgado em 2023)',
     interpretation: 'A construtora responde solidariamente por defeitos estruturais, mesmo que a execução tenha sido terceirizada.'
@@ -32,13 +33,21 @@ const ChatInterface = () => {
     }
   }, [messages]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (input.trim() === '') return;
     setMessages([...messages, { sender: 'user', text: input }]);
     setInput('');
-    setTimeout(() => {
-      setMessages(prev => [...prev, { sender: 'ai', summary: 'Processando sua solicitação...' }]);
-    }, 1000);
+    const result = await openAIClient.perguntarJuridica(input);
+    const content = result.choices?.[0]?.message?.content ?? '';
+    const data = JSON.parse(content);
+    const aiMessage = {
+      sender: 'ai',
+      summary: data.summary,
+      legalBasis: (data.legalBasis || []).map((text: string) => ({ icon: FileText, text })),
+      jurisprudence: data.jurisprudence,
+      interpretation: data.interpretation,
+    };
+    setMessages(prev => [...prev, aiMessage as any]);
   };
 
   return (
