@@ -34,13 +34,19 @@ class OpenAIClient {
   private async request(endpoint: string, body: any) {
     if (!this.config) await this.initialize();
 
+    // Usa o modelo após garantir a inicialização
+    const payload = {
+      model: this.config!.model,
+      ...body,
+    };
+
     const response = await fetch(`${OPENAI_BASE_URL}${endpoint}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${this.config!.apiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
@@ -64,7 +70,6 @@ class OpenAIClient {
     ];
 
     return this.request('/chat/completions', {
-      model: this.config!.model,
       messages,
       temperature: 0.3,
     });
@@ -79,7 +84,6 @@ class OpenAIClient {
     };
 
     return this.request('/chat/completions', {
-      model: this.config!.model,
       messages: [
         {
           role: 'system',
@@ -97,7 +101,6 @@ class OpenAIClient {
   // Interpretar matrícula imobiliária
   async interpretarMatricula(textoMatricula: string) {
     return this.request('/chat/completions', {
-      model: this.config!.model,
       messages: [
         {
           role: 'system',
@@ -115,7 +118,6 @@ class OpenAIClient {
   // Gerar resumo de processo
   async resumirProcesso(andamentos: string[]) {
     return this.request('/chat/completions', {
-      model: this.config!.model,
       messages: [
         {
           role: 'system',
@@ -133,7 +135,6 @@ class OpenAIClient {
   // Prever resultado de processo
   async preverResultado(dadosProcesso: string) {
     return this.request('/chat/completions', {
-      model: this.config!.model,
       messages: [
         {
           role: 'system',
@@ -150,7 +151,6 @@ class OpenAIClient {
 
   async perguntarJuridica(pergunta: string) {
     return this.request('/chat/completions', {
-      model: this.config!.model,
       messages: [
         {
           role: 'system',
