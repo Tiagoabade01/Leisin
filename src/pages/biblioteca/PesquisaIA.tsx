@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { BrainCircuit, Download, GitCompare } from "lucide-react";
 import ChatInterface from "@/components/biblioteca/ia/ChatInterface";
 import PainelLateralIA from "@/components/biblioteca/ia/PainelLateralIA";
+import { appActions } from "@/utils/actions";
 
 const PesquisaIA = () => {
   return (
@@ -15,9 +16,9 @@ const PesquisaIA = () => {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="secondary"><BrainCircuit className="h-4 w-4 mr-2" /> Gerar Relatório</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Download className="h-4 w-4 mr-2" /> Exportar</Button>
-            <Button variant="outline" className="bg-petroleum-blue border-gray-700"><GitCompare className="h-4 w-4 mr-2" /> Comparar Fontes</Button>
+            <Button variant="secondary" onClick={() => appActions.generateReport("Pesquisa IA")}><BrainCircuit className="h-4 w-4 mr-2" /> Gerar Relatório</Button>
+            <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.exportLog("pesquisa-ia")}><Download className="h-4 w-4 mr-2" /> Exportar</Button>
+            <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.newAnalysis("comparação de fontes")}><GitCompare className="h-4 w-4 mr-2" /> Comparar Fontes</Button>
           </div>
         </div>
       </header>

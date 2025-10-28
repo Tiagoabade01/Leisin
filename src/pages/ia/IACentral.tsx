@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { cn } from '@/lib/utils';
 import { showSuccess } from '@/utils/toast';
+import { appActions } from '@/utils/actions';
 
 // --- MOCK DATA ---
 
@@ -61,6 +62,7 @@ const IACentral = () => {
   const [messages, setMessages] = useState(initialMessages);
   const [input, setInput] = useState('');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState("chat");
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -87,14 +89,14 @@ const IACentral = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary"><PlusCircle className="h-4 w-4 mr-2" /> Nova Análise</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><MessageSquare className="h-4 w-4 mr-2" /> Abrir Chat IA</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Cog className="h-4 w-4 mr-2" /> Configurar Automações</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><FileText className="h-4 w-4 mr-2" /> Exportar Logs</Button>
+          <Button variant="secondary" onClick={() => appActions.newAnalysis("jurídica")}><PlusCircle className="h-4 w-4 mr-2" /> Nova Análise</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => setActiveTab("chat")}><MessageSquare className="h-4 w-4 mr-2" /> Abrir Chat IA</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => setActiveTab("modelos")}><Cog className="h-4 w-4 mr-2" /> Configurar Automações</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.exportLog("logs-ia", auditLogs)}><FileText className="h-4 w-4 mr-2" /> Exportar Logs</Button>
         </div>
       </header>
 
-      <Tabs defaultValue="chat" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-5 bg-gray-800">
           <TabsTrigger value="painel">Painel de IA</TabsTrigger>
           <TabsTrigger value="chat">Chat Jurídico</TabsTrigger>
@@ -120,7 +122,7 @@ const IACentral = () => {
                   ))}
                 </TableBody>
               </Table>
-              <p className="text-sm text-risk-gold mt-4">💡 Insight IA: “A IA de Due Diligence está operando em 83% de capacidade. Sugere-se redistribuir tarefas para IA Jurídica Central.”</p>
+              <p className="text-sm text-risk-gold mt-4">💡 Insight IA: "A IA de Due Diligence está operando em 83% de capacidade. Sugere-se redistribuir tarefas para IA Jurídica Central."</p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -171,7 +173,7 @@ const IACentral = () => {
                             <p className="text-sm text-gray-400">Arraste e solte arquivos (PDF, DOCX, TXT) ou clique para enviar.</p>
                         </div>
                         <Button className="w-full"><Sparkles className="h-4 w-4 mr-2" /> Analisar com IA</Button>
-                        <p className="text-sm text-risk-gold">💡 Insight IA: “Contrato com a Atlas Engenharia possui inconsistência na cláusula 8.1 — ausência de definição de foro competente. Deseja corrigir automaticamente?”</p>
+                        <p className="text-sm text-risk-gold">💡 Insight IA: "Contrato com a Atlas Engenharia possui inconsistência na cláusula 8.1 — ausência de definição de foro competente. Deseja corrigir automaticamente?"</p>
                     </CardContent>
                 </Card>
                 <Card className="bg-petroleum-blue border-gray-700 text-white">
@@ -221,7 +223,7 @@ const IACentral = () => {
                             ))}
                         </TableBody>
                     </Table>
-                    <p className="text-sm text-risk-gold mt-4">💡 Insight: “A IA Jurídica teve 98,4% de assertividade nas últimas 200 análises de cláusulas. 3 casos foram sinalizados como ambíguos e encaminhados à revisão humana.”</p>
+                    <p className="text-sm text-risk-gold mt-4">💡 Insight: "A IA Jurídica teve 98,4% de assertividade nas últimas 200 análises de cláusulas. 3 casos foram sinalizados como ambíguos e encaminhados à revisão humana."</p>
                 </CardContent>
             </Card>
         </TabsContent>

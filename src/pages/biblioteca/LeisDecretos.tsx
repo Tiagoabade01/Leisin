@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusCircle, Download, GitCompare, BrainCircuit } from "lucide-react";
+import { appActions } from "@/utils/actions";
+import { useState } from "react";
 
 import PesquisaConsulta from "@/components/biblioteca/PesquisaConsulta";
 import VisualizadorLegal from "@/components/biblioteca/VisualizadorLegal";
@@ -9,6 +11,7 @@ import HistoricoNormativo from "@/components/biblioteca/HistoricoNormativo";
 import RelacionamentosJuridicos from "@/components/biblioteca/RelacionamentosJuridicos";
 
 const LeisDecretos = () => {
+  const [activeTab, setActiveTab] = useState("pesquisa");
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -19,14 +22,14 @@ const LeisDecretos = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary"><PlusCircle className="h-4 w-4 mr-2" /> Nova Pesquisa</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Download className="h-4 w-4 mr-2" /> Exportar</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><GitCompare className="h-4 w-4 mr-2" /> Comparar Versões</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BrainCircuit className="h-4 w-4 mr-2" /> Gerar Relatório IA</Button>
+          <Button variant="secondary" onClick={() => setActiveTab("pesquisa")}><PlusCircle className="h-4 w-4 mr-2" /> Nova Pesquisa</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.exportLog("leis-decretos")}><Download className="h-4 w-4 mr-2" /> Exportar</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => setActiveTab("visualizador")}><GitCompare className="h-4 w-4 mr-2" /> Comparar Versões</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.generateReport("Relatório IA - Leis & Decretos")}><BrainCircuit className="h-4 w-4 mr-2" /> Gerar Relatório IA</Button>
         </div>
       </header>
 
-      <Tabs defaultValue="pesquisa" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-5 bg-gray-800">
           <TabsTrigger value="pesquisa">Pesquisa e Consulta</TabsTrigger>
           <TabsTrigger value="visualizador">Visualizador Legal</TabsTrigger>

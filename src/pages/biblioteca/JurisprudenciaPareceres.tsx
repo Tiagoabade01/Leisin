@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusCircle, Download, GitCompare, BrainCircuit } from "lucide-react";
+import { appActions } from "@/utils/actions";
+import { useState } from "react";
 
 import PainelPesquisa from "@/components/biblioteca/jurisprudencia/PainelPesquisa";
 import JurisprudenciaResultados from "@/components/biblioteca/jurisprudencia/JurisprudenciaResultados";
@@ -9,6 +11,7 @@ import AnaliseIAJuris from "@/components/biblioteca/jurisprudencia/AnaliseIAJuri
 import RelatoriosConexoes from "@/components/biblioteca/jurisprudencia/RelatoriosConexoes";
 
 const JurisprudenciaPareceres = () => {
+  const [activeTab, setActiveTab] = useState("pesquisa");
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -19,14 +22,14 @@ const JurisprudenciaPareceres = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary"><PlusCircle className="h-4 w-4 mr-2" /> Nova Pesquisa</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Download className="h-4 w-4 mr-2" /> Exportar</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><GitCompare className="h-4 w-4 mr-2" /> Comparar</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BrainCircuit className="h-4 w-4 mr-2" /> Analisar com IA</Button>
+          <Button variant="secondary" onClick={() => setActiveTab("pesquisa")}><PlusCircle className="h-4 w-4 mr-2" /> Nova Pesquisa</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.exportLog("jurisprudencia-pareceres")}><Download className="h-4 w-4 mr-2" /> Exportar</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => setActiveTab("relatorios")}><GitCompare className="h-4 w-4 mr-2" /> Comparar</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => setActiveTab("ia")}><BrainCircuit className="h-4 w-4 mr-2" /> Analisar com IA</Button>
         </div>
       </header>
 
-      <Tabs defaultValue="pesquisa" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-5 bg-gray-800">
           <TabsTrigger value="pesquisa">Pesquisa Avançada</TabsTrigger>
           <TabsTrigger value="jurisprudencia">Jurisprudência</TabsTrigger>

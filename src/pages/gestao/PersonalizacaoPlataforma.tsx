@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Eye, Save, Globe } from "lucide-react";
+import { showSuccess } from "@/utils/toast";
 
 import IdentidadeVisual from "@/components/gestao/personalizacao/IdentidadeVisual";
 import LayoutNavegacao from "@/components/gestao/personalizacao/LayoutNavegacao";
@@ -19,9 +20,9 @@ const PersonalizacaoPlataforma = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Eye className="h-4 w-4 mr-2" /> Visualizar Tema</Button>
-          <Button><Save className="h-4 w-4 mr-2" /> Salvar Alterações</Button>
-          <Button variant="secondary"><Globe className="h-4 w-4 mr-2" /> Aplicar Globalmente</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => showSuccess("Visualização de tema aplicada")}><Eye className="h-4 w-4 mr-2" /> Visualizar Tema</Button>
+          <Button onClick={() => showSuccess("Alterações salvas com sucesso")}><Save className="h-4 w-4 mr-2" /> Salvar Alterações</Button>
+          <Button variant="secondary" onClick={() => showSuccess("Tema aplicado globalmente")}><Globe className="h-4 w-4 mr-2" /> Aplicar Globalmente</Button>
         </div>
       </header>
 

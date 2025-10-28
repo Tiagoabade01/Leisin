@@ -6,6 +6,7 @@ import RestricoesIrregularidades from "@/components/urbanistico/RestricoesIrregu
 import ViabilidadeConstrutiva from "@/components/urbanistico/ViabilidadeConstrutiva";
 import RelatoriosPareceres from "@/components/urbanistico/RelatoriosPareceres";
 import AnaliseAIInsights from "@/components/urbanistico/AnaliseAIInsights";
+import { appActions } from "@/utils/actions";
 
 const AnaliseJuridicoUrbanistica = () => {
   return (
@@ -18,10 +19,10 @@ const AnaliseJuridicoUrbanistica = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary"><PlusCircle className="h-4 w-4 mr-2" /> Nova Análise</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Download className="h-4 w-4 mr-2" /> Gerar Relatório</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Map className="h-4 w-4 mr-2" /> Ver no Mapa</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Brain className="h-4 w-4 mr-2" /> Consultar Lei</Button>
+          <Button variant="secondary" onClick={() => appActions.newAnalysis("urbanístico")}><PlusCircle className="h-4 w-4 mr-2" /> Nova Análise</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.generateReport("Análise Urbanística")}><Download className="h-4 w-4 mr-2" /> Gerar Relatório</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.openMap()}><Map className="h-4 w-4 mr-2" /> Ver no Mapa</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.newAnalysis("consulta legal")}><Brain className="h-4 w-4 mr-2" /> Consultar Lei</Button>
         </div>
       </header>
 

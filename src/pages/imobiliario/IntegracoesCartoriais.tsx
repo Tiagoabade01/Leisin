@@ -6,6 +6,7 @@ import CertidoesAverbacoes from "@/components/cartorios/CertidoesAverbacoes";
 import HistoricoAtos from "@/components/cartorios/HistoricoAtos";
 import RelatoriosLogs from "@/components/cartorios/RelatoriosLogs";
 import CartoriosAIInsights from "@/components/cartorios/CartoriosAIInsights";
+import { appActions } from "@/utils/actions";
 
 const IntegracoesCartoriais = () => {
   return (
@@ -18,10 +19,10 @@ const IntegracoesCartoriais = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary"><PlusCircle className="h-4 w-4 mr-2" /> Nova Consulta</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><RefreshCw className="h-4 w-4 mr-2" /> Atualizar Todas</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><FileText className="h-4 w-4 mr-2" /> Emitir Certidão</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Download className="h-4 w-4 mr-2" /> Exportar Log</Button>
+          <Button variant="secondary" onClick={() => appActions.newAnalysis("cartorial")}><PlusCircle className="h-4 w-4 mr-2" /> Nova Consulta</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.refreshAll()}><RefreshCw className="h-4 w-4 mr-2" /> Atualizar Todas</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.generateReport("Certidão Cartorial")}><FileText className="h-4 w-4 mr-2" /> Emitir Certidão</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.exportLog("logs-cartoriais")}><Download className="h-4 w-4 mr-2" /> Exportar Log</Button>
         </div>
       </header>
 

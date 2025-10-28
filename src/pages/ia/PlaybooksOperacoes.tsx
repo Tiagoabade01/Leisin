@@ -8,6 +8,7 @@ import {
   PlusCircle, BrainCircuit, FileText, BookOpen, BarChart2,
   ArrowRight, Upload, Signature, Users, Banknote, ShieldCheck, Bell, MessageSquare, Handshake, Download
 } from "lucide-react";
+import { appActions } from '@/utils/actions';
 
 // --- MOCK DATA & SUBCOMPONENTS ---
 
@@ -44,7 +45,7 @@ const PainelDePlaybooks = () => (
           ))}
         </TableBody>
       </Table>
-      <p className="text-sm text-risk-gold mt-4">💡 Insight IA: “O playbook Contrato + Faturamento apresenta atraso médio de 3h entre assinatura e emissão de nota. Sugere-se adicionar automação de cobrança instantânea.”</p>
+      <p className="text-sm text-risk-gold mt-4">💡 Insight IA: "O playbook Contrato + Faturamento apresenta atraso médio de 3h entre assinatura e emissão de nota. Sugere-se adicionar automação de cobrança instantânea."</p>
     </CardContent>
   </Card>
 );
@@ -69,7 +70,7 @@ const CriadorDeFluxos = () => (
           <CardContent><p>Criar tarefa no Compliance</p></CardContent>
         </Card>
       </div>
-      <p className="text-sm text-risk-gold mt-4">💡 IA Leisin Flow Suggest: “Deseja que, após o upload da matrícula, o sistema gere automaticamente o dossiê de propriedade e notifique o advogado responsável?”</p>
+      <p className="text-sm text-risk-gold mt-4">💡 IA Leisin Flow Suggest: "Deseja que, após o upload da matrícula, o sistema gere automaticamente o dossiê de propriedade e notifique o advogado responsável?"</p>
     </CardContent>
   </Card>
 );
@@ -88,7 +89,7 @@ const AcoesEGatilhos = () => (
                     <TableRow className="border-gray-700"><TableCell>CRM</TableCell><TableCell>“Nova lead cadastrada”</TableCell><TableCell>Inicia fluxo de contrato + proposta.</TableCell></TableRow>
                 </TableBody>
             </Table>
-            <p className="text-sm text-risk-gold mt-4">💡 IA Insight: “Você pode vincular o Playbook ‘Imóvel com Risco’ ao módulo Compliance para gerar alertas automáticos com pontuação de risco de 0 a 100.”</p>
+            <p className="text-sm text-risk-gold mt-4">💡 IA Insight: "Você pode vincular o Playbook 'Imóvel com Risco' ao módulo Compliance para gerar alertas automáticos com pontuação de risco de 0 a 100."</p>
         </CardContent>
     </Card>
 );
@@ -105,7 +106,7 @@ const RelatoriosDeExecucao = () => (
                     <TableRow className="border-gray-700"><TableCell>11/10/25</TableCell><TableCell>Regularização Imóvel</TableCell><TableCell>Consulta CND</TableCell><TableCell>00:45</TableCell><TableCell>⚠️ Atrasado</TableCell><TableCell>Dra. Larissa</TableCell></TableRow>
                 </TableBody>
             </Table>
-            <p className="text-sm text-risk-gold mt-4">💡 IA Insight: “A automação ‘Due Diligence Completa’ reduziu o tempo médio de execução de 3h para 18min nas últimas 50 operações.”</p>
+            <p className="text-sm text-risk-gold mt-4">💡 IA Insight: "A automação 'Due Diligence Completa' reduziu o tempo médio de execução de 3h para 18min nas últimas 50 operações."</p>
         </CardContent>
     </Card>
 );
@@ -120,12 +121,13 @@ const ModelosProntos = () => (
                     <Button size="sm" variant="secondary">Usar Template</Button>
                 </div>
             ))}
-            <p className="text-sm text-risk-gold pt-4 border-t border-gray-700">💡 IA Flow Builder Pro: “Com base no histórico de uso, sugiro criar um playbook que conecta MatrículaLens + CláusulaCopilot + Financeiro, automatizando o pipeline de análise → contrato → cobrança.”</p>
+            <p className="text-sm text-risk-gold pt-4 border-t border-gray-700">💡 IA Flow Builder Pro: "Com base no histórico de uso, sugiro criar um playbook que conecta MatrículaLens + CláusulaCopilot + Financeiro, automatizando o pipeline de análise → contrato → cobrança."</p>
         </CardContent>
     </Card>
 );
 
 const PlaybooksOperacoes = () => {
+  const [activeTab, setActiveTab] = React.useState("painel");
   return (
     <div className="bg-[#0A0E14] text-gray-100 min-h-full p-6 md:p-8">
       <header className="flex flex-wrap justify-between items-center gap-4 mb-8">
@@ -136,14 +138,14 @@ const PlaybooksOperacoes = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary"><PlusCircle className="h-4 w-4 mr-2" /> Novo Playbook</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700">Executar Teste</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><Download className="h-4 w-4 mr-2" /> Exportar Logs</Button>
-          <Button variant="outline" className="bg-petroleum-blue border-gray-700"><BookOpen className="h-4 w-4 mr-2" /> Ver Templates</Button>
+          <Button variant="secondary" onClick={() => { appActions.newAnalysis("playbook"); setActiveTab("criador"); }}><PlusCircle className="h-4 w-4 mr-2" /> Novo Playbook</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.runTest()}>Executar Teste</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => appActions.exportLog("logs-playbooks")}><Download className="h-4 w-4 mr-2" /> Exportar Logs</Button>
+          <Button variant="outline" className="bg-petroleum-blue border-gray-700" onClick={() => setActiveTab("modelos")}><BookOpen className="h-4 w-4 mr-2" /> Ver Templates</Button>
         </div>
       </header>
 
-      <Tabs defaultValue="painel" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-5 bg-gray-800">
           <TabsTrigger value="painel">Painel de Playbooks</TabsTrigger>
           <TabsTrigger value="criador">Criador de Fluxos</TabsTrigger>
