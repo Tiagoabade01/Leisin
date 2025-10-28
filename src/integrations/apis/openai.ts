@@ -11,6 +11,14 @@ class OpenAIClient {
   private config: OpenAIConfig | null = null;
 
   async initialize() {
+    // Verificar se há uma sessão ativa primeiro
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    console.log("OpenAI initialize - session:", session);
+    console.log("OpenAI initialize - sessionError:", sessionError);
+    
+    if (sessionError) throw new Error(`Erro de sessão: ${sessionError.message}`);
+    if (!session || !session.user) throw new Error('Auth session missing!');
+
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     console.log("OpenAI initialize - user:", user);
     console.log("OpenAI initialize - authError:", authError);
