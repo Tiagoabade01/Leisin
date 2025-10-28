@@ -1,166 +1,73 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Check, Minus } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Check } from 'lucide-react';
 
 const plans = [
-  { 
-    name: 'Free', 
-    price: '0', 
-    description: 'Para testar funcionalidades essenciais e organizar seus primeiros casos.', 
-    features: [
-      '1 Usuário', 
-      'Até 3 Casos Ativos', 
-      'Gestão de Documentos Básica',
-      'Tarefas Simples'
-    ], 
-    cta: 'Comece de Graça',
-    popular: false
+  {
+    name: 'Iniciante',
+    price: 'Grátis',
+    period: 'para sempre',
+    description: 'Para profissionais autônomos e pequenas equipes começando.',
+    features: ['1 Usuário', 'Gestão de 10 casos', 'IA Copilot Básico', 'Suporte por email'],
+    cta: 'Começar Agora',
   },
-  { 
-    name: 'Starter', 
-    price: '149', 
-    description: 'Para profissionais solo e escritórios pequenos.', 
-    features: [
-      'Tudo do Free, e mais:',
-      'Gestão de Casos e Processos',
-      'Controle de Documentos',
-      'Tarefas e Prazos Básicos',
-      'Biblioteca Jurídica'
-    ], 
-    cta: 'Iniciar teste de 14 dias',
-    popular: false
+  {
+    name: 'Profissional',
+    price: 'R$ 99',
+    period: '/usuário/mês',
+    description: 'Para equipes em crescimento que precisam de mais poder e automação.',
+    features: ['Usuários ilimitados', 'Casos ilimitados', 'IA Copilot Avançado', 'Gestão de Documentos', 'Suporte Prioritário'],
+    cta: 'Escolher Plano',
+    popular: true,
   },
-  { 
-    name: 'Pro', 
-    price: '690', 
-    description: 'Para times que precisam de mais colaboração e IA.', 
-    features: [
-      'Tudo do Starter, e mais:',
-      'Contratos e Assinaturas', 
-      'Due Diligence & Certidões', 
-      'CRM Jurídico', 
-      'Comunicação Unificada',
-      'Nível de IA Padrão'
-    ], 
-    cta: 'Iniciar teste de 14 dias',
-    popular: true
-  },
-  { 
-    name: 'Business', 
-    price: '2.490', 
-    description: 'Para escritórios com automações e risco avançado.', 
-    features: [
-      'Tudo do Pro, e mais:',
-      'Risk Mapper Avançado', 
-      'Módulo Imobiliário Integrado',
-      'Módulo Financeiro Completo', 
-      'Governança & LGPD',
-      'Nível de IA Avançada'
-    ], 
-    cta: 'Iniciar teste de 14 dias',
-    popular: false
-  },
-  { 
-    name: 'Enterprise', 
-    price: 'Sob Consulta', 
-    description: 'Para grandes grupos com necessidades complexas.', 
-    features: [
-      'Tudo do Business, e mais:',
-      'Gestão de Filiais', 
-      'Integrações & SSO', 
-      'Módulo Contábil',
-      'Suporte com Gerente Dedicado'
-    ], 
+  {
+    name: 'Enterprise',
+    price: 'Customizado',
+    period: '',
+    description: 'Para grandes departamentos jurídicos com necessidades específicas.',
+    features: ['Tudo do Profissional', 'Compliance e Risco', 'Onboarding dedicado', 'SLA de suporte', 'Segurança Avançada'],
     cta: 'Fale Conosco',
-    popular: false
   },
-];
-
-const comparisonFeatures = [
-  { name: 'Jurídico Operacional', plans: ['Free', 'Starter', 'Pro', 'Business', 'Enterprise'] },
-  { name: 'Contratos & Assinaturas', plans: ['Pro', 'Business', 'Enterprise'] },
-  { name: 'Due Diligence / Certidões', plans: ['Pro', 'Business', 'Enterprise'] },
-  { name: 'Risk Mapper', plans: ['Business', 'Enterprise'] },
-  { name: 'Terrenos / Dossiês / MatrículaLens', plans: ['Pro', 'Business', 'Enterprise'] },
-  { name: 'CRM Jurídico', plans: ['Pro', 'Business', 'Enterprise'] },
-  { name: 'Financeiro/Contábil interno', plans: ['Business', 'Enterprise'] },
-  { name: 'Filiais / RBAC avançado / SSO', plans: ['Enterprise'] },
-  { name: 'Nível de IA', plans: { Free: 'N/A', Starter: 'Básica', Pro: 'Padrão', Business: 'Avançada', Enterprise: 'Avançada+Custom' } },
 ];
 
 export const PricingSection = () => {
   return (
-    <section id="plans" className="py-20 bg-gray-900">
-      <div className="container mx-auto px-6">
+    <section id="pricing" className="py-20 bg-secondary">
+      <div className="container">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">Planos transparentes para cada fase do seu negócio</h2>
-          <p className="text-lg text-gray-300 mt-2">Escolha o plano que se adapta perfeitamente à sua necessidade.</p>
-          <p className="text-sm text-primary font-semibold mt-4">Todos os planos pagos incluem um teste gratuito de 14 dias com acesso a todas as funcionalidades. Sem necessidade de cartão de crédito.</p>
+          <h2 className="text-3xl md:text-4xl font-bold">Planos flexíveis para todos os tamanhos</h2>
+          <p className="max-w-2xl mx-auto text-lg text-muted-foreground mt-4">
+            Escolha o plano que melhor se adapta às suas necessidades e comece a transformar sua gestão jurídica hoje.
+          </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-16 items-stretch">
-          {plans.map(plan => (
-            <Card key={plan.name} className={cn("flex flex-col shadow-lg border border-gray-700 bg-gray-800 text-white transition-all", plan.popular ? "ring-2 ring-primary" : "")}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {plans.map((plan) => (
+            <Card key={plan.name} className={`flex flex-col ${plan.popular ? 'border-primary' : ''}`}>
               <CardHeader>
-                <div className="flex justify-between items-center">
-                  <CardTitle className="text-white">{plan.name}</CardTitle>
-                  {plan.popular && <Badge>Mais Popular</Badge>}
+                <CardTitle>{plan.name}</CardTitle>
+                <CardDescription>{plan.description}</CardDescription>
+                <div className="pt-4">
+                  <span className="text-4xl font-bold">{plan.price}</span>
+                  <span className="text-muted-foreground">{plan.period}</span>
                 </div>
-                <CardDescription className="text-gray-300">{plan.description}</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
-                <div className="mb-4">
-                  <span className="text-4xl font-bold text-white">R$ {plan.price}</span>
-                  {plan.price !== 'Sob Consulta' && plan.price !== '0' && <span className="text-gray-400">/mês</span>}
-                </div>
-                <ul className="space-y-2 text-sm">
-                  {plan.features.map(feature => (
-                    <li key={feature} className="flex items-start text-gray-200">
-                      <Check className="w-4 h-4 text-primary mr-2 mt-1 flex-shrink-0" />
+                <ul className="space-y-2">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-primary" />
                       <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
               </CardContent>
               <CardFooter>
-                <a href="#contact" className="w-full">
-                  <Button className="w-full" variant={plan.popular ? 'default' : 'outline'}>{plan.cta}</Button>
-                </a>
+                <Button className="w-full" variant={plan.popular ? 'default' : 'outline'}>
+                  {plan.cta}
+                </Button>
               </CardFooter>
             </Card>
           ))}
-        </div>
-
-        <div className="text-center mb-6">
-          <h3 className="text-2xl font-bold text-white">Compare as Funcionalidades</h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="text-white">
-                <th className="py-4 pr-4 font-semibold">Funcionalidade</th>
-                {plans.map(p => <th key={p.name} className="w-1/5 py-4 px-2 text-center font-semibold">{p.name}</th>)}
-              </tr>
-            </thead>
-            <tbody>
-              {comparisonFeatures.map(feature => (
-                <tr key={feature.name} className="border-b border-gray-700 text-gray-200">
-                  <td className="py-3 pr-4 text-sm font-medium">{feature.name}</td>
-                  {plans.map(plan => (
-                    <td key={plan.name} className="py-3 px-2 text-center">
-                      {typeof feature.plans === 'object' && !Array.isArray(feature.plans) ? 
-                        <span className="text-xs font-medium bg-secondary text-secondary-foreground px-2 py-1 rounded-full">{feature.plans[plan.name as keyof typeof feature.plans]}</span> :
-                      Array.isArray(feature.plans) && feature.plans.includes(plan.name) ? 
-                        <Check className="w-5 h-5 text-primary mx-auto" /> : 
-                        <Minus className="w-5 h-5 text-gray-500 mx-auto" />}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
     </section>

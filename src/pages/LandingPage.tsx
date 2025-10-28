@@ -1,6 +1,6 @@
 import { Header } from '@/components/landing/Header';
 import { HeroSection } from '@/components/landing/HeroSection';
-import { ClientsSection } from '@/components/landing/ClientsSection';
+// import { ClientsSection } from '@/components/landing/ClientsSection';
 import { FeaturesSection } from '@/components/landing/FeaturesSection';
 import { PlatformPreviewSection } from '@/components/landing/PlatformPreviewSection';
 import { PricingSection } from '@/components/landing/PricingSection';
@@ -13,7 +13,7 @@ const LandingPage = () => {
       <Header />
       <main>
         <HeroSection />
-        <ClientsSection />
+        {/* <ClientsSection /> */}
         <FeaturesSection />
         <PlatformPreviewSection />
         <PricingSection />

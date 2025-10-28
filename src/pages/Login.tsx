@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Auth } from '@supabase/auth-ui-react';
-import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthProvider';
-import { Shield } from 'lucide-react';
+import { Shield, ArrowLeft } from 'lucide-react';
 
 const Login = () => {
   const { session } = useAuth();
@@ -17,17 +16,30 @@ const Login = () => {
   }, [session, navigate]);
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col justify-center items-center p-4">
+    <div className="min-h-screen bg-background flex flex-col justify-center items-center p-4 relative">
+      <Link to="/" className="absolute top-4 left-4 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+        <ArrowLeft className="w-4 h-4" />
+        Voltar para o início
+      </Link>
       <div className="flex items-center gap-2 mb-8">
         <Shield className="w-8 h-8 text-primary" />
-        <span className="text-3xl font-bold text-white">leisin</span>
+        <span className="text-3xl font-bold text-foreground">leisin</span>
       </div>
       <div className="w-full max-w-md">
         <Auth
           supabaseClient={supabase}
-          appearance={{ theme: ThemeSupa }}
+          appearance={{
+            extend: false,
+            className: {
+              container: 'gap-4 flex flex-col',
+              button: 'bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium',
+              input: 'border-input bg-background rounded-md px-3 py-2 text-sm',
+              label: 'text-sm font-medium text-foreground',
+              anchor: 'text-sm text-primary hover:underline',
+              message: 'text-sm text-destructive',
+            }
+          }}
           providers={[]}
-          theme="dark"
           localization={{
             variables: {
               sign_in: {
