@@ -11,8 +11,12 @@ class OpenAIClient {
   private config: OpenAIConfig | null = null;
 
   async initialize() {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    console.log("OpenAI initialize - user:", user);
+    console.log("OpenAI initialize - authError:", authError);
+    
     if (!user) throw new Error('Usuário não autenticado');
+    if (authError) throw new Error(`Erro de autenticação: ${authError.message}`);
 
     const { data, error } = await supabase
       .from('api_configurations')
@@ -21,24 +25,39 @@ class OpenAIClient {
       .eq('user_id', user.id)
       .single();
 
-    if (error || !data) {
+    console.log("OpenAI initialize - config data:", data);
+    console.log("OpenAI initialize - config error:", error);
+
+    if (error) {
+      throw new Error(`Erro ao carregar configuração da OpenAI: ${error.message}`);
+    }
+    
+    if (!data) {
       throw new Error('Configuração da OpenAI não encontrada');
     }
 
     this.config = {
       apiKey: data.api_key,
-      model: data.model || 'gpt-4-turbo-preview',
+      model: data.model || 'gpt-4o-mini',
     };
+    
+    console.log("OpenAI initialized with config:", this.config);
   }
 
   private async request(endpoint: string, body: any) {
-    if (!this.config) await this.initialize();
+    console.log("OpenAI request - checking config:", this.config);
+    if (!this.config) {
+      console.log("OpenAI request - no config, initializing...");
+      await this.initialize();
+    }
 
     // Usa o modelo após garantir a inicialização
     const payload = {
       model: this.config!.model,
       ...body,
     };
+
+    console.log("OpenAI request - payload:", payload);
 
     const response = await fetch(`${OPENAI_BASE_URL}${endpoint}`, {
       method: 'POST',
@@ -49,8 +68,13 @@ class OpenAIClient {
       body: JSON.stringify(payload),
     });
 
+    console.log("OpenAI request - response status:", response.status);
+    console.log("OpenAI request - response ok?", response.ok);
+
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error("OpenAI API error details:", errorText);
+      throw new Error(`OpenAI API error: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
     return response.json();

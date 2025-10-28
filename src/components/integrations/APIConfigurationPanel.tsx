@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { showSuccess, showError } from "@/utils/toast";
+import { openAIClient } from "@/integrations/apis/openai";
 
 type APIConfig = {
   id?: string;
@@ -64,6 +65,22 @@ const APIConfigurationPanel = () => {
     fetchConfigs();
   };
 
+  const testConnection = async () => {
+    try {
+      // Força recarga da configuração
+      await (openAIClient as any).initialize();
+      const result = await openAIClient.perguntarJuridica("Teste de conexão: responda apenas 'Conectado'");
+      if (result.choices?.[0]?.message?.content) {
+        showSuccess("Conexão com OpenAI estabelecida!");
+      } else {
+        throw new Error("Resposta inválida");
+      }
+    } catch (err) {
+      console.error("Erro no teste de conexão:", err);
+      showError(`Falha na conexão: ${(err as Error).message}`);
+    }
+  };
+
   useEffect(() => {
     fetchConfigs();
   }, []);
@@ -104,7 +121,10 @@ const APIConfigurationPanel = () => {
             />
           </div>
         </div>
-        <Button onClick={saveConfig} variant="secondary">Salvar Configuração</Button>
+        <div className="flex gap-2">
+          <Button onClick={saveConfig} variant="secondary">Salvar Configuração</Button>
+          <Button onClick={testConnection} variant="outline" className="ml-2">Testar Conexão</Button>
+        </div>
 
         <div className="border-t border-gray-700 pt-4">
           <h3 className="font-semibold mb-2">Configurações Atuais</h3>
