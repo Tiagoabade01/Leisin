@@ -35,7 +35,8 @@ const UserSessionDebug = () => {
       
       const { data, error } = await supabase
         .from('api_configurations')
-        .select('*');
+        .select('*')
+        .eq('user_id', user.id);
       
       if (error) throw error;
       

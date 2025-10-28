@@ -15,14 +15,15 @@ class OpenAIClient {
     console.log("OpenAI initialize - user:", user);
     console.log("OpenAI initialize - authError:", authError);
     
-    if (!user) throw new Error('Usuário não autenticado');
     if (authError) throw new Error(`Erro de autenticação: ${authError.message}`);
+    if (!user) throw new Error('Usuário não autenticado');
 
     const { data, error } = await supabase
       .from('api_configurations')
       .select('*')
       .eq('provider', 'openai')
       .eq('user_id', user.id)
+      .eq('is_active', true)
       .single();
 
     console.log("OpenAI initialize - config data:", data);
