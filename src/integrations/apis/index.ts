@@ -5,6 +5,7 @@ export { receitaFederalClient } from './receita-federal';
 export { jusBrasilClient } from './jusbrasil';
 export { stripeClient } from './stripe';
 export { whatsAppClient } from './whatsapp';
+export { infosimplesClient } from './infosimples';
 
 // Tipos compartilhados
 export interface APIConfiguration {

@@ -1,5 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
-import { bigDataCorpClient, openAIClient } from '@/integrations/apis';
+import { bigDataCorpClient, openAIClient, infosimplesClient } from '@/integrations/apis';
 
 export type AnalysisType = 'pf' | 'pj' | 'imovel';
 
@@ -12,7 +12,6 @@ function extractOpenAIContent(resp: any) {
   try {
     const content = resp?.choices?.[0]?.message?.content ?? null;
     if (!content) return null;
-    // Tenta parsear JSON quando o sistema instruiu resposta estruturada
     try {
       return JSON.parse(content);
     } catch {
@@ -23,6 +22,23 @@ function extractOpenAIContent(resp: any) {
   }
 }
 
+async function resolvePrimaryDataProvider(userId: string): Promise<'bigdatacorp' | 'infosimples'> {
+  const { data, error } = await supabase
+    .from('api_configurations')
+    .select('provider,is_active')
+    .eq('user_id', userId)
+    .in('provider', ['bigdatacorp', 'infosimples'])
+    .eq('is_active', true);
+
+  if (error) throw error;
+
+  const providers = data?.map(d => d.provider) || [];
+  if (providers.includes('bigdatacorp')) return 'bigdatacorp';
+  if (providers.includes('infosimples')) return 'infosimples';
+
+  throw new Error('Nenhum provedor de dados ativo encontrado (BigDataCorp/Infosimples). Configure em Integrações & API > Gerenciar APIs.');
+}
+
 export async function runDiligenceAnalysis(type: AnalysisType, identifier: string): Promise<DiligenceResult> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Usuário não autenticado. Faça login para continuar.');
@@ -30,25 +46,29 @@ export async function runDiligenceAnalysis(type: AnalysisType, identifier: strin
   let rawData: any = null;
   let endpoint = '';
   try {
-    if (type === 'pf') {
-      endpoint = '/people';
-      rawData = await bigDataCorpClient.consultarCPF(identifier);
-    } else if (type === 'pj') {
-      endpoint = '/companies';
-      rawData = await bigDataCorpClient.consultarCNPJ(identifier);
+    if (type === 'pf' || type === 'pj') {
+      const provider = await resolvePrimaryDataProvider(user.id);
+      if (type === 'pf') {
+        endpoint = provider === 'bigdatacorp' ? '/people' : '/people';
+        rawData = provider === 'bigdatacorp'
+          ? await bigDataCorpClient.consultarCPF(identifier)
+          : await infosimplesClient.consultarCPF(identifier);
+      } else {
+        endpoint = provider === 'bigdatacorp' ? '/companies' : '/companies';
+        rawData = provider === 'bigdatacorp'
+          ? await bigDataCorpClient.consultarCNPJ(identifier)
+          : await infosimplesClient.consultarCNPJ(identifier);
+      }
     } else {
-      // Imóvel: sem integração direta aqui, usamos IA para interpretar/estruturar o identificador como matrícula
       endpoint = '/imovel-interpretacao';
       const ai = await openAIClient.interpretarMatricula(identifier);
       rawData = extractOpenAIContent(ai) ?? { matricula: identifier, observacao: 'Interpretação IA' };
     }
 
-    // Gera insights jurídicos/risco com IA usando os dados crus
     const prompt = `Analise risco e conformidade dos dados a seguir, resumindo em pontos: ${JSON.stringify(rawData).slice(0, 6000)}`;
     const aiResp = await openAIClient.perguntarJuridica(prompt);
     const aiInsights = extractOpenAIContent(aiResp);
 
-    // Log no Supabase
     await supabase.from('api_logs').insert({
       user_id: user.id,
       provider: 'analysis',
@@ -80,15 +100,19 @@ export async function fetchCertificatesAuto(tipo: 'CND Federal' | 'CND Estadual'
   let baseData: any = null;
   let endpoint = '/certidoes-auto';
   try {
-    // Tenta obter dados básicos conforme tipo de documento
+    const provider = await resolvePrimaryDataProvider(user.id);
+
     const normalized = documento.replace(/\D/g, '');
     if (normalized.length === 11) {
-      baseData = await bigDataCorpClient.consultarCPF(normalized);
+      baseData = provider === 'bigdatacorp'
+        ? await bigDataCorpClient.consultarCPF(normalized)
+        : await infosimplesClient.consultarCPF(normalized);
     } else {
-      baseData = await bigDataCorpClient.consultarCNPJ(normalized);
+      baseData = provider === 'bigdatacorp'
+        ? await bigDataCorpClient.consultarCNPJ(normalized)
+        : await infosimplesClient.consultarCNPJ(normalized);
     }
 
-    // IA deduz status e recomendações de certidões
     const aiResp = await openAIClient.perguntarJuridica(`Com base nestes dados (${JSON.stringify(baseData).slice(0, 4000)}), liste status das certidões mais comuns (${tipo}) e recomendações de renovação/validação.`);
     const ai = extractOpenAIContent(aiResp);
 

@@ -7,11 +7,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { showSuccess, showError } from "@/utils/toast";
 import { openAIClient } from "@/integrations/apis/openai";
+import { testApiConnection } from "@/integrations/api-tester";
 
 type APIConfig = {
   id?: string;
   provider: string;
   api_key: string;
+  api_secret?: string;
   model?: string;
   is_active: boolean;
 };
@@ -21,6 +23,7 @@ const APIConfigurationPanel = () => {
   const [newConfig, setNewConfig] = useState<Omit<APIConfig, 'id'>>({ 
     provider: 'openai', 
     api_key: '', 
+    api_secret: '',
     model: 'gpt-4o-mini', 
     is_active: true 
   });
@@ -67,13 +70,42 @@ const APIConfigurationPanel = () => {
 
   const testConnection = async () => {
     try {
-      // Força recarga da configuração
-      await (openAIClient as any).initialize();
-      const result = await openAIClient.perguntarJuridica("Teste de conexão: responda apenas 'Conectado'");
-      if (result.choices?.[0]?.message?.content) {
-        showSuccess("Conexão com OpenAI estabelecida!");
+      // Buscar a config salva do provedor selecionado
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Usuário não autenticado');
+
+      const { data, error } = await supabase
+        .from('api_configurations')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('provider', newConfig.provider)
+        .order('updated_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        throw new Error(error.message);
+      }
+
+      const configToTest = (data || newConfig) as any;
+
+      // Para OpenAI mantemos o teste prático de geração também como validação secundária
+      if (newConfig.provider === 'openai') {
+        await (openAIClient as any).initialize();
+        const result = await openAIClient.perguntarJuridica("Teste de conexão: responda apenas 'Conectado'");
+        if (result.choices?.[0]?.message?.content) {
+          showSuccess("Conexão com OpenAI estabelecida!");
+        } else {
+          throw new Error("Resposta inválida da OpenAI");
+        }
+        return;
+      }
+
+      const test = await testApiConnection(configToTest);
+      if (test.success) {
+        showSuccess(`${newConfig.provider} conectado com sucesso!`);
       } else {
-        throw new Error("Resposta inválida");
+        showError(`Teste retornou sem sucesso para ${newConfig.provider}`);
       }
     } catch (err) {
       console.error("Erro no teste de conexão:", err);
@@ -96,6 +128,8 @@ const APIConfigurationPanel = () => {
               <SelectTrigger className="bg-gray-800 border-gray-700"><SelectValue /></SelectTrigger>
               <SelectContent className="bg-gray-800 text-white border-gray-700">
                 <SelectItem value="openai">OpenAI</SelectItem>
+                <SelectItem value="bigdatacorp">BigDataCorp</SelectItem>
+                <SelectItem value="infosimples">Infosimples</SelectItem>
                 <SelectItem value="jusbrasil">Jusbrasil</SelectItem>
                 <SelectItem value="stripe">Stripe</SelectItem>
                 <SelectItem value="whatsapp">WhatsApp Business</SelectItem>
@@ -107,7 +141,7 @@ const APIConfigurationPanel = () => {
             <Input 
               value={newConfig.api_key} 
               onChange={(e) => setNewConfig({...newConfig, api_key: e.target.value})} 
-              placeholder="sk-..." 
+              placeholder={newConfig.provider === 'openai' ? "sk-..." : "sua-api-key"} 
               className="bg-gray-800 border-gray-700" 
             />
           </div>
@@ -120,6 +154,17 @@ const APIConfigurationPanel = () => {
               className="bg-gray-800 border-gray-700" 
             />
           </div>
+          {(newConfig.provider === 'infosimples' || newConfig.provider === 'bigdatacorp') && (
+            <div className="space-y-2 md:col-span-2">
+              <Label>Segredo da API</Label>
+              <Input
+                value={newConfig.api_secret || ''} 
+                onChange={(e) => setNewConfig({...newConfig, api_secret: e.target.value})}
+                placeholder="api-secret"
+                className="bg-gray-800 border-gray-700"
+              />
+            </div>
+          )}
         </div>
         <div className="flex gap-2">
           <Button onClick={saveConfig} variant="secondary">Salvar Configuração</Button>

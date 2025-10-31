@@ -9,6 +9,7 @@ const BASE_URLS: Record<string, string> = {
   jusbrasil: 'https://api.jusbrasil.com.br/api',
   arisp: 'https://api.arisp.com.br',
   receita_federal: 'https://receitaws.com.br/v1',
+  infosimples: 'https://api.infosimples.com/api/v2',
 };
 
 // Função principal para testar a conexão
@@ -34,7 +35,6 @@ export const testApiConnection = async (config: APIConfiguration) => {
       break;
     case 'stripe':
       endpoint = '/customers?limit=1';
-      // Stripe usa Basic Auth com a chave secreta como nome de usuário
       options.headers = { ...options.headers, 'Authorization': `Bearer ${config.api_key}` };
       break;
     case 'whatsapp':
@@ -43,20 +43,26 @@ export const testApiConnection = async (config: APIConfiguration) => {
       options.headers = { ...options.headers, 'Authorization': `Bearer ${config.api_key}` };
       break;
     case 'bigdatacorp':
-      // Simula uma consulta simples para verificar a chave
-      endpoint = `/companies?Datasets=basic&q=00000000000191`; // CNPJ da Receita Federal
+      endpoint = `/companies?Datasets=basic&q=00000000000191`;
       options.headers = { ...options.headers, 'Authorization': `Bearer ${config.api_key}` };
+      break;
+    case 'infosimples':
+      // Teste simples consultando um CNPJ conhecido da Receita
+      endpoint = `/companies?q=00000000000191`;
+      options.headers = { 
+        ...options.headers, 
+        'X-Api-Key': config.api_key, 
+        'X-Api-Secret': config.api_secret || '' 
+      };
       break;
     case 'jusbrasil':
       endpoint = `/search/jurisprudence?q=teste&key=${config.api_key}`;
       break;
     case 'arisp':
-      // Simula uma chamada a um endpoint de status (hipotético)
       endpoint = '/status';
       options.headers = { ...options.headers, 'Authorization': `Bearer ${config.api_key}` };
       break;
     case 'receita_federal':
-      // A API da ReceitaWS é pública, então um teste simples é suficiente
       endpoint = '/cnpj/00000000000191';
       break;
     default:
@@ -73,7 +79,6 @@ export const testApiConnection = async (config: APIConfiguration) => {
       throw new Error(`Falha na conexão: ${response.status} ${response.statusText}. Detalhes: ${errorBody}`);
     }
 
-    // Se a resposta for OK, a conexão é considerada bem-sucedida
     return { success: true, message: 'Conexão bem-sucedida!' };
   } catch (error) {
     if (error instanceof Error) {
